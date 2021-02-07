@@ -1,5 +1,5 @@
 {
-  "name": "task-rail-client",
+  "name": "taskrail-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
