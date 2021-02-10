@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 // Typescript uses interfaces (static, compile-time checking)
+// We also have PropTypes by React.js which does run-time type checking
 interface Props {
     text?: string
 }
