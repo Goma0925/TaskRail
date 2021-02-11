@@ -1,0 +1,10 @@
+h1.MotivationalSpeech {
+    font-size: larger;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+
+div.NavBar {
+    text-align: center;
+    border-bottom: 2px solid black;
+}
