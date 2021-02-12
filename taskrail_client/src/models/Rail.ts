@@ -1,7 +1,13 @@
-// a single rail
+interface RailParams{
+    title: string;
+}
 
-import React from "react";
-
+/**
+ * A data model of a single TaskRail.
+ */
 export class Rail {
-
+    title: string;
+    constructor(params: RailParams){
+        this.title = params.title;
+    }
 }
