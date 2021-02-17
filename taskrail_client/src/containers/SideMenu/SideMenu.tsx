@@ -1,11 +1,10 @@
+// Noah's work
 import React from "react";
-// Jibraan's work
-export class NavBar extends React.Component{
+export class SideMenu extends React.Component{
     constructor(props: any){
         super(props);
     }
-
     render(){
-        return <h1>I'm Navbar</h1>;
+        return <h1>Hi I'm Side Menu</h1>;
     }
 }

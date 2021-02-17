@@ -1,0 +1,27 @@
+div.layout > div.container > * {
+    padding: 0px;
+    margin: 0px;
+    align-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+div.layout > div.container {
+    border: 2px solid black;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+}
+
+div.layout {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    border: 2px solid black;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
