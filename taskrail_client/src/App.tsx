@@ -9,7 +9,7 @@ function App() {
     <>
       <NavBar></NavBar>
       <SideMenu></SideMenu>
-      <RailContainer width={window.innerWidth} height={window.innerHeight}></RailContainer>
+      <RailContainer width={800} height={500}></RailContainer>
       <SideInfoBar text={"some text"}></SideInfoBar>
     </>
   );
