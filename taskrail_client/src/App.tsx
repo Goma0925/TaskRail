@@ -1,12 +1,12 @@
 import React from 'react';
-import { NavBar } from "./containers/NavBar";
-import { SideMenu } from './containers/SideMenu';
+import { NavBar } from "./containers/NavBar/NavBar";
+import { RailContainer } from "./containers/RailContainer/RailContainer";
 
 function App() {
   return (
     <div>
-    <NavBar></NavBar>
-    <SideMenu></SideMenu>
+      <NavBar></NavBar>
+      <RailContainer width={window.innerWidth} height={window.innerHeight}></RailContainer>
     </div>
   );
 }

@@ -2,11 +2,21 @@ import React from "react";
 import ReactFlow from 'react-flow-renderer';
 import { TaskNode } from "../../components/RailParts/TaskNode"
 import "./bg-skins.css";
+interface RailContainerParams{
+  width:number;
+  height:number;
+}
 
-export class RailContainer extends React.Component{
+export class RailContainer extends React.Component<RailContainerParams>{
     elements: any[];
-    constructor(props: any){
+    width: number;
+    height:number; 
+    constructor(props: RailContainerParams){
+      console.log(window.innerWidth);
+      
       super(props);
+      this.width = props.width;
+      this.height = props.height;
       this.elements = [
         {
           id: '1',
@@ -35,11 +45,9 @@ export class RailContainer extends React.Component{
   
     render() {
       const self = this;
-      const displayHeight = 700;
-      const displayWidth = 1000;
       const backgroundSkinClass = "bg-skin-blue-sea";
       return <>
-                <div className={"rail-container ".concat(backgroundSkinClass)} style={{height: displayHeight, width:displayWidth}}>
+                <div className={"rail-container ".concat(backgroundSkinClass)} style={{height: this.height, width:this.width}}>
                     <ReactFlow nodeTypes={{ custom: TaskNode }} elements={self.elements} />
                 </div>
              </>
