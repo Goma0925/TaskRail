@@ -3,7 +3,7 @@ import {Container, Row, Col} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 // Jibraan's work
-export class Layout extends React.Component{
+export default class Layout extends React.Component{
     constructor(props: any){
         super(props);
     }

@@ -1,6 +1,6 @@
 // Noah's work
 import React from "react";
-export class SideMenu extends React.Component{
+export default class SideMenu extends React.Component{
     constructor(props: any){
         super(props);
     }

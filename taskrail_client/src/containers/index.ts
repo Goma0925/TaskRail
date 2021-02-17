@@ -5,3 +5,6 @@
  * Remedy as needed.
  **/ 
 export { default as SideInfoBar } from './SideInfoBar';
+export { default as NavBar } from "./NavBar/NavBar";
+export { default as Layout } from "./Layout/Layout";
+export { default as SideMenu } from "./SideMenu/SideMenu";
