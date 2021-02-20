@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css"
+import "./style.css";
 // Jibraan's work
 export default class NavBar extends React.Component{
     constructor(props: any){
@@ -7,7 +7,7 @@ export default class NavBar extends React.Component{
     }
 
     render(){
-        return  <div className="NavBar"> 
+        return  <div className="nav"> 
                         <h1 className="MotivationalSpeech">Stay on Track!</h1> 
                 </div>;
     }

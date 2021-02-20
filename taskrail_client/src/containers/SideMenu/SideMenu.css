@@ -1,10 +1,20 @@
 .WorkspaceList {
-    background-color: green;
     text-align: center;
     height: 100%;
     width: 100%;
-    float: left;
-    /* position: fixed; */
-    /* z-index: 1; */
-    /* overflow-x: hidden; */
+    margin: 0;
+    padding: 0;
+}
+
+.sidemenu-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: rgb(18, 176, 41);
+    box-shadow:inset 0 0 0 99999px rgba(255,255,255,0.2);
+}
+
+.sidemenu-item:hover{
+    box-shadow:none;
 }

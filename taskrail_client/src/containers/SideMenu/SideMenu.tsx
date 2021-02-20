@@ -4,7 +4,5 @@ import WorkspaceList from "./WorkspaceList";
 import "./SideMenu.css";
 
 export default function SideMenu() {
-
-    return WorkspaceList();
-
+    return <WorkspaceList/>;
 }

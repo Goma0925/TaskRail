@@ -9,13 +9,17 @@ export default function WorkspaceList() {
 
     let workspaces = [workspace1, workspace2, workspace3];
     
-    return <div className="WorkspaceList">
+    return <ul className="WorkspaceList">
     {
         workspaces.map(
             (Workspace) => {
-                return <p>{Workspace.name}</p>
+                return (
+                    <div className="sidemenu-item">
+                        <div className="sidemenu-item-text">{Workspace.name}</div>
+                    </div>
+                )
             }
         )
     }
-    </div>
+    </ul>
 }

@@ -1,5 +1,6 @@
 // Michael
 import React, { useState } from "react";
+import "./style.css";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -11,14 +12,16 @@ interface Props {
 shape as the Props interface object **/ 
 function SideInfoBar(props: Props) {
     // const [text, setText] = useState(props?.text); 
-    const [text, setText] = useState(props?.text == null? "Go ahead, type that note!" : props?.text); 
+    const [text, setText] = useState(props.text == null? "Go ahead, type that note!" : props?.text); 
 
     function handleChange(event: any) { // update this type in future 
         setText(event.target.value);
     }
 
     return (
-        <textarea value={text} onChange={handleChange} />
+        <div className="sideinfo-bar">
+            <textarea value={text} onChange={handleChange} />
+        </div>
     );
 }
 

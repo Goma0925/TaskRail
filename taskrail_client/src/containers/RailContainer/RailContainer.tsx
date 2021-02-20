@@ -7,7 +7,7 @@ interface RailContainerParams{
   height:number;
 }
 
-export class RailContainer extends React.Component<RailContainerParams>{
+export default class RailContainer extends React.Component<RailContainerParams>{
     elements: any[];
     width: number;
     height:number; 

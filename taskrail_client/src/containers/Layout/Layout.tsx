@@ -1,26 +1,32 @@
-import React from "react";
-import {Container, Row, Col} from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './style.css';
-// Jibraan's work
-export default class Layout extends React.Component{
-    constructor(props: any){
-        super(props);
-    }
+import React, { Component, useState } from "react";
+import Navbar from "../NavBar/NavBar";
+import "./style.css"
 
-    render(){
-        return  <div className="layout">
-                    <Container>
-                        <Row>
-                            <Col>1 of 2</Col>
-                            <Col>2 of 2</Col>
-                        </Row>
-                        <Row>
-                            <Col>1 of 3</Col>
-                            <Col>2 of 3</Col>
-                            <Col>3 of 3</Col>
-                        </Row>
-                    </Container>
-                </div>
-    }
+interface LayoutProps{
+    componentLeft: React.ReactNode;
+    componentCenter: React.ReactNode;
+    componentRight: React.ReactNode;
 }
+
+
+// // Jibraan's work
+const Layout:React.FC<LayoutProps> = (props) => {
+    return (
+        <div>
+            <div className="Navbar">
+                <Navbar />
+            </div>
+            <div className="left">
+                {props.componentLeft}
+            </div>
+            <div className="center">
+                {props.componentCenter}
+            </div>
+            <div className="right">
+                {props.componentRight}
+            </div>
+        </div>
+    )
+}
+
+export default Layout;
