@@ -1,0 +1,46 @@
+.split-pane-container{
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+}
+.top-pane{
+    flex: 0 1 auto;
+}
+.content-section {
+    flex: 1 1 auto; /* Fill the content section to the rest of height */
+    display: flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+
+    -webkit-display: -webkit-box;
+    -webkit-display: -webkit-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.divider {
+    width: 6px;
+    background-color: #808080;
+    align-items: stretch;
+    margin: 0;
+    border: 2px solid #808080;
+    cursor: col-resize;
+    display: flex;
+}
+.content-col{
+    align-items: stretch;
+    min-width: 0;
+    
+    /* Test */
+    overflow: scroll;
+
+}
+.center-pane{
+    flex: 1;
+}
+.scrollable{
+    overflow: scroll;
+    max-height: 100%;
+    /* for Firefox */
+    min-height: 0;
+}
