@@ -10,7 +10,7 @@ function App() {
       <SplitPane 
         top={<NavBar/>}
         left={<SideMenu/>} 
-        center={<RailContainer width={800} height={500}/>} 
+        center={<RailContainer />} 
         right={<SideInfoBar/>}
       />
 

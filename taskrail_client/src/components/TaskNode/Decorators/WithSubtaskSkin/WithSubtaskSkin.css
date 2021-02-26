@@ -1,0 +1,5 @@
+.node {
+    position: absolute;
+    border: 5 px solid blue;
+    border-radius: 10;
+}
