@@ -9,6 +9,7 @@ export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<Task
         return (
             <NodeToDecorate {...props}>
                 {props.children}
+                <div className="subtask-skin" style={{width: props.width}}></div>
             </NodeToDecorate>
         )
     }

@@ -1,5 +1,8 @@
-.node {
+.subtask-skin {
     position: absolute;
     border: 5 px solid blue;
     border-radius: 10;
+    background-color: red;
+    width: inherit;
+    height: inherit;
 }
