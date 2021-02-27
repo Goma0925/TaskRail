@@ -1,3 +1,5 @@
+import "./test.css";
+
 export interface TaskNodeProps {
     children?: React.ReactNode[] | React.ReactNode;
     width: number;
@@ -5,7 +7,7 @@ export interface TaskNodeProps {
 
 const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {
     return (
-        <div class-name="node" style={{width:props.width, height:50}} >
+        <div className="node" style={{width:props.width, height:50}} >
             {props.children}
         </div>
     )
