@@ -1,32 +1,43 @@
-import "./style.css";
+import "./Rail.css";
 import {useState} from "react";
 import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
 import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 
-const Rail: React.FC = () => {
-    const [railHeight, setHeight] = useState(500);
-    const [railWidth, setWidth] = useState(700);
-    const subtasks = [{}, {}, {}, {}];
-    const numDays = 7;
-    const [nodeSize, setNodeSize] = useState({
-        width: railWidth / subtasks.length,
-    });
-    const decoratedNodes = [...Array(7)].map(() => {
-        return WithSubtaskSkin(TaskNode);
-    })
-    return (
-        <div 
-            className="task-rail" 
-            // style={{height:railHeight, width:railWidth}}
-        >
-        {
-            decoratedNodes.map(DecoratedNode =>{
-                return <DecoratedNode width={nodeSize.width}></DecoratedNode>
-            })
-        }
-        </div>
-    );
+interface RailProps{
+    minNodeSize: number;
+    leftColWidth: number;
 }
 
-export default Rail;
+export default function Rail (props: RailProps) {
+    const leftColWidth = 200;
+    const minNodeSize = 80;
+    const [minRailWidth, setMinRailWidth] = useState(minNodeSize*7 + leftColWidth);
+    const subtasks = [{}, {}, {}, {}];    
+    const [nodeSize, setNodeSize] = useState({
+        width: (minRailWidth / subtasks.length) > minNodeSize? (minRailWidth / subtasks.length): minNodeSize,
+    });
+    const numDays = 7;
+
+    const decoratedNodes = [...Array(7)].map(() => {
+        return WithCheckBox(TaskNode);
+    })
+    return (
+        <>
+        <div 
+            className="task-rail" 
+            style={{minWidth:minRailWidth}}
+        >
+            <div className="task-parent-section" style={{width: leftColWidth}}>
+                {/* Render task parent node here */}
+                <TaskNode width={100}></TaskNode>
+            </div>
+            {
+                decoratedNodes.map(DecoratedNode =>{
+                    return <DecoratedNode width={nodeSize.width}></DecoratedNode>
+                })
+            }
+        </div>
+        </>
+    );
+};

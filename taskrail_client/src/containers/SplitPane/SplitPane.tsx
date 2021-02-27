@@ -12,7 +12,7 @@ interface SplitPaneProps{
 const SplitPane: React.FC<SplitPaneProps> = (props)=>{
     const topRef = createRef<HTMLDivElement>();//HTML ref for top component
     const [contentHeight, setContentHeight] = useState(0);
-    const [leftWidth, setLeftWidth] = useState<number>(200);
+    const [leftWidth, setLeftWidth] = useState<number>(150);
     const [rightWidth, setRightWidth] = useState<number>(200);
     const [leftSeparatorXPos, setLeftSeparatorXPos] = useState<undefined | number>(undefined);
     const [rightSeparatorXPos, setRightSeparatorXPos] = useState<undefined | number>(undefined);
