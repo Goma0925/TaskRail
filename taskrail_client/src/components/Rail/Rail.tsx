@@ -1,7 +1,7 @@
 import "./Rail.css";
 import {useState} from "react";
 import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
+import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 
 interface RailProps{

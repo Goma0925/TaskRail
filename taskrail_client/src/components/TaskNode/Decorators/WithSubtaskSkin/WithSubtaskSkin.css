@@ -1,8 +1,7 @@
 .subtask-skin {
     position: absolute;
-    border: 5 px solid blue;
-    border-radius: 10;
-    background-color: red;
+    border: black;
+    background-color: #ff5f5c;
     width: inherit;
     height: inherit;
 }
