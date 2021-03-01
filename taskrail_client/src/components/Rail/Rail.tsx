@@ -20,7 +20,7 @@ export default function Rail (props: RailProps) {
     const numDays = 7;
 
     const decoratedNodes = [...Array(7)].map(() => {
-        return WithCheckBox(TaskNode);
+        return WithSubtaskSkin(TaskNode);
     })
     return (
         <>
