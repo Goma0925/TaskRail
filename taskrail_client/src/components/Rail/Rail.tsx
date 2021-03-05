@@ -41,7 +41,7 @@ export default function Rail (props: RailProps) {
     });
     const taskParent = props.taskParent;
     const subtaskIdsByDate = weekFrame[taskParent.getId()];
-    // [ ["subtaskID", "subtaskID"], ["subtaskID", "subtaskID"]  ]
+
     const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[], dayIndex)=>{
         // subtaskIds is an array containing the subtask IDs for the particular day.
         // Retrieve subtask instances to render for the particular day: eg) Monday.
