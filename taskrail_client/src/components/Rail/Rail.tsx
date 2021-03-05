@@ -10,7 +10,6 @@ import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
-import { Col } from "react-bootstrap";
 
 interface RailProps{
     taskParent: TaskParent;

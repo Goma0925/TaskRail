@@ -1,7 +1,5 @@
-import { BackgroundProps } from "react-flow-renderer";
 import {useState} from "react";
 import "./BackgroundWeekCalendar.css";
-
 
 
 export default function BackgroundWeekCalendar(){

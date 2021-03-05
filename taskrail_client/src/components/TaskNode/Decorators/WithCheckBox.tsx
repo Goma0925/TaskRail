@@ -4,7 +4,7 @@ import TaskNode from "../TaskNode"
 
 export default function WithCheckBox(NodeToDecorate: React.ComponentType<TaskNodeProps>) 
 {
-    const wrapperComponent = (props: TaskNodeProps) => {
+    const wrapperComponent = (props: TaskNodeProps) => {        
         return (
             <NodeToDecorate {...props}>
                 {props.children}
