@@ -1,10 +1,25 @@
-// Define an action name starting with a verb.
-export class SetSomeData{
-    static type:string = "SetSomeData";
+import SubTask from "../../../models/Subtask";
+import ReduxAction from "../ReduxAction";
+
+export class CreateSubtask implements ReduxAction{
+    // This method needs to be overwritten once we have an API.
+    static idCount = 100;
+    static type = "CreateSubtaske";
     type: string;
-    width: number = 0;
-    constructor(width: number){
-        this.type = SetSomeData.type;
-        this.width = width;
+    name: string;
+    taskParentId: string;
+    assignedDate: Date;
+    subtask: SubTask|undefined;
+    constructor(name: string, taskParentId: string, assignedDate: Date){
+        this.type = CreateSubtask.type;
+        this.taskParentId = taskParentId;
+        this.name = name;
+        this.assignedDate = assignedDate
+        this.subtask = undefined;
+        CreateSubtask.idCount += 1;
+    }
+
+    async api(){
+
     }
 }

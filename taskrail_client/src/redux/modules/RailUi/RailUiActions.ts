@@ -1,3 +1,4 @@
+import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
 export class SetTaskParentNodeWidth implements ReduxAction{
     static type = "SetTaskParentNodeWidth";
@@ -27,4 +28,5 @@ export class SetRailUiWidth implements ReduxAction{
         this.type = SetRailUiWidth.type;
         this.railUiWidth = width;
     }
-}
+};
+

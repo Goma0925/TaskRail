@@ -1,20 +1,23 @@
-import Subtask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
-import FrameFactory from "./TestData/FrameFactory";
+import FrameFactory from "./TestPaginationData/FrameFactory";
 
 export interface PaginationFrame{
-    [taskParentId: string]: string[][]; //[[SubtaskID],[SubtaskID]...]
+    //[[SubtaskID],[SubtaskID, SubtaskID]...] Each array is the subtask IDs for the particular day.
+    [taskParentId: string]: string[][]; 
 }
 
 interface PaginationState{
-    // Holds task data for pagination
     previousFrame?: PaginationFrame;
+    currentDays: Date[]; //Date objects of the week that is currently selected.
     currentFrame: PaginationFrame; //Subtask IDs to show for the current week. Each element is an array of subtask ID for the particular day.
     nextFrame?: PaginationFrame;
 }
+const dateStr = (i:number) =>  new Date('2021-3-'.concat((i+1).toString()));
 
-const initialPaginationState: PaginationState= {
-    currentFrame: FrameFactory.create(["0", "1"])
+const currentDays = [...Array(7)].map((_, i)=>new Date('2021-3-'.concat((i+1).toString())));
+const initialPaginationState: PaginationState = {
+    currentDays: currentDays,
+    currentFrame: FrameFactory.create(["0", "1"]) //Only for debugging purpose. To be replaced.
 }
 
 function weekPaginationReducer(

@@ -1,0 +1,24 @@
+.add-subtask-btn{
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-subtask-btn:hover{
+    border-style: solid;
+    border-color: rgb(109, 176, 120);
+    border-radius: 10px;
+    border-width: 5px;
+    height: 15px;
+    color: rgb(109, 176, 120);
+}
+
+.plus-icon{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 22px;
+    display: inline-block;
+    top: 50%;
+}

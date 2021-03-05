@@ -1,13 +1,13 @@
 export default class SubTask {
     private name: string;
     private id: string;
-    private subtaskDeadline: Date;
+    private subtaskDeadline: Date|undefined;
     private assignedDate: Date;
 
-    public constructor (name: string,  id: string, assignedDate: Date, subtaskDeadline: Date){
+    public constructor (name: string,  id: string, assignedDate: Date, subtaskDeadline?: Date){
         this.name = name;
-        this.assignedDate = assignedDate
-        this.subtaskDeadline = subtaskDeadline;
+        this.assignedDate = assignedDate;
+        this.subtaskDeadline = subtaskDeadline? subtaskDeadline: undefined;
         this.id = id;
     }
     //setters or modifiers
@@ -30,6 +30,10 @@ export default class SubTask {
 
     public getId(){
         return this.id;
+    };
+
+    public getAssignedDate(){
+        return this.assignedDate;
     }
 
     public getSubtaskDeadline(){

@@ -1,9 +1,10 @@
-import { SetSomeData } from "./TaskDataActions";
 import { produce } from "immer";
 import ReduxAction from "../ReduxAction";
 import Workspace from "../../../models/Workspace";
+import * as Actions from "./TaskDataActions";
 
 import TestWorkplaceData from "./TestTaskData/TestWorkplaceData";
+import SubTask from "../../../models/Subtask";
 
 interface TaskDataState{
     currentWorkspace: Workspace|undefined;
@@ -20,14 +21,17 @@ function taskDataReducer(
     action: ReduxAction
   ): TaskDataState{
     switch (action.type) {
-        case  SetSomeData.type:
-            // Process for SetSomeData goes here.
-            // // To supress the type error, cast action to access its attributes
-            // const width = (<SetSomeData>action).width;
-            // // Use immer produce to create a new state object to return.
-            // return produce(state, (draftState)=>{
-            //     draftState.height = 200; //Update the draftState.
-            // });
+        case  Actions.CreateSubtask.type:
+            const a = action as Actions.CreateSubtask;
+            const id = Actions.CreateSubtask.idCount.toString();
+            const taskParent = state.currentWorkspace?.getTaskParent(a.taskParentId);
+            const subtask = new SubTask(a.name, id, a.assignedDate);
+            (<Actions.CreateSubtask>action)
+            return produce(state, draftState=>{
+                if (taskParent){
+                    draftState.currentWorkspace?.getTaskParent(taskParent.getId()).addSubtask(subtask);
+                }
+            })
         default:
           return state
       }

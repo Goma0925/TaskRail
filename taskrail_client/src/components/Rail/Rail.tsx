@@ -11,6 +11,7 @@ import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskS
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
 import { Fragment } from "react";
+import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -30,12 +31,17 @@ export default function Rail (props: RailProps) {
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
+    const selectedDays = useSelector((state:RootState)=>{
+        return state.weekPagination.currentDays;
+    })
+    console.log(selectedDays);
+    
     const weekFrame = useSelector((state:RootState)=>{
         return state.weekPagination.currentFrame;
     });
     const taskParent = props.taskParent;
     const subtaskIdsByDate = weekFrame[taskParent.getId()];
-
+    // [ ["subtaskID", "subtaskID"], ["subtaskID", "subtaskID"]  ]
     const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[], dayIndex)=>{
         // subtaskIds is an array containing the subtask IDs for the particular day.
         // Retrieve subtask instances to render for the particular day: eg) Monday.
@@ -55,6 +61,7 @@ export default function Rail (props: RailProps) {
                         );
                     })
                 }
+                <AddSubtaskButton taskParentId={taskParent.getId()} assignedDate={selectedDays[dayIndex]}></AddSubtaskButton>
             </ColumnBox>
         );
         return col;
