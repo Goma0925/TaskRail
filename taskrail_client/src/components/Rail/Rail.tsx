@@ -1,7 +1,7 @@
 import "./Rail.css";
 import {useState} from "react";
 import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
+import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 
 interface RailProps{
@@ -20,7 +20,7 @@ export default function Rail (props: RailProps) {
     const numDays = 7;
 
     const decoratedNodes = [...Array(7)].map(() => {
-        return WithSubtaskSkin(TaskNode);
+        return WithCheckBox((WithSubtaskSkin(TaskNode)));
     })
     return (
         <>
@@ -34,7 +34,7 @@ export default function Rail (props: RailProps) {
             </div>
             {
                 decoratedNodes.map(DecoratedNode =>{
-                    return <DecoratedNode width={nodeSize.width}></DecoratedNode>
+                    return <DecoratedNode className="hi" width={100}></DecoratedNode>
                 })
             }
         </div>
