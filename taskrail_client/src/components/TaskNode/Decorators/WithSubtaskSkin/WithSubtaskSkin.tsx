@@ -12,10 +12,11 @@ export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<Task
     const wrapperComponent = (props: TaskNodeProps&WithSubtaskSkinProps) => {
         // Copy the props and append a new skin class.
         var newProps = produce(props, draftProps=>{
-            draftProps.className = "subtask-skin" + props.className? props.className: "";
-        });
-
-        // Delete subtask property to avoid signiture conflict.
+            draftProps.className = "subtask-skin";
+            draftProps.className += props.className? props.className: "";
+        })
+        console.log("in WithSubtaskSkin", newProps);
+        
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
