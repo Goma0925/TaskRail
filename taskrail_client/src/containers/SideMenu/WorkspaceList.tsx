@@ -13,10 +13,10 @@ export default function WorkspaceList() {
     return <ul className="WorkspaceList">
     {
         workspaces.map(
-            (Workspace) => {
+            (workspace) => {
                 return (
-                    <div className="sidemenu-item">
-                        <div className="sidemenu-item-text">{Workspace.name}</div>
+                    <div key={workspace.getId()} className="sidemenu-item">
+                        <div className="sidemenu-item-text">{workspace.getName()}</div>
                     </div>
                 )
             }

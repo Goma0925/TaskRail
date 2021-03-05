@@ -4,3 +4,7 @@
     flex-direction: row;
     margin-bottom: 10px;
 }
+.subtask-section{
+    display: flex;
+    flex-direction: row;
+}

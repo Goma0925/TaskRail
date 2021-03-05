@@ -1,6 +1,8 @@
-import {useEffect, useState, createRef} from "react";
+import {useEffect, useState, createRef, useRef} from "react";
 import "./split-pane.css";
 import SidePane from "./SidePane";
+import { SetRailUiWidth } from "../../redux/modules/RailUi/RailUiActions"
+import { useDispatch } from "react-redux";
 
 interface SplitPaneProps{
     top: React.ReactNode;
@@ -18,6 +20,8 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
     const [rightSeparatorXPos, setRightSeparatorXPos] = useState<undefined | number>(undefined);
     const [isLeftDragging, setIsLeftDragging] = useState(false);
     const [isRightDragging, setIsRightDragging] = useState(false);
+    const centerRef = useRef<HTMLDivElement>(null);
+    const dispatch = useDispatch();
 
     const startDraggingForLeftPane = (e: React.MouseEvent) => {
         setIsLeftDragging(true);
@@ -32,11 +36,16 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
     const onMouseUp = (e: React.MouseEvent) => {
         setIsLeftDragging(false);
         setIsRightDragging(false);
+        updatePaneDimentions();
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-        console.log(isLeftDragging, leftWidth, leftSeparatorXPos);
-        
+    const updatePaneDimentions = () => {
+        // Update each pane width to Redux for the other components to use the dimentions.
+        const centerWidth = centerRef.current?.clientWidth? centerRef.current?.clientWidth:0;
+        dispatch(new SetRailUiWidth(centerWidth));
+    }
+
+    const onMouseMove = (e: MouseEvent) => {        
         if (isLeftDragging && leftSeparatorXPos!==undefined) {
             const newLeftWidth = leftWidth + e.clientX - leftSeparatorXPos;
             setLeftSeparatorXPos(e.clientX);
@@ -46,15 +55,18 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
             const newRightWidth = rightWidth + rightSeparatorXPos - e.clientX;
             setRightSeparatorXPos(e.clientX);
             setRightWidth(newRightWidth);
-        }
+        };
     };
 
     useEffect(() => {
         document.addEventListener('mousemove', onMouseMove);
+        window.addEventListener("resize", updatePaneDimentions);
+        updatePaneDimentions();
         // Set function for the component unmount
         return () => {
-            // Remove eventlisterner on unmount
+            // Remove eventlisterners on unmount
             document.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener("resize", updatePaneDimentions)
         };
     });
 
@@ -75,7 +87,7 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
                 
                 <div className="divider" onMouseDown={startDraggingForLeftPane}/>
 
-                <div className="center-pane content-col">{props.center}</div>
+                <div className="center-pane content-col" ref={centerRef}>{props.center}</div>
 
                 <div className="divider content-col" onMouseDown={startDraggingForRightPane}/>
 

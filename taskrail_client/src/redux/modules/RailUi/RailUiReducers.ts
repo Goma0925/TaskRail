@@ -1,34 +1,41 @@
-import RailUiActionTypes from "./RailUiActions";
-import { SetSubtaskNodeWidth } from "./RailUiActions";
 import { produce } from "immer";
+import SubTask from "../../../models/Subtask";
+import ReduxAction from "../ReduxAction";
+import * as Actions from "./RailUiActions";
 
-export interface RailUiState{
+interface RailUiState{
     taskParentNodeWidth: number;
     subtaskNodeWidth: number;
-    selectedNode: {
-        type: "SUBTASK"|"TASK_PARENT"|"NONE", 
-        id: string|undefined,
-    }
+    railUiWidth: number;
+    selectedSubtaskId: string|undefined; //Subtask ID 
+    selectedTaskParentId: string|undefined; //TaskParent ID of the selected taskparent.
 };
 
 const initialState:RailUiState = {
     taskParentNodeWidth: 200,
     subtaskNodeWidth: 0,
-    selectedNode: {
-        type: "NONE",
-        id: undefined
-    }
+    railUiWidth: 0,
+    selectedSubtaskId: undefined,
+    selectedTaskParentId: undefined,
 };
 
 function railUiReducer(
     state = initialState,
-    action: RailUiActionTypes
+    action: ReduxAction
   ): RailUiState{
     switch (action.type) {
-        case  SetSubtaskNodeWidth.type:
-            console.log("RailUiReducer got an action:", action);
+        case Actions.SetSubtaskNodeWidth.type:
             return produce(state, (state)=>{
-                state.subtaskNodeWidth = action.width;
+                // Use type casting to action to convince the compiler this action is Actions.SetSubtaskNodeWidth
+                state.subtaskNodeWidth = (<Actions.SetSubtaskNodeWidth>action).subtaskNodeWidth;
+            });
+        case Actions.SetTaskParentNodeWidth.type:
+            return produce(state, draftState => {
+                draftState.taskParentNodeWidth = (<Actions.SetTaskParentNodeWidth>action).taskParentNodeWidth;
+            })
+        case Actions.SetRailUiWidth.type:
+            return produce(state, draftState=>{
+                draftState.railUiWidth = (<Actions.SetRailUiWidth>action).railUiWidth;
             });
         default:
           return state

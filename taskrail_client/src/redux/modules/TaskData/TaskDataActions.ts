@@ -1,4 +1,4 @@
-// Define an action name starting with a verb as a class.
+// Define an action name starting with a verb.
 export class SetSomeData{
     static type:string = "SetSomeData";
     type: string;

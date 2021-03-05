@@ -1,13 +1,17 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import classInstanceUnpacker from "./middleware/classInstanceUnpacker";
-import {RailUiReducers} from "./modules/index";
+import {PaginationReducers, RailUiReducers, TaskDataReducers} from "./modules/index";
+import { createLogger } from 'redux-logger';
 
 const rootReducer = combineReducers({
     railUi: RailUiReducers, //stateSliceName: reducerName
+    taskData: TaskDataReducers,
+    weekPagination: PaginationReducers
 });
 
+const logger = createLogger();
 
-const store =  createStore(rootReducer, applyMiddleware(classInstanceUnpacker));
+const store =  createStore(rootReducer, applyMiddleware(classInstanceUnpacker, logger));
 
 export default store;
 

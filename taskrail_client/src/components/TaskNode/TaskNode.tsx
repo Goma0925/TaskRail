@@ -1,19 +1,18 @@
-// import "./test.css";
+import Subtask from "../../models/Subtask";
+import React from 'react';
 
 export interface TaskNodeProps {
+    className?: string;
     children?: React.ReactNode[] | React.ReactNode;
     width: number;
-    className?: string;
 }
 
-const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {
-    var className = "node";
-    className += props.className? " " + props.className: "";
-    // if (props.className){
-    //     className += " " + props.className;
-    // }
+const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {    
     return (
-        <div className={className} style={{width:props.width, height:50}} >
+        <div 
+            className={"node "+props.className} 
+            style={{width:props.width, height:50}} 
+        >
             {props.children}
         </div>
     )
