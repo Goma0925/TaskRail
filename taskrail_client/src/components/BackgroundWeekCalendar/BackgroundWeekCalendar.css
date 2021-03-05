@@ -1,0 +1,25 @@
+.background-week-calendar{
+    height: 100%;
+    width: 100%;
+    right: 0;
+    background-color: darkolivegreen;
+    position: absolute;
+    z-index: -100;
+}
+
+.date-divider {
+    border-left: 2px solid rgb(10, 211, 161);
+    height: 100%;
+    position: absolute;
+    margin-left: -0.5px;
+    top: 0;
+}
+
+.date-divider.focus {
+    border-left: 4px solid rgb(10, 211, 161);
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    margin-left: -2px;
+    top: 0;
+}

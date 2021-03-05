@@ -15,7 +15,7 @@ export default function WorkspaceList() {
             (Workspace) => {
                 return (
                     <div className="sidemenu-item">
-                        <div className="sidemenu-item-text">{Workspace.name}</div>
+                        <div className="sidemenu-item-text">{Workspace.getName()}</div>
                     </div>
                 )
             }

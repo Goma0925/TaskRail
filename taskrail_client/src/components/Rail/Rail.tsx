@@ -1,5 +1,5 @@
 import "./Rail.css";
-import {createRef, useEffect, useRef, useState} from "react";
+import {createRef, ReactNode, useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "../../redux/store";
 
@@ -8,10 +8,16 @@ import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
 import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
 import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
+import ColumnBox from "../ColumnBox/ColumnBox";
+import TaskParent from "../../models/TaskParent";
+import { Col } from "react-bootstrap";
 
+interface RailProps{
+    taskParent: TaskParent;
+}
 
-export default function Rail () {
-    const dispatch = useDispatch();
+export default function Rail (props: RailProps) {
+    const dispatch = useDispatch();  
 
     const outerContainerWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
     const taskParentNodeWidth = 100;
@@ -26,9 +32,33 @@ export default function Rail () {
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
-    const decoratedNodes = [...Array(7)].map(() => {
-        return TaskNode;
-    })
+    const weekFrame = useSelector((state:RootState)=>{
+        return state.weekPagination.currentFrame;
+    });
+    const taskParent = props.taskParent;
+    const subtaskIdsByDate = weekFrame[taskParent.getId()];
+
+    const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[])=>{
+        // subtaskIds is an array containing the subtask IDs for the particular day.
+        // Retrieve subtask instances to render for the particular day: eg) Monday.
+        const subtasksOfDay = subtaskIds.map((id)=>{
+            return taskParent.getSubtask(id);
+        })
+        const col = (
+            <ColumnBox>
+                {
+                    subtasksOfDay.map((subtask)=>{
+                        console.log("Subtask instance:", subtask);
+                        const Node = WithSubtaskSkin(TaskNode);
+                        // Construct tasknode here.
+                        return <Node width={subtaskNodeWidth}></Node>
+                    })
+                }
+            </ColumnBox>
+        );
+        return col;
+    });
+    
     return (
         <>
         <div 
@@ -40,10 +70,13 @@ export default function Rail () {
             </div>
             <div className="subtask-section">
             {
-                decoratedNodes.map((DecoratedNode, i)=>{
-                    return <>
-                        <DecoratedNode className="subtask-node" width={subtaskNodeWidth}></DecoratedNode>
-                    </>
+                // decoratedNodes.map((DecoratedNode, i)=>{
+                //     return <>
+                //         <DecoratedNode className="subtask-node" width={subtaskNodeWidth}></DecoratedNode>
+                //     </>
+                // })
+                columnBoxes.map((Col: ReactNode)=>{
+                    return Col;
                 })
             }
             </div>
