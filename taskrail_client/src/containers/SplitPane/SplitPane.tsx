@@ -41,7 +41,6 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
 
     const updatePaneDimentions = () => {
         // Update each pane width to Redux for the other components to use the dimentions.
-        console.log(leftWidth, centerRef.current?.clientWidth, rightWidth);
         const centerWidth = centerRef.current?.clientWidth? centerRef.current?.clientWidth:0;
         dispatch(new SetRailUiWidth(centerWidth));
     }

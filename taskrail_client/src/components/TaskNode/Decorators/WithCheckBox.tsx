@@ -1,6 +1,4 @@
-import {useState} from "react"
 import {TaskNodeProps} from "../TaskNode"
-import TaskNode from "../TaskNode"
 
 export default function WithCheckBox(NodeToDecorate: React.ComponentType<TaskNodeProps>) 
 {

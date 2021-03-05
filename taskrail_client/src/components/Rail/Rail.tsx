@@ -6,7 +6,7 @@ import {RootState} from "../../redux/store";
 import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
 
 import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
+import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
@@ -24,10 +24,8 @@ export default function Rail (props: RailProps) {
 
     const subtasks = [{}, {}, {}, {}];  
     const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
-    console.log("calculatedSubtaskNodeWidth",calculatedSubtaskNodeWidth);
     
     const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
-    console.log("subtaskNodeWidth", subtaskNodeWidth);
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
@@ -47,7 +45,6 @@ export default function Rail (props: RailProps) {
             <ColumnBox>
                 {
                     subtasksOfDay.map((subtask)=>{
-                        console.log("Subtask instance:", subtask);
                         const Node = WithSubtaskSkin(TaskNode);
                         // Construct tasknode here.
                         return <Node width={subtaskNodeWidth}></Node>

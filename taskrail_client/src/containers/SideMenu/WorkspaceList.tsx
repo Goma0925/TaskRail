@@ -3,11 +3,12 @@ import Workspace from "../../models/Workspace";
 
 export default function WorkspaceList() {
 
-    let workspace1 = new Workspace("Workspace1", "id1");
-    let workspace2 = new Workspace("Workspace2", "id2");
-    let workspace3 = new Workspace("Workspace3", "id3");
+    let workspace1 = new Workspace("Jibraan", "Workspace1");
+    let workspace2 = new Workspace("Amon", "Workspace2");
+    let workspace3 = new Workspace("Michael", "Workspace3");
+    let workspace4 = new Workspace("Noah", "Workspace4");
 
-    let workspaces = [workspace1, workspace2, workspace3];
+    let workspaces = [workspace1, workspace2, workspace3, workspace4];
     
     return <ul className="WorkspaceList">
     {
