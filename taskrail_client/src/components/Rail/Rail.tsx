@@ -1,5 +1,5 @@
 import "./Rail.css";
-import {createRef, ReactNode, useEffect, useRef, useState} from "react";
+import React, {createRef, ReactNode, useEffect, useRef, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "../../redux/store";
 
@@ -10,19 +10,20 @@ import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error.
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
+import { Fragment } from "react";
 
 interface RailProps{
     taskParent: TaskParent;
+    outerContainerWidth: number
 }
 
 export default function Rail (props: RailProps) {
     const dispatch = useDispatch();  
 
-    const outerContainerWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
+    const outerContainerWidth = props.outerContainerWidth;
     const taskParentNodeWidth = 100;
     const minSubtaskNodeWidth = 100;
 
-    const subtasks = [{}, {}, {}, {}];  
     const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
     
     const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
@@ -35,19 +36,23 @@ export default function Rail (props: RailProps) {
     const taskParent = props.taskParent;
     const subtaskIdsByDate = weekFrame[taskParent.getId()];
 
-    const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[])=>{
+    const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[], dayIndex)=>{
         // subtaskIds is an array containing the subtask IDs for the particular day.
         // Retrieve subtask instances to render for the particular day: eg) Monday.
         const subtasksOfDay = subtaskIds.map((id)=>{
             return taskParent.getSubtask(id);
         })
         const col = (
-            <ColumnBox>
+            <ColumnBox key={dayIndex}>
                 {
                     subtasksOfDay.map((subtask)=>{
                         const Node = WithSubtaskSkin(TaskNode);
                         // Construct tasknode here.
-                        return <Node width={subtaskNodeWidth}></Node>
+                        return (
+                            <Fragment key={subtask.getId()}>
+                                <Node subtask={subtask} width={subtaskNodeWidth}></Node>
+                            </Fragment>
+                        );
                     })
                 }
             </ColumnBox>
@@ -62,7 +67,7 @@ export default function Rail (props: RailProps) {
         >
             <div className="task-parent-section" style={{width: taskParentNodeWidth}}>
                 {/* Render task parent node here */}
-                <TaskNode width={taskParentNodeWidth}></TaskNode>
+                {/* <TaskNode width={taskParentNodeWidth}></TaskNode> */}
             </div>
             <div className="subtask-section">
             {

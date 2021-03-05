@@ -1,3 +1,5 @@
+import Subtask from "../../models/Subtask";
+
 export interface TaskNodeProps {
     className?: string;
     children?: React.ReactNode[] | React.ReactNode;
@@ -6,7 +8,10 @@ export interface TaskNodeProps {
 
 const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {    
     return (
-        <div className={"node "+props.className} style={{width:props.width, height:50}} >
+        <div 
+            className={"node "+props.className} 
+            style={{width:props.width, height:50}} 
+        >
             {props.children}
         </div>
     )

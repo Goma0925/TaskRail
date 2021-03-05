@@ -1,5 +1,5 @@
 import "./RailContainer.css";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, Fragment } from "react";
 import Rail from "../../components/Rail/Rail";
 import BackgroundWeekCalendar from "../../components/BackgroundWeekCalendar/BackgroundWeekCalendar";
 import { useSelector } from "react-redux";
@@ -11,7 +11,9 @@ const RailContainer: React.FC = () => {
     var taskParents:{[id: string]: TaskParent } = {};
     if (workspace){
         taskParents = workspace.getTaskParents();
-    }
+    };
+    const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
+
 
     const keys = Object.keys(taskParents);
     return (
@@ -19,7 +21,15 @@ const RailContainer: React.FC = () => {
             <BackgroundWeekCalendar/>
             {
                 Object.keys(taskParents).map((id)=>{
-                    return <Rail taskParent={taskParents[id]}></Rail>
+                    return (
+                        <Fragment key={id}>
+                            <Rail 
+                                taskParent={taskParents[id]} 
+                                outerContainerWidth={railUiWidth}
+                                key={id}
+                            ></Rail> 
+                        </Fragment>
+                    );
                 })
 
             }
