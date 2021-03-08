@@ -5,22 +5,20 @@ import BackgroundWeekCalendar from "../../components/BackgroundWeekCalendar/Back
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store"
 import TaskParent from "../../models/TaskParent";
+import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
 
 const RailContainer: React.FC = () => {
-    const workspace = useSelector((state: RootState)=> state.taskData.currentWorkspace);
-    var taskParents:{[id: string]: TaskParent } = {};
-    if (workspace){
-        taskParents = workspace.getTaskParents();
-    };
+    var taskParents:{[id: string]: TaskParent }|undefined = {};
+    taskParents = useSelector((state: RootState)=> state.taskData.currentWorkspace?.getTaskParents());
+
+    console.log("New taskparents:", taskParents);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
-
-
-    const keys = Object.keys(taskParents);
+    
     return (
         <div className="rail-container">
             <BackgroundWeekCalendar/>
             {
-                Object.keys(taskParents).map((id)=>{
+                Object.keys(taskParents?taskParents:{}).map((id)=>{
                     return (
                         <Fragment key={id}>
                             <Rail 
@@ -33,6 +31,7 @@ const RailContainer: React.FC = () => {
                 })
 
             }
+            <AddTaskParentButton></AddTaskParentButton>
         </div>
     );
 }
