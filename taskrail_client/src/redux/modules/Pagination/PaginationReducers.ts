@@ -1,5 +1,7 @@
 import ReduxAction from "../ReduxAction";
 import FrameFactory from "./TestPaginationData/FrameFactory";
+import * as Actions from "./PaginationActions";
+import produce from "immer";
 
 export interface PaginationFrame{
     //[[SubtaskID],[SubtaskID, SubtaskID]...] Each array is the subtask IDs for the particular day.
@@ -25,14 +27,14 @@ function weekPaginationReducer(
     action: ReduxAction
   ): PaginationState{
     switch (action.type) {
-        // case  SetSomeData.type:
-        //     // Process for SetSomeData goes here.
-        //     // // To supress the type error, cast action to access its attributes
-        //     // const width = (<SetSomeData>action).width;
-        //     // // Use immer produce to create a new state object to return.
-        //     // return produce(state, (draftState)=>{
-        //     //     draftState.height = 200; //Update the draftState.
-        //     // });
+        case  Actions.SetSubtaskOnDay.type:
+            const a = <Actions.SetSubtaskOnDay>action;
+            // Calculate how many days after the first day of the current week frame.
+            const dayIndex = Math.abs((currentDays[0].getTime() - a.assignedDate.getTime())/ (1000 * 3600 * 24));
+            console.log("In weekPaginationReducer: dayIndex", state.currentFrame[a.taskParentId][dayIndex]);
+            return produce(state, (draftState)=>{
+                draftState.currentFrame[a.taskParentId][dayIndex].push(a.subtaskId);
+            });
         default:
           return state
       }

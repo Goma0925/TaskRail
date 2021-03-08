@@ -23,10 +23,8 @@ function taskDataReducer(
     switch (action.type) {
         case  Actions.CreateSubtask.type:
             const a = action as Actions.CreateSubtask;
-            const id = Actions.CreateSubtask.idCount.toString();
+            const subtask = a.subtask;
             const taskParent = state.currentWorkspace?.getTaskParent(a.taskParentId);
-            const subtask = new SubTask(a.name, id, a.assignedDate);
-            (<Actions.CreateSubtask>action)
             return produce(state, draftState=>{
                 if (taskParent){
                     draftState.currentWorkspace?.getTaskParent(taskParent.getId()).addSubtask(subtask);
