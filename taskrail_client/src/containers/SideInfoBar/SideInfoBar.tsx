@@ -1,11 +1,14 @@
 // Michael
 import React, { useState } from "react";
+import Subtask from "../../models/Subtask";
+import TaskParent from "../../models/TaskParent";
 import "./style.css";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
 interface SideInfoBarProps {
-    // subtask: Subtask;
+    taskParent?: TaskParent;
+    subtask?: Subtask;
 }
 
 /** SideInfoBar's props must have the same
