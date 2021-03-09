@@ -11,9 +11,7 @@ const RailContainer: React.FC = () => {
     // var taskParents:{[id: string]: TaskParent } = {};
     const taskParents = useSelector((state: RootState)=> state.taskData.currentWorkspace?.getTaskParents());
 
-    console.log("New taskparents:", taskParents);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
-
     return (
         <div className="rail-container">
             <BackgroundWeekCalendar/>

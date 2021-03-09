@@ -3,7 +3,7 @@ import SubTask from "../../../models/Subtask";
 import TaskParent from "../../../models/TaskParent";
 import ReduxAction from "../ReduxAction";
 
-export class CreateSubtask implements ReduxAction{
+export class AddSubtask implements ReduxAction{
     // This method needs to be overwritten once we have an API.
     static idCount = 100;
     static type = "CreateSubtask";
@@ -11,8 +11,8 @@ export class CreateSubtask implements ReduxAction{
     subtask: SubTask;
     taskParentId: string;
     constructor(subtask: Subtask, taskParentId: string){
-        this.type = CreateSubtask.type;
-        CreateSubtask.idCount+=1;
+        this.type = AddSubtask.type;
+        AddSubtask.idCount+=1;
         this.subtask = subtask;
         this.taskParentId = taskParentId;
     }

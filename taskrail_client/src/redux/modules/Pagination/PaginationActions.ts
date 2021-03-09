@@ -12,3 +12,7 @@ export class SetSubtaskOnDay{
         this.assignedDate = assignedDate;
     }
 }
+
+export class SetTaskParentInPaginationFrame{
+    
+}

@@ -22,8 +22,8 @@ function taskDataReducer(
     action: ReduxAction
   ): TaskDataState{
     switch (action.type) {
-        case  Actions.CreateSubtask.type:
-            var a = action as Actions.CreateSubtask;
+        case  Actions.AddSubtask.type:
+            var a = action as Actions.AddSubtask;
             const subtask = a.subtask;
             const taskParent = state.currentWorkspace?.getTaskParent(a.taskParentId);
             return produce(state, (draftState:TaskDataState)=>{

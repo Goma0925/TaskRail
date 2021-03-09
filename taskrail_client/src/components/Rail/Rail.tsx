@@ -18,7 +18,7 @@ interface RailProps{
     outerContainerWidth: number
 }
 
-export default function Rail (props: RailProps) {
+export default function Rail (props: RailProps) {    
     const dispatch = useDispatch();  
 
     const outerContainerWidth = props.outerContainerWidth;
@@ -34,13 +34,12 @@ export default function Rail (props: RailProps) {
     const selectedDays = useSelector((state:RootState)=>{
         return state.weekPagination.currentDays;
     })
-    console.log(selectedDays);
     
     const weekFrame = useSelector((state:RootState)=>{
         return state.weekPagination.currentFrame;
     });
     const taskParent = props.taskParent;
-    const subtaskIdsByDate = weekFrame[taskParent.getId()];
+    const subtaskIdsByDate = weekFrame[taskParent.getId()]?weekFrame[taskParent.getId()]:[];
 
     const columnBoxes: ReactNode[] = subtaskIdsByDate.map((subtaskIds: string[], dayIndex)=>{
         // subtaskIds is an array containing the subtask IDs for the particular day.
@@ -74,15 +73,10 @@ export default function Rail (props: RailProps) {
         >
             <div className="task-parent-section" style={{width: taskParentNodeWidth}}>
                 {/* Render task parent node here */}
-                {/* <TaskNode width={taskParentNodeWidth}></TaskNode> */}
+                <TaskNode width={taskParentNodeWidth}></TaskNode>
             </div>
             <div className="subtask-section">
             {
-                // decoratedNodes.map((DecoratedNode, i)=>{
-                //     return <>
-                //         <DecoratedNode className="subtask-node" width={subtaskNodeWidth}></DecoratedNode>
-                //     </>
-                // })
                 columnBoxes.map((Col: ReactNode)=>{
                     return Col;
                 })
