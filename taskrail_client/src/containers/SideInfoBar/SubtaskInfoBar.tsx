@@ -19,14 +19,14 @@ shape as the Props interface object **/
 function SideInfoBar(props: SideInfoBarProps) {
     // const [text, setText] = useState(props?.text); 
     const subtask = props.subtask;
-
+    const taskParent = props.taskParent;
     console.log(subtask);
     const [text, setText] = useState(""); 
 
     const dispatch = useDispatch();
     function handleChange(event: any) { // update this type in future 
         setText(event.target.value);
-        dispatch(new UpdateSubtask(subtask));
+        dispatch(new UpdateSubtask(subtask, taskParent));
     }
 
     return (
