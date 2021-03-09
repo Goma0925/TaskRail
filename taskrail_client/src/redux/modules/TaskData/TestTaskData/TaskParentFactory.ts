@@ -13,7 +13,7 @@ export default class TaskParentFactory{
             // Create subtasks for every other day
             const date = new Date(dateStr(i));
             const subtaskName = name + "'s child(" + subtaskNum.toString() + ")";
-            const subtask = new SubTask(subtaskName, i.toString(), date, parentDeadline);
+            const subtask = new SubTask(subtaskName, i.toString(), TaskParentFactory.count.toString(), date, parentDeadline);
             taskParent.addSubtask(subtask);
             subtaskNum += 1;
         }

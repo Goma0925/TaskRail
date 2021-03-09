@@ -8,17 +8,17 @@ import TaskParent from "../../models/TaskParent";
 import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
 
 const RailContainer: React.FC = () => {
-    var taskParents:{[id: string]: TaskParent }|undefined = {};
-    taskParents = useSelector((state: RootState)=> state.taskData.currentWorkspace?.getTaskParents());
+    // var taskParents:{[id: string]: TaskParent } = {};
+    const taskParents = useSelector((state: RootState)=> state.taskData.currentWorkspace?.getTaskParents());
 
     console.log("New taskparents:", taskParents);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
-    
+
     return (
         <div className="rail-container">
             <BackgroundWeekCalendar/>
-            {
-                Object.keys(taskParents?taskParents:{}).map((id)=>{
+            {   taskParents?
+                Object.keys(taskParents).map((id)=>{
                     return (
                         <Fragment key={id}>
                             <Rail 
@@ -29,7 +29,7 @@ const RailContainer: React.FC = () => {
                         </Fragment>
                     );
                 })
-
+                :<></>
             }
             <AddTaskParentButton></AddTaskParentButton>
         </div>

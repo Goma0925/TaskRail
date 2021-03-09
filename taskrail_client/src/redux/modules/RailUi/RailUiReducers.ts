@@ -3,20 +3,23 @@ import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./RailUiActions";
 
+interface RailUiSelector{
+    type: "NONE"|"SUBTASK"|"TASKPARENT";
+    itemId: string;
+}
+
 interface RailUiState{
     taskParentNodeWidth: number;
     subtaskNodeWidth: number;
     railUiWidth: number;
-    selectedSubtaskId: string|undefined; //Subtask ID 
-    selectedTaskParentId: string|undefined; //TaskParent ID of the selected taskparent.
+    selection: RailUiSelector
 };
 
 const initialState:RailUiState = {
     taskParentNodeWidth: 200,
     subtaskNodeWidth: 0,
     railUiWidth: 0,
-    selectedSubtaskId: undefined,
-    selectedTaskParentId: undefined,
+    selection: {type :"SUBTASK", itemId: "1"}
 };
 
 function railUiReducer(

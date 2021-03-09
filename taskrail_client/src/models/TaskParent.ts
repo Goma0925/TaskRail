@@ -26,12 +26,20 @@ export default class TaskParent {
     public setSubtasks(subtasks: SubTask[]){
         const self = this;
         subtasks.map(subtask=>{
-            self.subtasks[subtask.getId()] = subtask;
+            if (this.getId()!=subtask.getParentId()){
+                throw Error("Subtask (name='"+subtask.getName()+"' ID="+subtask.getId()+") is being added to a task parent that is not its original parent.")
+            }else{
+                self.subtasks[subtask.getId()] = subtask;
+            }
         })
     }
 
     public addSubtask(task: SubTask) {
-        this.subtasks[task.getId()] = task;
+        if (this.getId()!=task.getParentId()){
+            throw Error("Subtask (name='"+task.getName()+"' ID="+task.getId()+") is being added to a task parent that is not its original parent.")
+        }else{
+            this.subtasks[task.getId()] = task;
+        }
     }
 
     public removeSubtaskById(id: string){
