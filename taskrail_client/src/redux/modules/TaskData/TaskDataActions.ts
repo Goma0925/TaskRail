@@ -28,3 +28,15 @@ export class AddTaskParent implements ReduxAction{
         this.taskParent = taskParent;
     }
 }
+
+export class UpdateSubtask implements ReduxAction{
+    static type = "UpdateSubtask";
+    type:string;
+    subtask: Subtask;
+    taskParent: TaskParent;
+    constructor(subtask:Subtask, taskParent:TaskParent){
+        this.subtask = subtask;
+        this.taskParent = taskParent;
+        this.type = UpdateSubtask.type;
+    }
+}

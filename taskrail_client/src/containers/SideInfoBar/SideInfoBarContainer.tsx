@@ -8,13 +8,19 @@ export default function SideInfoBarContainer() {
     const [selectionType, itemId] = useSelector((state:RootState)=>{
         return [state.railUi.selection.type, state.railUi.selection.itemId];
     })
-    if (selectionType == "SUBTASK"){
-        const taskParents = useSelector((state:RootState)=>{
-            return state.taskData.currentWorkspace?.getTaskParent()
-        })
+    // switch(selectionType){
+    //     case "SUBTASK":
+    //         return (
+    //             <SubtaskInfoBar></SubtaskInfoBar>
+    //         )
+    //     break;
+    // }
+        // const taskParents = useSelector((state:RootState)=>{
+        //     return state.taskData.currentWorkspace?.getTaskParent()
+        // })
     
         return (
-            <SubtaskInfoBar></SubtaskInfoBar>
+            <div></div>
         )
-    }
+    // }
 }
