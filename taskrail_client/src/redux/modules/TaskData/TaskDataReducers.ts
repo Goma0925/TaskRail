@@ -2,19 +2,42 @@ import { produce } from "immer";
 import ReduxAction from "../ReduxAction";
 import Workspace from "../../../models/Workspace";
 import * as Actions from "./TaskDataActions";
-
-import TestWorkplaceData from "./TestTaskData/TestWorkplaceData";
+import TaskParent from "../../../models/TaskParent";
 import SubTask from "../../../models/Subtask";
-import { Action } from "redux";
+import TestTaskData from "./TestTaskData/TestTaskDataFactory";
 
 interface TaskDataState{
-    currentWorkspace: Workspace|undefined;
-    allWorkspaceIds: string[]; //Hold all the workspace IDs.
+    workspace: {
+        currentWorkspace: Workspace|undefined
+        allIds: string[]; //Hold all the workspace IDs.
+    };
+    taskParents: {
+        byId: {
+            [taskParentId: string]: TaskParent,
+        };
+        allIds:string[];
+    }
+    subtasks: {
+        byId: {
+            [subtaskId: string]: SubTask
+        };
+        allIds: string[]
+    }
 };
 
 const initialState:TaskDataState = {
-    currentWorkspace: TestWorkplaceData,
-    allWorkspaceIds: [],
+    workspace: {
+        currentWorkspace: TestTaskData.workspace,
+        allIds: TestTaskData.allWorkspaceIds,
+    },
+    taskParents: {
+        byId: TestTaskData.taskParentById,
+        allIds: TestTaskData.allTaskParentIds
+    },
+    subtasks: {
+        byId: TestTaskData.subtaskbyId,
+        allIds: TestTaskData.allSubtaskIds
+    }
 };
 
 function taskDataReducer(
@@ -23,21 +46,24 @@ function taskDataReducer(
   ): TaskDataState{
     switch (action.type) {
         case  Actions.AddSubtask.type:
-            var a = action as Actions.AddSubtask;
-            const subtask = a.subtask;
-            const taskParent = state.currentWorkspace?.getTaskParent(a.taskParentId);
-            return produce(state, (draftState:TaskDataState)=>{
-                if (taskParent){
-                    draftState.currentWorkspace?.getTaskParent(taskParent.getId()).addSubtask(subtask);
-                }
-            })
+            var subtask = (<Actions.AddSubtask>action).subtask;
+            var taskParentId = subtask.getParentId();
+            return produce(state, draftState=>{
+                // Add subtask ID to the taskparent.
+                draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
+                // Add subtask instance to the store.
+                draftState.subtasks.byId[subtask.getId()] = subtask;
+            });
         case Actions.AddTaskParent.type:
+            var taskParent = (<Actions.AddTaskParent>action).taskParent;
             return produce(state, (draftState:TaskDataState)=>{
-                draftState.currentWorkspace?.addTaskParent((<Actions.AddTaskParent>action).taskParent);
+                // Add task parent to the store
+                draftState.workspace.currentWorkspace?.addTaskParentId(taskParent.getId());
             })
         case Actions.UpdateSubtask.type:
+            var subtask = (<Actions.UpdateSubtask>action).subtask;
             return produce(state, (draftState:TaskDataState)=>{
-                draftState.currentWorkspace?.getTaskParent((<Actions.UpdateSubtask> action).taskParent.getId()).addSubtask((<Actions.UpdateSubtask> action).subtask);
+                draftState.subtasks.byId[subtask.getId()] = subtask;
             })
         default:
           return state

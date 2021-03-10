@@ -6,7 +6,6 @@ import "./AddTaskParentButton.css";
 export default function AddTaskParentButton(){
     const dispatch = useDispatch();
     const addTaskParent = (event:React.MouseEvent<HTMLButtonElement>)=>{
-        // Add a new subtask on click        
         createTaskParentOnRailOp("New taskset");
     }
     return (

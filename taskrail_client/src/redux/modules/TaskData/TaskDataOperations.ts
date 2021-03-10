@@ -12,7 +12,7 @@ export function createSubtaskOp(subtaskName: string, taskParentId: string, assig
         const subtask = new SubTask(subtaskName, AddSubtask.idCount.toString(), taskParentId, assignedDate, undefined);
     
         // ToDo: Rename CreateSubtask
-        store.dispatch(new AddSubtask(subtask, taskParentId));
+        store.dispatch(new AddSubtask(subtask));
         return subtask;
 }
 

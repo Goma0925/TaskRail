@@ -9,17 +9,17 @@ export class AddSubtask implements ReduxAction{
     static type = "CreateSubtask";
     type: string;
     subtask: SubTask;
-    taskParentId: string;
-    constructor(subtask: Subtask, taskParentId: string){
+    constructor(subtask: Subtask){
         this.type = AddSubtask.type;
-        AddSubtask.idCount+=1;
         this.subtask = subtask;
-        this.taskParentId = taskParentId;
+
+        // Only for testing purpose
+        AddSubtask.idCount+=1;
     }
 }
 
 export class AddTaskParent implements ReduxAction{
-    static idCount = 3;
+    static idCount = 100;
     static type = "AddTaskParent";
     type: string;
     taskParent: TaskParent
@@ -33,10 +33,8 @@ export class UpdateSubtask implements ReduxAction{
     static type = "UpdateSubtask";
     type:string;
     subtask: Subtask;
-    taskParent: TaskParent;
-    constructor(subtask:Subtask, taskParent:TaskParent){
+    constructor(subtask:Subtask){
         this.subtask = subtask;
-        this.taskParent = taskParent;
         this.type = UpdateSubtask.type;
     }
 }

@@ -1,7 +1,7 @@
 import SubTask from "../../../models/Subtask";
 import store from "../../store";
-import * as TaskDataActions from "../TaskData/TaskDataActions";
-import * as TaskDataOperations from "../TaskData/TaskDataOperations";
+import * as TaskDataActions from "../NewTaskData/TaskDataActions";
+import * as TaskDataOperations from "../NewTaskData/TaskDataOperations";
 import * as PaginationActions from "./PaginationActions";
 
 export function createSubtaskOnRailOp(subtaskName: string, taskParentId: string, assignedDate: Date){
