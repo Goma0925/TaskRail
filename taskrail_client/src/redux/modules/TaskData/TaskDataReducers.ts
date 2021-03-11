@@ -49,16 +49,21 @@ function taskDataReducer(
             var subtask = (<Actions.AddSubtask>action).subtask;
             var taskParentId = subtask.getParentId();
             return produce(state, draftState=>{
-                // Add subtask ID to the taskparent.
+                // Add subtask ID to the taskparent store.
                 draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
-                // Add subtask instance to the store.
+                // Add subtask instance and ID to the subtask store.
                 draftState.subtasks.byId[subtask.getId()] = subtask;
+                draftState.subtasks.allIds.push(subtask.getId());
             });
         case Actions.AddTaskParent.type:
             var taskParent = (<Actions.AddTaskParent>action).taskParent;
+            var taskParentId = taskParent.getId();
             return produce(state, (draftState:TaskDataState)=>{
-                // Add task parent to the store
-                draftState.workspace.currentWorkspace?.addTaskParentId(taskParent.getId());
+                // Add task parent to the workspace store
+                draftState.workspace.currentWorkspace?.addTaskParentId(taskParentId);
+                // Add task parent ID and instances to the task parent store
+                draftState.taskParents.byId[taskParentId] = taskParent;
+                draftState.taskParents.allIds.push(taskParentId);
             })
         case Actions.UpdateSubtask.type:
             var subtask = (<Actions.UpdateSubtask>action).subtask;

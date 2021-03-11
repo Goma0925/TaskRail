@@ -15,7 +15,7 @@ const RailContainer: React.FC = () => {
         return state.taskData.subtasks.byId;
     });
 
-
+    const displayRangeStartDate = useSelector((state:RootState)=>state.railUi.displayRangeStartDate);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
     return (
         <div className="rail-container">
@@ -29,6 +29,7 @@ const RailContainer: React.FC = () => {
                             <Rail 
                                 taskParent={taskParentsById[id]} 
                                 sortedSubtasks={sortedSubtasks}
+                                displayRangeStartDate={displayRangeStartDate}
                                 outerContainerWidth={railUiWidth}
                                 key={id}
                             ></Rail> 

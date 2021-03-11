@@ -19,7 +19,7 @@ export class AddSubtask implements ReduxAction{
 }
 
 export class AddTaskParent implements ReduxAction{
-    static idCount = 100;
+    static idCount = 101;
     static type = "AddTaskParent";
     type: string;
     taskParent: TaskParent

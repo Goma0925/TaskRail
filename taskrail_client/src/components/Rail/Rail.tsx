@@ -14,11 +14,11 @@ import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import SubTask from "../../models/Subtask";
 import Subtask from "../../models/Subtask";
-import { getPreviousSunday } from "../../helpers/calendar";
 
 interface RailProps{
     taskParent: TaskParent;
     sortedSubtasks: SubTask[];
+    displayRangeStartDate: Date;
     outerContainerWidth: number;
 }
 
@@ -35,8 +35,8 @@ export default function Rail (props: RailProps) {
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
-    const weekStartDate = getPreviousSunday(props.sortedSubtasks[0].getAssignedDate());
-    console.log("start day", weekStartDate.getDay());
+    const displayRangeStartDate = props.displayRangeStartDate;
+    console.log("start day", displayRangeStartDate.getDay());
     
     //Categorize subtasks by day of week
     const subtasksByDay:{[day: number]: Subtask[]} = {};
@@ -52,8 +52,8 @@ export default function Rail (props: RailProps) {
     const columnBoxes: ReactNode[] = [];
     [...Array(7)].map((_, day)=>{
         const subtasksOfDay = subtasksByDay[day]? subtasksByDay[day]:[];
-        const assignedDate = new Date(weekStartDate.getTime());
-        assignedDate.setDate(weekStartDate.getDate()+day);
+        const assignedDate = new Date(displayRangeStartDate.getTime());
+        assignedDate.setDate(displayRangeStartDate.getDate()+day);
         columnBoxes.push(
             <ColumnBox key={day} width={subtaskNodeWidth}>
                 {

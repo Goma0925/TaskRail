@@ -1,4 +1,5 @@
 import { produce } from "immer";
+import { getPreviousSunday } from "../../../helpers/calendar";
 import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./RailUiActions";
@@ -13,13 +14,15 @@ interface RailUiState{
     subtaskNodeWidth: number;
     railUiWidth: number;
     selection: RailUiSelector
+    displayRangeStartDate: Date;
 };
 
 const initialState:RailUiState = {
     taskParentNodeWidth: 200,
     subtaskNodeWidth: 0,
     railUiWidth: 0,
-    selection: {type :"SUBTASK", itemId: "1"}
+    selection: {type :"SUBTASK", itemId: "1"},
+    displayRangeStartDate: getPreviousSunday(new Date()),
 };
 
 function railUiReducer(
