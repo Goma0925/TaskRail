@@ -8,3 +8,19 @@
     height: inherit;
     box-sizing: content-box;
 } 
+
+.subtask-top, .subtask-bottom {
+   font-size: 9px;
+   overflow: hidden;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.subtask-top {
+    border-bottom: solid black 1px;
+}
+
+.subtask-bottom {
+    border-top: solid black 1px;
+}
