@@ -47,5 +47,5 @@ export default class Workspace{
 
     public getTaskParentIds(): string[]{
         return this.taskParentIds;
-    }
+    };
 }

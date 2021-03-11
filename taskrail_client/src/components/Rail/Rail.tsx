@@ -14,6 +14,7 @@ import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import SubTask from "../../models/Subtask";
 import Subtask from "../../models/Subtask";
+import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectable/WithSelectableSubtask";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -36,7 +37,6 @@ export default function Rail (props: RailProps) {
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
     const displayRangeStartDate = props.displayRangeStartDate;
-    console.log("start day", displayRangeStartDate.getDay());
     
     //Categorize subtasks by day of week
     const subtasksByDay:{[day: number]: Subtask[]} = {};
@@ -58,7 +58,7 @@ export default function Rail (props: RailProps) {
             <ColumnBox key={day} width={subtaskNodeWidth}>
                 {
                     subtasksOfDay.map((subtask)=>{
-                        const Node = WithSubtaskSkin(TaskNode);
+                        const Node = WithSelectableSubtask(WithSubtaskSkin(TaskNode));
                         // Construct tasknode here.
                         return (
                             <Fragment key={subtask.getId()}>
@@ -71,36 +71,6 @@ export default function Rail (props: RailProps) {
             </ColumnBox>
         );
     });
-    
-    
-    
-    // const subtaskIdsByDate = useSelector((state:RootState)=>{
-    //     return state.taskData.subtasks
-    // })
-
-    // var day:Date;
-    // const columnBoxes: ReactNode[] = [];
-    // props.currentFrame.map((subtasksOfDay: SubTask[], dayIndex)=>{
-    //     // subtaskIds is an array containing the subtask IDs for the particular day.
-    //     // Retrieve subtask instances to render for the particular day: eg) Monday.
-    //     const col = (
-    //         <ColumnBox key={dayIndex}>
-    //             {
-    //                 subtasksOfDay.map((subtask)=>{
-    //                     const Node = WithSubtaskSkin(TaskNode);
-    //                     // Construct tasknode here.
-    //                     return (
-    //                         <Fragment key={subtask.getId()}>
-    //                             <Node subtask={subtask} width={subtaskNodeWidth}></Node>
-    //                         </Fragment>
-    //                     );
-    //                 })
-    //             }
-    //             <AddSubtaskButton taskParentId={taskParent.getId()} assignedDate={selectedDays[dayIndex]}></AddSubtaskButton>
-    //         </ColumnBox>
-    //     );
-    //     return col;
-    // });
     
     return (
         <>

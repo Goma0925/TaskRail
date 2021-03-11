@@ -4,7 +4,7 @@ import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./RailUiActions";
 
-interface RailUiSelector{
+export interface RailUiSelection{
     type: "NONE"|"SUBTASK"|"TASKPARENT";
     itemId: string;
 }
@@ -13,7 +13,7 @@ interface RailUiState{
     taskParentNodeWidth: number;
     subtaskNodeWidth: number;
     railUiWidth: number;
-    selection: RailUiSelector
+    selection: RailUiSelection
     displayRangeStartDate: Date;
 };
 
@@ -42,6 +42,11 @@ function railUiReducer(
         case Actions.SetRailUiWidth.type:
             return produce(state, draftState=>{
                 draftState.railUiWidth = (<Actions.SetRailUiWidth>action).railUiWidth;
+            });
+        case Actions.SelectItem.type:
+            return produce(state, draftState=>{
+                draftState.selection.type = (<Actions.SelectItem>action).selection.type;
+                draftState.selection.itemId = (<Actions.SelectItem>action).selection.itemId;
             });
         default:
           return state

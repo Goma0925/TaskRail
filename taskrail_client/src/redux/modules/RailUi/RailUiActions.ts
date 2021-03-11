@@ -1,5 +1,6 @@
 import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
+import { RailUiSelection } from "./RailUiReducers";
 export class SetTaskParentNodeWidth implements ReduxAction{
     static type = "SetTaskParentNodeWidth";
     type: string;
@@ -30,3 +31,12 @@ export class SetRailUiWidth implements ReduxAction{
     }
 };
 
+export class SelectItem implements ReduxAction{
+    static type = "SetSelection";
+    type: string;
+    selection: RailUiSelection
+    constructor(selection: RailUiSelection){
+        this.type = SelectItem.type;
+        this.selection = selection;
+    }
+}
