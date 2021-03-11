@@ -9,25 +9,32 @@ import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskPar
 
 const RailContainer: React.FC = () => {
     // var taskParents:{[id: string]: TaskParent } = {};
-    const taskParents = useSelector((state: RootState)=> state.taskData.currentWorkspace?.getTaskParents());
+    const taskParentIds = useSelector((state: RootState)=> state.taskData.taskParents.allIds);
+    const taskParentsById = useSelector((state: RootState)=> state.taskData.taskParents.byId);
+    const subtasksById = useSelector((state:RootState)=>{
+        return state.taskData.subtasks.byId;
+    });
+
 
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
     return (
         <div className="rail-container">
             <BackgroundWeekCalendar/>
-            {   taskParents?
-                Object.keys(taskParents).map((id)=>{
+            {   
+                taskParentIds.map((id)=>{
+                    const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
+                    const sortedSubtasks = currentFrameSubtaskIds.map(id=>subtasksById[id]);
                     return (
                         <Fragment key={id}>
                             <Rail 
-                                taskParent={taskParents[id]} 
+                                taskParent={taskParentsById[id]} 
+                                sortedSubtasks={sortedSubtasks}
                                 outerContainerWidth={railUiWidth}
                                 key={id}
                             ></Rail> 
                         </Fragment>
                     );
                 })
-                :<></>
             }
             <AddTaskParentButton></AddTaskParentButton>
         </div>

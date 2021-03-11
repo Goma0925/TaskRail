@@ -3,12 +3,12 @@ import SubTask from "../../../../models/Subtask";
 import TaskParent from "../../../../models/TaskParent";
 import Workspace from "../../../../models/Workspace";
 
-function getMonday(d: Date) {
+function getPreviousSunday(d: Date) {
     d = new Date(d);
     var day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+        diff = d.getDate() - day; // adjust when day is sunday
     return new Date(d.setDate(diff));
-  }
+}
  
 const taskParentsNum = 3;
 const allTaskParentIds = [...Array(taskParentsNum)].map((_, i)=>i.toString());
@@ -19,12 +19,12 @@ const workspace = new Workspace("My first workspace", allWorkspaceIds[0], allTas
 const taskParents = allTaskParentIds.map(id=>new TaskParent("TaskParent-"+id, id));
 
 // Create subtasks for each task parent.
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const subtasks: SubTask[] = [];
 const allSubtaskIds: string[] = [];
 var subtaskId = 0;
 allTaskParentIds.map((taskParentId, taskParentIndex)=>{
-    const monday = getMonday(new Date());
+    const monday = getPreviousSunday(new Date());
     [...Array(7)].map((_, dayIndex)=>{
         if ((dayIndex + taskParentIndex) % 2 == 0){
             const assignedDate = new Date();

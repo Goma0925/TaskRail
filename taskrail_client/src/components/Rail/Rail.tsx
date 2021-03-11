@@ -13,11 +13,13 @@ import TaskParent from "../../models/TaskParent";
 import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import SubTask from "../../models/Subtask";
+import Subtask from "../../models/Subtask";
+import { getPreviousSunday } from "../../helpers/calendar";
 
 interface RailProps{
     taskParent: TaskParent;
-    // sortedSubtasks: SubTask[];
-    outerContainerWidth: number
+    sortedSubtasks: SubTask[];
+    outerContainerWidth: number;
 }
 
 export default function Rail (props: RailProps) {    
@@ -33,7 +35,45 @@ export default function Rail (props: RailProps) {
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
 
-    const taskParent = props.taskParent;
+    const weekStartDate = getPreviousSunday(props.sortedSubtasks[0].getAssignedDate());
+    console.log("start day", weekStartDate.getDay());
+    
+    //Categorize subtasks by day of week
+    const subtasksByDay:{[day: number]: Subtask[]} = {};
+    var subtaskDay:number;
+    props.sortedSubtasks.map((subtask:Subtask)=>{
+        subtaskDay = subtask.getAssignedDate().getDay();
+        if (!(subtaskDay in subtasksByDay)){
+            subtasksByDay[subtaskDay] = [];
+        }
+        subtasksByDay[subtaskDay].push(subtask);
+    })
+
+    const columnBoxes: ReactNode[] = [];
+    [...Array(7)].map((_, day)=>{
+        const subtasksOfDay = subtasksByDay[day]? subtasksByDay[day]:[];
+        const assignedDate = new Date(weekStartDate.getTime());
+        assignedDate.setDate(weekStartDate.getDate()+day);
+        columnBoxes.push(
+            <ColumnBox key={day} width={subtaskNodeWidth}>
+                {
+                    subtasksOfDay.map((subtask)=>{
+                        const Node = WithSubtaskSkin(TaskNode);
+                        // Construct tasknode here.
+                        return (
+                            <Fragment key={subtask.getId()}>
+                                <Node subtask={subtask} width={subtaskNodeWidth}></Node>
+                            </Fragment>
+                        );
+                    })
+                }
+                <AddSubtaskButton taskParentId={props.taskParent.getId()} assignedDate={assignedDate}></AddSubtaskButton>
+            </ColumnBox>
+        );
+    });
+    
+    
+    
     // const subtaskIdsByDate = useSelector((state:RootState)=>{
     //     return state.taskData.subtasks
     // })
@@ -72,11 +112,11 @@ export default function Rail (props: RailProps) {
                 <TaskNode width={taskParentNodeWidth}></TaskNode>
             </div>
             <div className="subtask-section">
-            {/* {
+            {
                 columnBoxes.map((Col: ReactNode)=>{
                     return Col;
                 })
-            } */}
+            }
             </div>
         </div>
         </>

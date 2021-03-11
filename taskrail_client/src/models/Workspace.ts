@@ -1,13 +1,12 @@
-import TaskParent from "./TaskParent";
-
 export default class Workspace{
     private name: string;
     private id: string;
-    private taskParents: {[id: string]: TaskParent; } = {};
+    private taskParentIds: string[] = [];
 
-    public constructor(name: string, id: string){
+    public constructor(name: string, id: string, taskParentIds?:string[]){
         this.name = name;
         this.id = id;
+        this.taskParentIds = taskParentIds? taskParentIds:[];
     }
     //setters or modifiers
 
@@ -19,19 +18,21 @@ export default class Workspace{
         this.id = id;
     }
 
-    public setTaskParents(taskParents: TaskParent[]){
-        const self = this;
-        taskParents.map((taskParent)=>{
-            self.taskParents[taskParent.getId()] = taskParent;
-        })
+    public setTaskParentIds(taskParentIds: string[]){
+        this.taskParentIds = taskParentIds;
     }
     
-    public addTaskParent(TaskParent: TaskParent){
-        this.taskParents[TaskParent.getId()] = TaskParent;
+    public addTaskParentId(taskParentId: string){
+        this.taskParentIds.push(taskParentId);
     }
 
-    public removeTaskParentById(id: string){
-        delete this.taskParents[id];
+    public removeTaskParentById(taskParentId: string){
+        const index = this.taskParentIds.indexOf(taskParentId);
+        if (index == -1){
+            throw Error("TaskParent with ID '"+taskParentId+"' does not exist on the workspace.")
+        }else{
+            this.taskParentIds.splice(index, 1);
+        }
     }
 
     //getters
@@ -44,11 +45,7 @@ export default class Workspace{
         return this.id;
     }
 
-    public getTaskParents(): {[id: string]: TaskParent; }{
-        return this.taskParents;
-    }
-
-    public getTaskParent(id: string){
-        return this.taskParents[id];
+    public getTaskParentIds(): string[]{
+        return this.taskParentIds;
     }
 }

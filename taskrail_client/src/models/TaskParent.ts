@@ -1,70 +1,68 @@
-import SubTask from "./Subtask";
 export default class TaskParent {
     private name: string;
     private id: string;
-    private parentDeadline: Date;
-    private subtasks: {[id: string]: SubTask} = {}
+    private taskParentDeadline: Date|undefined;
+    private currentFrameSubtaskIds: string[] = [];
 
-    public constructor(name: string, id: string, parentDeadline: Date){
+    public constructor(name: string, id: string, taskParentDeadline?: Date, currentFrameSubtaskIds?: string[]) {
         this.name = name;
         this.id = id;
-        this.parentDeadline = parentDeadline;
+        this.taskParentDeadline = taskParentDeadline;
+        this.currentFrameSubtaskIds = currentFrameSubtaskIds?currentFrameSubtaskIds:[];
     }
     //setters or modifiers
-    public setName(name:string){
+    public setName(name: string) {
         this.name = name;
     }
 
-    public setId(id:string){
+    public setId(id: string) {
         this.id = id;
     }
 
-    public setParentDeadline(parentDeadline:Date){
-        this.parentDeadline = parentDeadline;
+    public setTaskParentDeadline(taskParentDeadline: Date) {
+        this.taskParentDeadline = taskParentDeadline;
     }
 
-    public setSubtasks(subtasks: SubTask[]){
-        const self = this;
-        subtasks.map(subtask=>{
-            if (this.getId()!=subtask.getParentId()){
-                throw Error("Subtask (name='"+subtask.getName()+"' ID="+subtask.getId()+") is being added to a task parent that is not its original parent.")
-            }else{
-                self.subtasks[subtask.getId()] = subtask;
-            }
-        })
+    public setSubtaskIdsToCurrentFrame(subtaskIds: string[]) {
+        this.currentFrameSubtaskIds.concat(subtaskIds);
     }
 
-    public addSubtask(task: SubTask) {
-        if (this.getId()!=task.getParentId()){
-            throw Error("Subtask (name='"+task.getName()+"' ID="+task.getId()+") is being added to a task parent that is not its original parent.")
+    public addSubtaskIdToCurrentFrame(subtaskId: string) {
+        this.currentFrameSubtaskIds.push(subtaskId);
+    }
+
+    public removeSubtaskByIdFromCurrentFrame(subtaskId: string) {
+        const index = this.currentFrameSubtaskIds.indexOf(subtaskId);
+        if (index == -1){
+            throw Error("Subtask with ID '"+subtaskId+"' does not exist on the TaskParent.")
         }else{
-            this.subtasks[task.getId()] = task;
+            this.currentFrameSubtaskIds.splice(index, 1);
         }
+        this.currentFrameSubtaskIds.splice(this.currentFrameSubtaskIds.indexOf(subtaskId), 1);
     }
 
-    public removeSubtaskById(id: string){
-        delete this.subtasks[id];
+    public clearCurrentFrameSubtaskIds(){
+        this.currentFrameSubtaskIds = [];
     }
 
     //getters    
-
-    public getName(){
+    public getName() {
         return this.name;
     }
 
-    public getId(){
+    public getId() {
         return this.id;
     }
 
-    public getParentDeadline(){
-        return this.parentDeadline
+    public getAssignedDate() {
+        return this.taskParentDeadline;
     }
 
-    public getSubtasks(){
-        return this.subtasks;
+    public getSubtaskIdsFromCurrentFrame() {
+        return this.currentFrameSubtaskIds;
     }
 
-    public getSubtask(id: string){
-        return this.subtasks[id];
+    public getSubtask(subtaskId: string) {
+        return this.currentFrameSubtaskIds[this.currentFrameSubtaskIds.indexOf(subtaskId)];
     }
 }
