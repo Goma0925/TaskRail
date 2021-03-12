@@ -15,14 +15,20 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
 {
     const dispatch = useDispatch();
     const wrapperComponent = (props: TaskNodeProps&WithSelectableSubtaskProps) => {
+        const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();
+        console.log("selected", isSelected);
+        
         const onClickSubtask=()=>{
-            console.log("Subtask clicked", props.subtask);
-            dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
+            if (isSelected){
+                dispatch(new SelectItem({type: "NONE", itemId: ""}));
+            }else{
+                dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
+            }
         }
         
         //Check if this node is selected
         var className = "";
-        if (props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId()){
+        if (isSelected){
             className += " selected"
         }
         //Update props
