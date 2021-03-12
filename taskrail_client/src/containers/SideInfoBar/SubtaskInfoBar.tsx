@@ -20,12 +20,12 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     const subtask = props.subtask;
     const title = subtask.getName();
     const deadline = subtask.getSubtaskDeadline();
-    console.log(subtask);
-    const [text, setText] = useState(""); 
-
+    const note = subtask.getNote();
+    const [text, setText] = useState(subtask.getNote());
     const dispatch = useDispatch();
     function handleChange(event: any) { // update this type in future 
         setText(event.target.value);
+        subtask.setNote(event.target.value);
         dispatch(new UpdateSubtask(subtask));
     }
 
@@ -40,7 +40,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
                 <li className="Deadline">Deadline: {deadline?.getMonth()}/ {deadline?.getDate()} / {deadline?.getFullYear()}</li>
                 <li className="Note">Note:</li>
             </ul>
-            <textarea value={text} onChange={handleChange} />
+            <textarea value={note} onChange={handleChange} />
         </div>
     );
 }
