@@ -9,7 +9,7 @@ export function createSubtaskOp(subtaskName: string, taskParentId: string, assig
         const subtaskId = AddSubtask.idCount.toString();
 
         // POST request to create a subtask here
-        const subtask = new SubTask(subtaskName, AddSubtask.idCount.toString(), taskParentId, assignedDate, undefined);
+        const subtask = new SubTask(subtaskName, AddSubtask.idCount.toString(), taskParentId, assignedDate, assignedDate);
     
         // ToDo: Rename CreateSubtask
         store.dispatch(new AddSubtask(subtask));

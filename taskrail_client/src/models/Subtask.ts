@@ -5,10 +5,10 @@ export default class SubTask {
     private assignedDate: Date;
     private taskParentId: string;
 
-    public constructor (name: string,  subtaskId: string, parentId:string, assignedDate: Date, subtaskDeadline?: Date){
+    public constructor (name: string,  subtaskId: string, parentId:string, assignedDate: Date, subtaskDeadline: Date){
         this.name = name;
         this.assignedDate = assignedDate;
-        this.subtaskDeadline = subtaskDeadline? subtaskDeadline: undefined;
+        this.subtaskDeadline = subtaskDeadline;
         this.id = subtaskId;
         this.taskParentId = parentId;
     }

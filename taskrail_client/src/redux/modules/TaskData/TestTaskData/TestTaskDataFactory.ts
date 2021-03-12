@@ -29,7 +29,7 @@ allTaskParentIds.map((taskParentId, taskParentIndex)=>{
         if ((dayIndex + taskParentIndex) % 2 == 0){
             const assignedDate = new Date();
             assignedDate.setDate(monday.getDate() + dayIndex); 
-            subtasks.push(new SubTask("Subtask on "+ days[dayIndex], subtaskId.toString(), taskParentId, assignedDate));
+            subtasks.push(new SubTask("Subtask on "+ days[dayIndex], subtaskId.toString(), taskParentId, assignedDate, assignedDate));
             taskParents[taskParentIndex].addSubtaskIdToCurrentFrame(subtaskId.toString());
             allSubtaskIds.push(subtaskId.toString());
             subtaskId += 1;

@@ -10,7 +10,6 @@ import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
 interface SideInfoBarProps {
-    taskParent: TaskParent;
     subtask: Subtask;
 }
 
@@ -19,7 +18,8 @@ shape as the Props interface object **/
 export function SubtaskInfoBar(props: SideInfoBarProps) {
     // const [text, setText] = useState(props?.text); 
     const subtask = props.subtask;
-    const taskParent = props.taskParent;
+    const title = subtask.getName();
+    const deadline = subtask.getSubtaskDeadline();
     console.log(subtask);
     const [text, setText] = useState(""); 
 
@@ -29,8 +29,17 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         dispatch(new UpdateSubtask(subtask));
     }
 
+
+
     return (
         <div className="sideinfo-bar">
+            <h1 className="Title">
+                {title}
+            </h1>
+            <ul>
+                <li className="Deadline">Deadline: {deadline?.getMonth()}/ {deadline?.getDate()} / {deadline?.getFullYear()}</li>
+                <li className="Note">Note:</li>
+            </ul>
             <textarea value={text} onChange={handleChange} />
         </div>
     );
