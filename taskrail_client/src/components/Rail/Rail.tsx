@@ -12,13 +12,14 @@ import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
 import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
-import SubTask from "../../models/Subtask";
 import Subtask from "../../models/Subtask";
-import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectable/WithSelectableSubtask";
+import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
+import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 
 interface RailProps{
     taskParent: TaskParent;
-    sortedSubtasks: SubTask[];
+    sortedSubtasks: Subtask[];
+    railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
     outerContainerWidth: number;
 }
@@ -62,7 +63,7 @@ export default function Rail (props: RailProps) {
                         // Construct tasknode here.
                         return (
                             <Fragment key={subtask.getId()}>
-                                <Node subtask={subtask} width={subtaskNodeWidth}></Node>
+                                <Node subtask={subtask} width={subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
                             </Fragment>
                         );
                     })

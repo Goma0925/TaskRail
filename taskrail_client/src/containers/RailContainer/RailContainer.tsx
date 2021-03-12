@@ -8,12 +8,13 @@ import TaskParent from "../../models/TaskParent";
 import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
 
 const RailContainer: React.FC = () => {
-    // var taskParents:{[id: string]: TaskParent } = {};
     const taskParentIds = useSelector((state: RootState)=> state.taskData.taskParents.allIds);
     const taskParentsById = useSelector((state: RootState)=> state.taskData.taskParents.byId);
     const subtasksById = useSelector((state:RootState)=>{
         return state.taskData.subtasks.byId;
     });
+
+    const railUiSelection = useSelector((state: RootState)=>state.railUi.selection);
 
     const displayRangeStartDate = useSelector((state:RootState)=>state.railUi.displayRangeStartDate);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
@@ -29,6 +30,7 @@ const RailContainer: React.FC = () => {
                             <Rail 
                                 taskParent={taskParentsById[id]} 
                                 sortedSubtasks={sortedSubtasks}
+                                railUiSelection={railUiSelection}
                                 displayRangeStartDate={displayRangeStartDate}
                                 outerContainerWidth={railUiWidth}
                                 key={id}

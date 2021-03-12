@@ -1,0 +1,4 @@
+.selected{
+    box-shadow: 5px 5px 10px;
+    transform: scale(1.1);
+}
