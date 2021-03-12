@@ -2,3 +2,29 @@
     box-shadow: 5px 5px 10px;
     transform: scale(1.1);
 }
+
+.hide{
+    display: none;
+}
+
+a.delete {
+    text-decoration: none;
+    float: right;
+    margin-top: -10px;
+    margin-left: auto;
+    margin-right: -10px;
+    cursor: pointer;
+    color: #fff;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #605F61;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 0px;
+    padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 8px;
+    padding-left: 1px;
+    content: "x";
+    z-index: -1;
+}

@@ -38,7 +38,6 @@ export default class TaskParent {
         }else{
             this.currentFrameSubtaskIds.splice(index, 1);
         }
-        this.currentFrameSubtaskIds.splice(this.currentFrameSubtaskIds.indexOf(subtaskId), 1);
     }
 
     public clearCurrentFrameSubtaskIds(){

@@ -1,19 +1,23 @@
 import TaskParent from "../../../models/TaskParent";
-import { AddTaskParent } from "./TaskDataActions";
+import { AddTaskParent, DeleteSubtask } from "./TaskDataActions";
 import store from "../../store";
 import {AddSubtask} from "./TaskDataActions";
 import SubTask from "../../../models/Subtask";
 
 export function createSubtaskOp(subtaskName: string, taskParentId: string, assignedDate: Date){
-        // This method will be overwritten once we have API.
-        const subtaskId = AddSubtask.idCount.toString();
+    // This method will be overwritten once we have API.
+    const subtaskId = AddSubtask.idCount.toString();
 
-        // POST request to create a subtask here
-        const subtask = new SubTask(subtaskName, AddSubtask.idCount.toString(), taskParentId, assignedDate, assignedDate);
-    
-        // ToDo: Rename CreateSubtask
-        store.dispatch(new AddSubtask(subtask));
-        return subtask;
+    // POST request to create a subtask here
+    const subtask = new SubTask(subtaskName, AddSubtask.idCount.toString(), taskParentId, assignedDate, assignedDate);
+
+    // ToDo: Rename CreateSubtask
+    store.dispatch(new AddSubtask(subtask));
+    return subtask;
+}
+
+export function deleteSubtaskOp(subtaskId: string){
+    store.dispatch(new DeleteSubtask(subtaskId));
 }
 
 export function createTaskParentOp(title: string){

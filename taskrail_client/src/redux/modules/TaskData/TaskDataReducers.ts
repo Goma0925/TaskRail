@@ -53,8 +53,20 @@ function taskDataReducer(
                 draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
                 // Add subtask instance and ID to the subtask store.
                 draftState.subtasks.byId[subtask.getId()] = subtask;
+
+                // ToDo the ID has to be inserted at the right location.
                 draftState.subtasks.allIds.push(subtask.getId());
             });
+        case Actions.DeleteSubtask.type:
+            var subtaskId = (<Actions.DeleteSubtask>action).subtaskId;
+            var taskParentId = state.subtasks.byId[subtaskId].getParentId();
+            return produce(state, draftState=>{
+                // Delete subtask from the subtask table
+                draftState.subtasks.allIds.splice(draftState.subtasks.allIds.indexOf(subtaskId), 1);
+                delete draftState.subtasks.byId[subtaskId];
+                // Delete subtask ID from task parent table.
+                draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+            })
         case Actions.AddTaskParent.type:
             var taskParent = (<Actions.AddTaskParent>action).taskParent;
             var taskParentId = taskParent.getId();

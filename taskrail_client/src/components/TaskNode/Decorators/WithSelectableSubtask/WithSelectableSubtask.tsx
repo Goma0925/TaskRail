@@ -5,6 +5,7 @@ import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
 import { useDispatch, useSelector } from "react-redux";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
 import "./WithSelectableSubtask.css";
+import { deleteSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 
 interface WithSelectableSubtaskProps{
     subtask: SubTask;
@@ -16,7 +17,6 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
     const dispatch = useDispatch();
     const wrapperComponent = (props: TaskNodeProps&WithSelectableSubtaskProps) => {
         const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();
-        console.log("selected", isSelected);
         
         const onClickSubtask=()=>{
             if (isSelected){
@@ -24,6 +24,10 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
             }else{
                 dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
             }
+        }
+        const deleteSubtask=(e: React.MouseEvent)=>{
+            e.preventDefault();
+            deleteSubtaskOp(props.subtask.getId());
         }
         
         //Check if this node is selected
@@ -39,9 +43,13 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
             draftProps.className = className;
             draftProps.className += props.className? props.className: "";
         });
+
+        var deleteButtonClass = "delete";
+        deleteButtonClass += isSelected?"": " hide";
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
+                <a className={deleteButtonClass} onClick={deleteSubtask}>×</a>
             </NodeToDecorate>
         )
     }

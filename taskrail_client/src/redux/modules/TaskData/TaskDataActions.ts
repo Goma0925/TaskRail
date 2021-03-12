@@ -18,6 +18,16 @@ export class AddSubtask implements ReduxAction{
     }
 }
 
+export class DeleteSubtask implements ReduxAction {
+    static type  = "DeleteSubtask";
+    type: string;
+    subtaskId: string;
+    constructor(subtaskId: string){
+        this.type = DeleteSubtask.type;
+        this.subtaskId = subtaskId;
+    }
+}
+
 export class AddTaskParent implements ReduxAction{
     static idCount = 101;
     static type = "AddTaskParent";
