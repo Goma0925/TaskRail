@@ -48,4 +48,9 @@ export default class Workspace{
     public getTaskParentIds(): string[]{
         return this.taskParentIds;
     };
+
+    public getCopy(){
+        const newWorkspace = new Workspace(this.name, this.id, this.taskParentIds);
+        return newWorkspace;
+    }
 }

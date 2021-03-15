@@ -24,14 +24,16 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     const [text, setText] = useState(subtask.getNote());
     const dispatch = useDispatch();
     const [month, day, year] = [deadline?.getMonth(), deadline?.getDate(), deadline?.getFullYear()];
-    const deadline_str = year?.toString() + "-" + month?.toString() + "-" + day?.toString();
-    console.log(deadline_str);
+    const deadline_str:string = year?.toString() + "-" + month?.toString() + "-" + day?.toString();
+    console.log(typeof deadline_str, deadline_str);
     function handleChange(event: any) { // update this type in future 
         setText(event.target.value);
         subtask.setNote(event.target.value);
-        dispatch(new UpdateSubtask(subtask));
+        dispatch(new UpdateSubtask(subtask.getCopy()));
     }
-
+    function handleDateChange(event: any){
+        
+    }
 
 
     return (
@@ -41,7 +43,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
             </h1>
             <ul>
                 <li className="Deadline">Deadline: 
-                    <input type="date" className="Date Input" value={deadline_str}/>
+                    <input type="date" className="Date Input" value={deadline_str} onChange={handleDateChange}/>
                 </li>
                 <li className="Note">Note:</li>
             </ul>

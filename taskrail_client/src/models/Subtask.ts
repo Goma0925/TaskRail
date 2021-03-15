@@ -1,7 +1,7 @@
 export default class SubTask {
     private name: string;
     private id: string;
-    private subtaskDeadline: Date|undefined;
+    private subtaskDeadline: Date;
     private assignedDate: Date;
     private taskParentId: string;
     private note: string;
@@ -58,5 +58,10 @@ export default class SubTask {
 
     public getSubtaskDeadline(){
         return this.subtaskDeadline;
+    }
+
+    public getCopy(){
+        const newSubtask = new SubTask(this.name, this.id, this.taskParentId, this.assignedDate, this.subtaskDeadline, this.note);
+        return newSubtask;
     }
 }
