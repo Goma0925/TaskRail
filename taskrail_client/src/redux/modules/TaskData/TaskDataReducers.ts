@@ -53,7 +53,6 @@ function taskDataReducer(
                 draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
                 // Add subtask instance and ID to the subtask store.
                 draftState.subtasks.byId[subtask.getId()] = subtask;
-
                 // ToDo the ID has to be inserted at the right location.
                 draftState.subtasks.allIds.push(subtask.getId());
             });
@@ -72,7 +71,7 @@ function taskDataReducer(
             var taskParentId = taskParent.getId();
             return produce(state, (draftState:TaskDataState)=>{
                 // Add task parent to the workspace store
-                draftState.workspace.currentWorkspace?.addTaskParentId(taskParentId);
+                draftState.workspace.currentWorkspace?.setTaskParentIds(draftState.workspace.currentWorkspace?.getTaskParentIds().concat([taskParentId]));
                 // Add task parent ID and instances to the task parent store
                 draftState.taskParents.byId[taskParentId] = taskParent;
                 draftState.taskParents.allIds.push(taskParentId);

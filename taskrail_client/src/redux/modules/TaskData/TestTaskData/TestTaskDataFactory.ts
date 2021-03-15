@@ -13,6 +13,7 @@ function getPreviousSunday(d: Date) {
 const taskParentsNum = 3;
 const allTaskParentIds = [...Array(taskParentsNum)].map((_, i)=>i.toString());
 
+
 const allWorkspaceIds = ["WS-1"];
 const workspace = new Workspace("My first workspace", allWorkspaceIds[0], allTaskParentIds);
 
@@ -45,6 +46,6 @@ taskParents.map(taskParent=>{
 const subtaskbyId:{[subtask: string]: SubTask}  = {};
 subtasks.map(subtask=>{
     subtaskbyId[subtask.getId()] = subtask;
-})
+});
 
 export default {workspace, allWorkspaceIds, taskParentById, allTaskParentIds, subtaskbyId, allSubtaskIds};
