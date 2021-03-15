@@ -23,6 +23,9 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     const note = subtask.getNote();
     const [text, setText] = useState(subtask.getNote());
     const dispatch = useDispatch();
+    const [month, day, year] = [deadline?.getMonth(), deadline?.getDate(), deadline?.getFullYear()];
+    const deadline_str = year?.toString() + "-" + month?.toString() + "-" + day?.toString();
+    console.log(deadline_str);
     function handleChange(event: any) { // update this type in future 
         setText(event.target.value);
         subtask.setNote(event.target.value);
@@ -37,7 +40,9 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
                 {title}
             </h1>
             <ul>
-                <li className="Deadline">Deadline: {deadline?.getMonth()}/ {deadline?.getDate()} / {deadline?.getFullYear()}</li>
+                <li className="Deadline">Deadline: 
+                    <input type="date" className="Date Input" value={deadline_str}/>
+                </li>
                 <li className="Note">Note:</li>
             </ul>
             <textarea value={note} onChange={handleChange} />
