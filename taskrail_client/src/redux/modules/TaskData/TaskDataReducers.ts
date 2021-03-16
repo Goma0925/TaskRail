@@ -75,7 +75,14 @@ function taskDataReducer(
                 // Add task parent ID and instances to the task parent store
                 draftState.taskParents.byId[taskParentId] = taskParent;
                 draftState.taskParents.allIds.push(taskParentId);
-            })
+            });
+        case Actions.DeleteSubtask.type:
+            var taskParentId = (<Actions.DeleteTaskParent>action).taskParentId;
+            return produce(state, (draftState: TaskDataState)=>{
+                draftState.taskParents.allIds.splice(draftState.taskParents.allIds.indexOf(taskParentId), 1);
+                delete draftState.taskParents.byId[taskParentId];
+                draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+            });
         case Actions.UpdateSubtask.type:
             var subtask = (<Actions.UpdateSubtask>action).subtask;
             return produce(state, (draftState:TaskDataState)=>{

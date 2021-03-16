@@ -39,6 +39,16 @@ export class AddTaskParent implements ReduxAction{
     }
 }
 
+export class DeleteTaskParent implements ReduxAction{
+    static type = "DeleteTaskParent";
+    type: string;
+    taskParentId: string;
+    constructor(taskParentId: string){
+        this.type = DeleteSubtask.type;
+        this.taskParentId = taskParentId;
+    }
+}
+
 export class UpdateSubtask implements ReduxAction{
     static type = "UpdateSubtask";
     type:string;
