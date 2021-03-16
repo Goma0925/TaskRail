@@ -6,6 +6,7 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
+import DatePicker from "react-datepicker";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -19,22 +20,31 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     // const [text, setText] = useState(props?.text); 
     const subtask = props.subtask;
     const title = subtask.getName();
-    const deadline = subtask.getSubtaskDeadline();
+    let deadline = subtask.getSubtaskDeadline();
     const note = subtask.getNote();
-    const [text, setText] = useState(subtask.getNote());
+    let [new_deadline, set_new_deadline] = useState(return_date_str(deadline));
+    const [noteText, setNoteText] = useState(note);
     const dispatch = useDispatch();
-    const [month, day, year] = [deadline?.getMonth(), deadline?.getDate(), deadline?.getFullYear()];
-    const deadline_str:string = year?.toString() + "-" + month?.toString() + "-" + day?.toString();
-    console.log(typeof deadline_str, deadline_str);
-    function handleChange(event: any) { // update this type in future 
-        setText(event.target.value);
-        subtask.setNote(event.target.value);
-        dispatch(new UpdateSubtask(subtask.getCopy()));
+    function return_date_str(date: Date){
+        let [month, day, year] = [(0 + date.getMonth().toString()).slice(-2), (0 + date.getDate().toString()).slice(-2), date.getFullYear()];
+        return year + "-" + month + "-" + day;
     }
-    function handleDateChange(event: any){
-        
+    function handleNoteChange(event: any) { // update this type in future 
+        let updatedSubtask = subtask.getCopy();
+        updatedSubtask.setNote(event.target.value);
+        dispatch(new UpdateSubtask(updatedSubtask));
     }
+    function handleDateChange(event:any){
+        set_new_deadline(event.target.value);
+        let date_obj = new Date(event.target.value);
+        date_obj.setDate(date_obj.getDate() + 1); //odd bug that does one day less when converting the string to date, so I'm adding a day
+        let updatedSubtask = subtask.getCopy();
+        updatedSubtask.setSubtaskDeadline(date_obj);
+        dispatch(new UpdateSubtask(updatedSubtask));
+    }
+    function handleTitleChange(event:any){
 
+    }
 
     return (
         <div className="sideinfo-bar">
@@ -43,11 +53,11 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
             </h1>
             <ul>
                 <li className="Deadline">Deadline: 
-                    <input type="date" className="Date Input" value={deadline_str} onChange={handleDateChange}/>
+                    <input type="date" value={new_deadline} onChange={handleDateChange} />
                 </li>
                 <li className="Note">Note:</li>
             </ul>
-            <textarea value={note} onChange={handleChange} />
+            <textarea value={note} onChange={handleNoteChange} />
         </div>
     );
 }
