@@ -24,6 +24,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     const note = subtask.getNote();
     let [new_deadline, set_new_deadline] = useState(return_date_str(deadline));
     const [noteText, setNoteText] = useState(note);
+    const [titleText, setTitleText] = useState(title);
     const dispatch = useDispatch();
     function return_date_str(date: Date){
         let [month, day, year] = [(0 + date.getMonth().toString()).slice(-2), (0 + date.getDate().toString()).slice(-2), date.getFullYear()];
@@ -38,22 +39,21 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         set_new_deadline(event.target.value);
         let date_obj = new Date(event.target.value);
         date_obj.setDate(date_obj.getDate() + 1); //odd bug that does one day less when converting the string to date, so I'm adding a day
+        date_obj.setMonth(date_obj.getMonth() + 1);
         let updatedSubtask = subtask.getCopy();
         updatedSubtask.setSubtaskDeadline(date_obj);
         dispatch(new UpdateSubtask(updatedSubtask));
     }
     function handleTitleChange(event:any){
-
+        
     }
 
     return (
         <div className="sideinfo-bar">
-            <h1 className="Title">
-                {title}
-            </h1>
+            <input type="text" value={title} onChange={handleTitleChange}/>
             <ul>
                 <li className="Deadline">Deadline: 
-                    <input type="date" value={new_deadline} onChange={handleDateChange} />
+                    <input type="date" value={return_date_str(deadline)} onChange={handleDateChange} />
                 </li>
                 <li className="Note">Note:</li>
             </ul>
