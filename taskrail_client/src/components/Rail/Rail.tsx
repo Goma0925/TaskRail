@@ -15,6 +15,7 @@ import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import Subtask from "../../models/Subtask";
 import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
+import WithSelectableTaskParent from "../TaskNode/Decorators/WithSelectableTaskParent/WithTaskParent";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -32,7 +33,6 @@ export default function Rail (props: RailProps) {
     const minSubtaskNodeWidth = 100;
 
     const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
-    
     const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
     
     dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
@@ -41,7 +41,7 @@ export default function Rail (props: RailProps) {
     
     //Categorize subtasks by day of week
     const subtasksByDay:{[day: number]: Subtask[]} = {};
-    var subtaskDay:number;
+    var subtaskDay:number;//Sunday=0
     props.sortedSubtasks.map((subtask:Subtask)=>{
         subtaskDay = subtask.getAssignedDate().getDay();
         if (!(subtaskDay in subtasksByDay)){
@@ -60,7 +60,7 @@ export default function Rail (props: RailProps) {
                 {
                     subtasksOfDay.map((subtask)=>{
                         const Node = WithSelectableSubtask(WithSubtaskSkin(TaskNode));
-                        // Construct tasknode here.
+                        // Construct subtask tasknode here.
                         return (
                             <Fragment key={subtask.getId()}>
                                 <Node subtask={subtask} width={subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
@@ -73,6 +73,7 @@ export default function Rail (props: RailProps) {
         );
     });
     
+    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     return (
         <>
         <div 
@@ -80,7 +81,7 @@ export default function Rail (props: RailProps) {
         >
             <div className="task-parent-section" style={{width: taskParentNodeWidth}}>
                 {/* Render task parent node here */}
-                <TaskNode width={taskParentNodeWidth}></TaskNode>
+                <TaskParentNode taskParent={props.taskParent} railUiSelection={props.railUiSelection} width={taskParentNodeWidth}></TaskParentNode>
             </div>
             <div className="subtask-section">
             {

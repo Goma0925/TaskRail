@@ -64,4 +64,9 @@ export default class TaskParent {
     public getSubtask(subtaskId: string) {
         return this.currentFrameSubtaskIds[this.currentFrameSubtaskIds.indexOf(subtaskId)];
     }
+
+    public getCopy(){
+        const newTaskParent = new TaskParent(this.name, this.id, this.taskParentDeadline, this.currentFrameSubtaskIds);
+        return newTaskParent;
+    }
 }

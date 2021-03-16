@@ -19,33 +19,44 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     // const [text, setText] = useState(props?.text); 
     const subtask = props.subtask;
     const title = subtask.getName();
-    const deadline = subtask.getSubtaskDeadline();
+    let deadline = subtask.getSubtaskDeadline();
     const note = subtask.getNote();
-    const [text, setText] = useState(subtask.getNote());
+    let [new_deadline, set_new_deadline] = useState(return_date_str(deadline));
+    const [noteText, setNoteText] = useState(note);
+    const [titleText, setTitleText] = useState(title);
     const dispatch = useDispatch();
-    const [month, day, year] = [deadline?.getMonth(), deadline?.getDate(), deadline?.getFullYear()];
-    const deadline_str = year?.toString() + "-" + month?.toString() + "-" + day?.toString();
-    console.log(deadline_str);
-    function handleChange(event: any) { // update this type in future 
-        setText(event.target.value);
-        subtask.setNote(event.target.value);
-        dispatch(new UpdateSubtask(subtask));
+    function return_date_str(date: Date){
+        let [month, day, year] = [(0 + date.getMonth().toString()).slice(-2), (0 + date.getDate().toString()).slice(-2), date.getFullYear()];
+        return year + "-" + month + "-" + day;
     }
-
-
+    function handleNoteChange(event: any) { // update this type in future 
+        let updatedSubtask = subtask.getCopy();
+        updatedSubtask.setNote(event.target.value);
+        dispatch(new UpdateSubtask(updatedSubtask));
+    }
+    function handleDateChange(event:any){
+        set_new_deadline(event.target.value);
+        let date_obj = new Date(event.target.value);
+        date_obj.setDate(date_obj.getDate() + 1); //odd bug that does one day less when converting the string to date, so I'm adding a day
+        date_obj.setMonth(date_obj.getMonth() + 1);
+        let updatedSubtask = subtask.getCopy();
+        updatedSubtask.setSubtaskDeadline(date_obj);
+        dispatch(new UpdateSubtask(updatedSubtask));
+    }
+    function handleTitleChange(event:any){
+        
+    }
 
     return (
         <div className="sideinfo-bar">
-            <h1 className="Title">
-                {title}
-            </h1>
+            <input type="text" value={title} onChange={handleTitleChange}/>
             <ul>
                 <li className="Deadline">Deadline: 
-                    <input type="date" className="Date Input" value={deadline_str}/>
+                    <input type="date" value={return_date_str(deadline)} onChange={handleDateChange} />
                 </li>
                 <li className="Note">Note:</li>
             </ul>
-            <textarea value={note} onChange={handleChange} />
+            <textarea value={note} onChange={handleNoteChange} />
         </div>
     );
 }
