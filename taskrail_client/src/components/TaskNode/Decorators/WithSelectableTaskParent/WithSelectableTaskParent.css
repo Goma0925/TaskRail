@@ -28,3 +28,18 @@ a.delete {
     content: "x";
     z-index: -1;
 }
+
+.task-parent {
+    border: black;
+    border-style: solid;
+    border-width: medium;
+    background-color: #E00400;
+    border-radius: 20px;
+}
+
+.task-parent-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 25px;
+}
