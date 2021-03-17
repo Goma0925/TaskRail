@@ -1,11 +1,10 @@
 import "./Rail.css";
-import React, {createRef, ReactNode, useEffect, useRef, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {RootState} from "../../redux/store";
+import {ReactNode, useEffect} from "react";
+import {useDispatch} from "react-redux";
 
 import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
 
-import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
+import TaskNode from "../TaskNode/TaskNode";
 import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
@@ -36,8 +35,6 @@ export default function Rail (props: RailProps) {
     const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
     const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
     
-    dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
-
     const displayRangeStartDate = props.displayRangeStartDate;
     
     //Categorize subtasks by day of week
@@ -73,7 +70,12 @@ export default function Rail (props: RailProps) {
             </ColumnBox>
         );
     });
-    
+
+    useEffect(()=>{
+        dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
+    });
+
+    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     return (
         <>
         <div 

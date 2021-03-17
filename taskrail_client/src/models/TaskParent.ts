@@ -1,12 +1,14 @@
 export default class TaskParent {
     private name: string;
     private id: string;
+    private note: string;
     private taskParentDeadline: Date|undefined;
     private currentFrameSubtaskIds: string[] = [];
 
-    public constructor(name: string, id: string, taskParentDeadline?: Date, currentFrameSubtaskIds?: string[]) {
+    public constructor(name: string, id: string, taskParentDeadline?: Date, currentFrameSubtaskIds?: string[], note?: string) {
         this.name = name;
         this.id = id;
+        this.note = note? note: "";
         this.taskParentDeadline = taskParentDeadline;
         this.currentFrameSubtaskIds = currentFrameSubtaskIds?currentFrameSubtaskIds:[];
     }
@@ -17,6 +19,10 @@ export default class TaskParent {
 
     public setId(id: string) {
         this.id = id;
+    }
+
+    public setNote(note: string){
+        this.note = note;
     }
 
     public setTaskParentDeadline(taskParentDeadline: Date) {
@@ -53,7 +59,15 @@ export default class TaskParent {
         return this.id;
     }
 
+    public getNote(){
+        return this.note;
+    }
+
     public getAssignedDate() {
+        return this.taskParentDeadline;
+    }
+
+    public getDeadline(){
         return this.taskParentDeadline;
     }
 
@@ -66,7 +80,7 @@ export default class TaskParent {
     }
 
     public getCopy(){
-        const newTaskParent = new TaskParent(this.name, this.id, this.taskParentDeadline, this.currentFrameSubtaskIds);
+        const newTaskParent = new TaskParent(this.name, this.id, this.taskParentDeadline, this.currentFrameSubtaskIds, this.note);
         return newTaskParent;
     }
 }

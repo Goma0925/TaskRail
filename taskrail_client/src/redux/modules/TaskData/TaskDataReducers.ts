@@ -65,6 +65,11 @@ function taskDataReducer(
                 delete draftState.subtasks.byId[subtaskId];
                 // Delete subtask ID from task parent table.
                 draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+            });
+        case Actions.UpdateSubtask.type:
+            var subtask = (<Actions.UpdateSubtask>action).subtask;
+            return produce(state, (draftState:TaskDataState)=>{
+                draftState.subtasks.byId[subtask.getId()] = subtask;
             })
         case Actions.AddTaskParent.type:
             var taskParent = (<Actions.AddTaskParent>action).taskParent;
@@ -76,18 +81,11 @@ function taskDataReducer(
                 draftState.taskParents.byId[taskParentId] = taskParent;
                 draftState.taskParents.allIds.push(taskParentId);
             });
-        case Actions.DeleteSubtask.type:
-            var taskParentId = (<Actions.DeleteTaskParent>action).taskParentId;
-            return produce(state, (draftState: TaskDataState)=>{
-                draftState.taskParents.allIds.splice(draftState.taskParents.allIds.indexOf(taskParentId), 1);
-                delete draftState.taskParents.byId[taskParentId];
-                draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
-            });
-        case Actions.UpdateSubtask.type:
-            var subtask = (<Actions.UpdateSubtask>action).subtask;
+        case Actions.UpdateTaskParent.type:
+            var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
             return produce(state, (draftState:TaskDataState)=>{
-                draftState.subtasks.byId[subtask.getId()] = subtask;
-            })
+                draftState.taskParents.byId[taskParent.getId()] = taskParent;
+            });
         default:
           return state
       }
