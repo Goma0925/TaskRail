@@ -7,11 +7,6 @@ interface BackgroundWeekCalendarProps{
 }
 
 export default function BackgroundWeekCalendar(props: BackgroundWeekCalendarProps){
-    const leftColWidth = 100;
-    const dateColWidth = 100;
-    const [minRailWidth, setMinRailWidth] = useState(dateColWidth*7 + leftColWidth);
-
-    const subtasks = [{}, {}, {}, {}];    
     return (
     <div className="background-week-calendar">
         {
