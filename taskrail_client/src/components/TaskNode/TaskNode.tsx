@@ -12,7 +12,6 @@ export interface TaskNodeProps {
 const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {  
     var className = "node";
     className += props.className? " " + props.className: "";
-    console.log(className);
     
     // Accumulate all the even handler functions passed in.
     const onClickHandlers:((event:React.MouseEvent) => void | (()=>{}))[] = [];

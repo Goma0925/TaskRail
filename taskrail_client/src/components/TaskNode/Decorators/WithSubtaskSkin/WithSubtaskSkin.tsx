@@ -15,7 +15,6 @@ export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<Task
             draftProps.className = "subtask-skin";
             draftProps.className += props.className? props.className: "";
         })
-        console.log("in WithSubtaskSkin", newProps);
         
         return (
             <NodeToDecorate {...newProps}>
