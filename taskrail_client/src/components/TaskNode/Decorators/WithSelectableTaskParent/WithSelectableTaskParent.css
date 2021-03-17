@@ -34,7 +34,7 @@ a.delete {
     border-style: solid;
     border-width: medium;
     background-color: #E00400;
-    border-radius: 20px;
+    /* border-radius: 20px; */
 }
 
 .task-parent-section {
