@@ -4,7 +4,6 @@ import Rail from "../../components/Rail/Rail";
 import BackgroundWeekCalendar from "../../components/BackgroundWeekCalendar/BackgroundWeekCalendar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store"
-import TaskParent from "../../models/TaskParent";
 import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
 
 const RailContainer: React.FC = () => {
@@ -17,10 +16,13 @@ const RailContainer: React.FC = () => {
     const railUiSelection = useSelector((state: RootState)=>state.railUi.selection);
 
     const displayRangeStartDate = useSelector((state:RootState)=>state.railUi.displayRangeStartDate);
-    const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
+    const railUi = useSelector((state:RootState)=>state.railUi);
     return (
         <div className="rail-container">
-            <BackgroundWeekCalendar/>
+            <BackgroundWeekCalendar 
+                subtaskNodeWidth={railUi.subtaskNodeWidth}
+                displayRangeStartDate={displayRangeStartDate}
+            />
             {   
                 taskParentIds.map((id)=>{
                     const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
@@ -32,7 +34,7 @@ const RailContainer: React.FC = () => {
                                 sortedSubtasks={sortedSubtasks}
                                 railUiSelection={railUiSelection}
                                 displayRangeStartDate={displayRangeStartDate}
-                                outerContainerWidth={railUiWidth}
+                                outerContainerWidth={railUi.railUiWidth}
                                 key={id}
                             ></Rail> 
                         </Fragment>
