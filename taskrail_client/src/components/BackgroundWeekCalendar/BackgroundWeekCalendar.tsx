@@ -17,7 +17,11 @@ export default function BackgroundWeekCalendar(props: BackgroundWeekCalendarProp
         {
             [...Array(7)].map((_, i)=>{                              
                 const xPosition = props.subtaskNodeWidth*i;
-               return <div className="calendar-divider" style={{right:xPosition}}></div>          
+               return <div 
+                        key={i}
+                        className="calendar-divider" 
+                        style={{right:xPosition}}
+                        />
             })
         }
     </div>

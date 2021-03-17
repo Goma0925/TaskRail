@@ -32,5 +32,4 @@ export default function SideInfoBarContainer() {
         return(
             <div>{SideInfoBarContent}</div>
         )
-    // }
 }
