@@ -1,5 +1,5 @@
 import TaskParent from "../../../models/TaskParent";
-import { AddTaskParent, DeleteSubtask, DeleteTaskParent } from "./TaskDataActions";
+import { AddTaskParent, DeleteSubtask, DeleteTaskParent, UpdateTaskParent } from "./TaskDataActions";
 import store from "../../store";
 import {AddSubtask} from "./TaskDataActions";
 import SubTask from "../../../models/Subtask";
@@ -36,4 +36,8 @@ export function createTaskParentOp(title: string){
 
 export function deleteTaskParentOp(taskParentId: string){
     store.dispatch(new DeleteTaskParent(taskParentId));
+}
+
+export function updateTaskParentOp(taskParent: TaskParent){
+    store.dispatch(new UpdateTaskParent(taskParent));
 }

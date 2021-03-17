@@ -1,48 +1,36 @@
+import React from "react";
 import { useSelector } from "react-redux";
-import Subtask from "../../models/Subtask";
-import TaskParent from "../../models/TaskParent";
 import { RootState } from "../../redux/store";
 import SubtaskInfoBar from "./SubtaskInfoBar";
+import TaskParentInfoBar from "./TaskParentInfoBar";
 
 export default function SideInfoBarContainer() {
     const [selectionType, itemId] = useSelector((state:RootState)=>{
         return [state.railUi.selection.type, state.railUi.selection.itemId];
     })
-    // switch(selectionType){
-    //     case "SUBTASK":
-    //         return (
-    //             <SubtaskInfoBar></SubtaskInfoBar>
-    //         )
-    //     break;
-    // }
-        // const taskParents = useSelector((state:RootState)=>{
-        //     return state.taskData.currentWorkspace?.getTaskParent()
-        // })
-    var subtask_obj = useSelector((state:RootState)=>{
-        return state.taskData.subtasks.byId[itemId];
-    })
-    var Subtask:React.ReactNode;
+
+    const subtask = useSelector((state:RootState)=>state.taskData.subtasks.byId[itemId]);
+    const taskParent = useSelector((state: RootState)=>state.taskData.taskParents.byId[itemId]);
+    var SideInfoBarContent:React.ReactNode;
     switch (selectionType){
         case "SUBTASK":
-            Subtask = <SubtaskInfoBar subtask={subtask_obj}/>
+            SideInfoBarContent = <SubtaskInfoBar subtask={subtask}/>
             break;
         case "TASKPARENT":
-            Subtask = <div>
-                <h1>TaskParent Side Bar</h1>
-            </div>
+            SideInfoBarContent = <TaskParentInfoBar taskParent={taskParent}></TaskParentInfoBar>
             break;
         case "NONE":
-            Subtask = <div>
+            SideInfoBarContent = <div>
                 <h1>None Side Bar</h1>
             </div>;
             break;
         default:
-            Subtask = <div>
+            SideInfoBarContent = <div>
                 <h1>Default Side Bar</h1>
             </div>
     }
         return(
-            <div>{Subtask}</div>
+            <div>{SideInfoBarContent}</div>
         )
     // }
 }
