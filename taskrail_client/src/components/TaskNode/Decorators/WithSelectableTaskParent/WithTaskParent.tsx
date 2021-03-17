@@ -7,7 +7,7 @@ import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataO
 import TaskParent from "../../../../models/TaskParent";
 import "./WithSelectableTaskParent.css";
 
-interface WithSelectableTaskParentProps{
+export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
     railUiSelection: RailUiSelection;
 }

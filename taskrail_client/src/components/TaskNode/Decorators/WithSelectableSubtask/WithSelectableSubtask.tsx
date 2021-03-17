@@ -7,7 +7,7 @@ import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers
 import "./WithSelectableSubtask.css";
 import { deleteSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 
-interface WithSelectableSubtaskProps{
+export interface WithSelectableSubtaskProps{
     subtask: SubTask;
     railUiSelection: RailUiSelection;
 }

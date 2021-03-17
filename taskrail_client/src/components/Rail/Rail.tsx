@@ -16,6 +16,7 @@ import Subtask from "../../models/Subtask";
 import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 import WithSelectableTaskParent from "../TaskNode/Decorators/WithSelectableTaskParent/WithTaskParent";
+import TaskParentNode from "../TaskNode/TaskParentNode";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -73,7 +74,6 @@ export default function Rail (props: RailProps) {
         );
     });
     
-    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     return (
         <>
         <div 

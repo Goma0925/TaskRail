@@ -14,8 +14,9 @@ export default function BackgroundWeekCalendar(){
     return (
     <div className="background-week-calendar">
         {
-            [...Array(7)].map((_, i)=>{                
-                // return <div className="date-divider" style={{right: props.dateColWidth*i}}/>
+            [...Array(7)].map((_, i)=>{                              
+                const xPosition = 100*i;
+               return <div className="calendar-divider" style={{right:xPosition}}></div>          
             })
         }
     </div>

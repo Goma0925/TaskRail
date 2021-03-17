@@ -19,27 +19,29 @@ const RailContainer: React.FC = () => {
     const displayRangeStartDate = useSelector((state:RootState)=>state.railUi.displayRangeStartDate);
     const railUiWidth = useSelector((state:RootState)=>state.railUi.railUiWidth)
     return (
-        <div className="rail-container">
+        <div className="rail-view-panel">
             <BackgroundWeekCalendar/>
-            {   
-                taskParentIds.map((id)=>{
-                    const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
-                    const sortedSubtasks = currentFrameSubtaskIds.map(id=>subtasksById[id]);
-                    return (
-                        <Fragment key={id}>
-                            <Rail 
-                                taskParent={taskParentsById[id]} 
-                                sortedSubtasks={sortedSubtasks}
-                                railUiSelection={railUiSelection}
-                                displayRangeStartDate={displayRangeStartDate}
-                                outerContainerWidth={railUiWidth}
-                                key={id}
-                            ></Rail> 
-                        </Fragment>
-                    );
-                })
-            }
-            <AddTaskParentButton></AddTaskParentButton>
+            <div className="rail-container">
+                {   
+                    taskParentIds.map((id)=>{
+                        const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
+                        const sortedSubtasks = currentFrameSubtaskIds.map(id=>subtasksById[id]);
+                        return (
+                            <Fragment key={id}>
+                                <Rail 
+                                    taskParent={taskParentsById[id]} 
+                                    sortedSubtasks={sortedSubtasks}
+                                    railUiSelection={railUiSelection}
+                                    displayRangeStartDate={displayRangeStartDate}
+                                    outerContainerWidth={railUiWidth}
+                                    key={id}
+                                ></Rail> 
+                            </Fragment>
+                        );
+                    })
+                }
+                <AddTaskParentButton></AddTaskParentButton>
+            </div>
         </div>
     );
 }

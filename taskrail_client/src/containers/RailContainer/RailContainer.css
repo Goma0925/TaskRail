@@ -1,5 +1,11 @@
+.rail-view-panel{
+    position: relative;
+    width: fit-content;
+}
+
 .rail-container{
     position: relative;
+    width: fit-content;
     height: 100%;
     padding-top: 30px;
 }
