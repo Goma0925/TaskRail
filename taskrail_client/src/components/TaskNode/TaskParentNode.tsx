@@ -7,7 +7,8 @@ type TaskParentNodeProps = WithSelectableTaskParentProps&TaskNodeProps;
 export default function TaskParentNode(props: TaskParentNodeProps){
     const TaskParentNode = WithSelectableTaskParent(TaskNode);
     return <TaskParentNode 
-                width={props.width} 
+                width={props.width}
+                // height={30} 
                 taskParent={props.taskParent} 
                 railUiSelection={props.railUiSelection}>
             </TaskParentNode>

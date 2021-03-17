@@ -31,7 +31,7 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
         }
         
         //Check if this node is selected
-        var className = "task-parent-test-class";
+        var className = "task-parent";
         if (isSelected){
             className += " selected"
         }

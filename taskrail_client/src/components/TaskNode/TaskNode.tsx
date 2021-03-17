@@ -5,6 +5,7 @@ export interface TaskNodeProps {
     className?: string;
     children?: React.ReactNode[] | React.ReactNode;
     width: number;
+    height?: number;
     onClick?: (event:React.MouseEvent) => void | (()=>{});
     onClickHandlers?: ((event:React.MouseEvent) => void | (()=>{}))[];
 }
@@ -30,7 +31,7 @@ const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {
         };
     };
     return (
-        <div className={className} style={{width:props.width, height:50}} onClick={onClick}>
+        <div className={className} style={{width:props.width, height:props.height || 50}} onClick={onClick}>
             {props.children}
         </div>
     )
