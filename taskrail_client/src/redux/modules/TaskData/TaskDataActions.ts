@@ -51,7 +51,7 @@ export class DeleteTaskParent implements ReduxAction{
     type: string;
     taskParentId: string;
     constructor(taskParentId: string){
-        this.type = DeleteSubtask.type;
+        this.type = DeleteTaskParent.type;
         this.taskParentId = taskParentId;
     }
 }

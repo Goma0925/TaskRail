@@ -5,7 +5,6 @@ import {useDispatch} from "react-redux";
 import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
 
 import TaskNode from "../TaskNode/TaskNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
@@ -14,7 +13,6 @@ import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import Subtask from "../../models/Subtask";
 import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
-import WithSelectableTaskParent from "../TaskNode/Decorators/WithSelectableTaskParent/WithTaskParent";
 import TaskParentNode from "../TaskNode/TaskParentNode";
 
 interface RailProps{
@@ -22,19 +20,12 @@ interface RailProps{
     sortedSubtasks: Subtask[];
     railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
-    outerContainerWidth: number;
+    taskParentNodeWidth: number;
+    subtaskNodeWidth: number;
 }
 
 export default function Rail (props: RailProps) {    
     const dispatch = useDispatch();  
-
-    const outerContainerWidth = props.outerContainerWidth;
-    const taskParentNodeWidth = 100;
-    const minSubtaskNodeWidth = 100;
-
-    const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
-    const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
-    
     const displayRangeStartDate = props.displayRangeStartDate;
     
     //Categorize subtasks by day of week
@@ -54,14 +45,14 @@ export default function Rail (props: RailProps) {
         const assignedDate = new Date(displayRangeStartDate.getTime());
         assignedDate.setDate(displayRangeStartDate.getDate()+day);
         columnBoxes.push(
-            <ColumnBox key={day} width={subtaskNodeWidth}>
+            <ColumnBox key={day} width={props.subtaskNodeWidth}>
                 {
                     subtasksOfDay.map((subtask)=>{
                         const Node = WithSelectableSubtask(WithSubtaskSkin(TaskNode));
                         // Construct subtask tasknode here.
                         return (
                             <Fragment key={subtask.getId()}>
-                                <Node subtask={subtask} width={subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
+                                <Node subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
                             </Fragment>
                         );
                     })
@@ -71,19 +62,18 @@ export default function Rail (props: RailProps) {
         );
     });
 
-    useEffect(()=>{
-        dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
-    });
-
-    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     return (
         <>
         <div 
             className="task-rail" 
         >
-            <div className="task-parent-section" style={{width: taskParentNodeWidth}}>
+            <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
                 {/* Render task parent node here */}
-                <TaskParentNode taskParent={props.taskParent} railUiSelection={props.railUiSelection} width={taskParentNodeWidth}></TaskParentNode>
+                <TaskParentNode 
+                    taskParent={props.taskParent} 
+                    railUiSelection={props.railUiSelection} 
+                    width={props.taskParentNodeWidth}
+                />
             </div>
             <div className="subtask-section">
             {

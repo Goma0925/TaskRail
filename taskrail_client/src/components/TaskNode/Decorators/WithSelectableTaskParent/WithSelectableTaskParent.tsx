@@ -25,7 +25,7 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
                 dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
             }
         }
-        const deleteSubtask=(e: React.MouseEvent)=>{
+        const deleteTaskParent=(e: React.MouseEvent)=>{
             e.preventDefault();
             deleteTaskParentOp(props.taskParent.getId());
         }
@@ -49,7 +49,7 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
-                <a className={deleteButtonClass} onClick={deleteSubtask}>×</a>
+                <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
             </NodeToDecorate>
         );
     }

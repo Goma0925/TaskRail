@@ -1,5 +1,5 @@
 import { propTypes } from "react-bootstrap/esm/Image";
-import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithTaskParent";
+import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import TaskNode, { TaskNodeProps } from "./TaskNode";
 
 type TaskParentNodeProps = WithSelectableTaskParentProps&TaskNodeProps;

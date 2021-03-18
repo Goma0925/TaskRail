@@ -81,6 +81,15 @@ function taskDataReducer(
                 draftState.taskParents.byId[taskParentId] = taskParent;
                 draftState.taskParents.allIds.push(taskParentId);
             });
+        case Actions.DeleteTaskParent.type:
+            taskParentId =  (<Actions.DeleteTaskParent>action).taskParentId;
+            return produce(state, draftState=>{
+                // Delete taskparent from the taskparent table
+                draftState.taskParents.allIds.splice(draftState.taskParents.allIds.indexOf(taskParentId), 1);
+                delete draftState.taskParents.byId[taskParentId];
+                // Delete taskParent ID from workspace table.
+                draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+            });
         case Actions.UpdateTaskParent.type:
             var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
             return produce(state, (draftState:TaskDataState)=>{
