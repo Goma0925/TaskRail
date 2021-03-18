@@ -25,31 +25,33 @@ const RailContainer: React.FC = () => {
 
     const dispatch = useDispatch();
     return (
-        <div className="rail-container">
+        <div className="rail-view-panel">
             <BackgroundWeekCalendar 
-                subtaskNodeWidth={railUi.subtaskNodeWidth}
-                displayRangeStartDate={displayRangeStartDate}
+            subtaskNodeWidth={railUi.subtaskNodeWidth}
+            displayRangeStartDate={displayRangeStartDate}
             />
-            {   
-                taskParentIds.map((id)=>{
-                    const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
-                    const sortedSubtasks = currentFrameSubtaskIds.map(id=>subtasksById[id]);
-                    return (
-                        <Fragment key={id}>
-                            <Rail 
-                                taskParent={taskParentsById[id]} 
-                                sortedSubtasks={sortedSubtasks}
-                                railUiSelection={railUiSelection}
-                                displayRangeStartDate={displayRangeStartDate}
-                                subtaskNodeWidth={subtaskNodeWidth}
-                                taskParentNodeWidth={taskParentNodeWidth}
-                                key={id}
-                            ></Rail> 
-                        </Fragment>
-                    );
-                })
-            }
-            <AddTaskParentButton></AddTaskParentButton>
+            <div className="rail-container">
+                {   
+                    taskParentIds.map((id)=>{
+                        const currentFrameSubtaskIds = taskParentsById[id].getSubtaskIdsFromCurrentFrame();
+                        const sortedSubtasks = currentFrameSubtaskIds.map(id=>subtasksById[id]);
+                        return (
+                            <Fragment key={id}>
+                                <Rail 
+                                    taskParent={taskParentsById[id]} 
+                                    sortedSubtasks={sortedSubtasks}
+                                    railUiSelection={railUiSelection}
+                                    displayRangeStartDate={displayRangeStartDate}
+                                    subtaskNodeWidth={subtaskNodeWidth}
+                                    taskParentNodeWidth={taskParentNodeWidth}
+                                    key={id}
+                                ></Rail> 
+                            </Fragment>
+                        );
+                    })
+                }
+                <AddTaskParentButton></AddTaskParentButton>
+            </div>
         </div>
     );
 }
