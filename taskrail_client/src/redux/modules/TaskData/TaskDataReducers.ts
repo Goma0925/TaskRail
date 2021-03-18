@@ -88,7 +88,10 @@ function taskDataReducer(
                 draftState.taskParents.allIds.splice(draftState.taskParents.allIds.indexOf(taskParentId), 1);
                 delete draftState.taskParents.byId[taskParentId];
                 // Delete taskParent ID from workspace table.
-                draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+                var taskParentsIds = state.workspace.currentWorkspace?.getTaskParentIds();
+                taskParentsIds = taskParentsIds? taskParentsIds: [];
+                taskParentsIds?.splice(taskParentsIds.indexOf(taskParentId), 1);
+                draftState.workspace.currentWorkspace?.setTaskParentIds(taskParentsIds);
             });
         case Actions.UpdateTaskParent.type:
             var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
