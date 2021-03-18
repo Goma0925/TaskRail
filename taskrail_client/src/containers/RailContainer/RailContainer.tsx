@@ -5,7 +5,6 @@ import BackgroundWeekCalendar from "../../components/BackgroundWeekCalendar/Back
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store"
 import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
-import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
 
 const RailContainer: React.FC = () => {
     // Get subtasks and task parents
@@ -17,20 +16,14 @@ const RailContainer: React.FC = () => {
 
     // Define task nodes sizes
     const railUi = useSelector((state:RootState)=>state.railUi);
-    const outerContainerWidth = railUi.railUiWidth;
-    const taskParentNodeWidth = 100;
-    const minSubtaskNodeWidth = 100;
-    const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
-    const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
+    const taskParentNodeWidth = railUi.taskParentNodeWidth;
+    const subtaskNodeWidth =  railUi.subtaskNodeWidth;
 
     // Retrieve other necessary info for Rail from redux.
     const railUiSelection = useSelector((state: RootState)=>state.railUi.selection);
     const displayRangeStartDate = useSelector((state:RootState)=>state.railUi.displayRangeStartDate);
 
     const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
-    });
     return (
         <div className="rail-container">
             <BackgroundWeekCalendar 

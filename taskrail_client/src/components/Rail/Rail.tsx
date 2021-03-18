@@ -2,8 +2,6 @@ import "./Rail.css";
 import {ReactNode, useEffect} from "react";
 import {useDispatch} from "react-redux";
 
-import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
-
 import TaskNode from "../TaskNode/TaskNode";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
