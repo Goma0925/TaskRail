@@ -1,67 +1,93 @@
 export default class SubTask {
-    private name: string;
-    private id: string;
-    private subtaskDeadline: Date;
-    private assignedDate: Date;
-    private taskParentId: string;
-    private note: string;
+  private name: string;
+  private id: string;
+  private subtaskDeadline: Date;
+  private assignedDate: Date;
+  private taskParentId: string;
+  private note: string;
+  private complete: boolean = false;
 
-    public constructor (name: string,  subtaskId: string, parentId:string, assignedDate: Date, subtaskDeadline: Date, note = ""){
-        this.name = name;
-        this.assignedDate = assignedDate;
-        this.subtaskDeadline = subtaskDeadline;
-        this.id = subtaskId;
-        this.taskParentId = parentId;
-        this.note = note;
-    }
-    //setters or modifiers
-    public setName(name:string){
-        this.name = name;
-    }
+  public constructor(
+    name: string,
+    subtaskId: string,
+    parentId: string,
+    assignedDate: Date,
+    subtaskDeadline: Date,
+    note = ""
+  ) {
+    this.name = name;
+    this.assignedDate = assignedDate;
+    this.subtaskDeadline = subtaskDeadline;
+    this.id = subtaskId;
+    this.taskParentId = parentId;
+    this.note = note;
+  }
+  //setters or modifiers
+  public setName(name: string) {
+    this.name = name;
+  }
 
-    public setNote(note:string){
-        this.note = note;
-    }
+  public setNote(note: string) {
+    this.note = note;
+  }
 
-    public setId(id:string){
-        this.id = id;
-    }
+  public setId(id: string) {
+    this.id = id;
+  }
 
-    public setParentId(id: string){
-        this.taskParentId = id;
-    }
+  public setParentId(id: string) {
+    this.taskParentId = id;
+  }
 
-    public setSubtaskDeadline(subtaskDeadline:Date){
-        this.subtaskDeadline = subtaskDeadline;
-    }
+  public setSubtaskDeadline(subtaskDeadline: Date) {
+    this.subtaskDeadline = subtaskDeadline;
+  }
 
-    //getters
-    public getName(){
-        return this.name;
-    }
+  public completeTask() {
+    this.complete = true;
+  }
 
-    public getNote(){
-        return this.note;
-    }
+  public uncompleteTask() {
+    this.complete = false;
+  }
+  //getters
+  public getName() {
+    return this.name;
+  }
 
-    public getId(){
-        return this.id;
-    };
+  public getNote() {
+    return this.note;
+  }
 
-    public getParentId(){
-        return this.taskParentId;
-    }
+  public getId() {
+    return this.id;
+  }
 
-    public getAssignedDate(){
-        return this.assignedDate;
-    }
+  public getParentId() {
+    return this.taskParentId;
+  }
 
-    public getSubtaskDeadline(){
-        return this.subtaskDeadline;
-    }
+  public getAssignedDate() {
+    return this.assignedDate;
+  }
 
-    public getCopy(){
-        const newSubtask = new SubTask(this.name, this.id, this.taskParentId, this.assignedDate, this.subtaskDeadline, this.note);
-        return newSubtask;
-    }
+  public getSubtaskDeadline() {
+    return this.subtaskDeadline;
+  }
+
+  public getCopy() {
+    const newSubtask = new SubTask(
+      this.name,
+      this.id,
+      this.taskParentId,
+      this.assignedDate,
+      this.subtaskDeadline,
+      this.note
+    );
+    return newSubtask;
+  }
+
+  public getStatus() {
+    return this.complete;
+  }
 }

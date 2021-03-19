@@ -1,4 +1,66 @@
-.sideinfo-bar{
-    height: 100%;
-    align-self: center;
+.sideinfo-bar {
+  height: 100%;
+  align-self: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.TitleAndCheckbox {
+  display: flex;
+  align-self: left;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.Title {
+  order: 2;
+  margin-left: 10px;
+  margin-top: 0%;
+}
+
+.Checkbox {
+  order: 1;
+  margin-left: 5px;
+  margin-top: 15px;
+}
+
+hr {
+  width: 100%;
+  border-style: solid;
+  border-radius: 2%;
+  margin-top: 0%;
+}
+
+.Deadline,
+.Note {
+  display: flex;
+  align-self: left;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-left: 0%;
+}
+
+.NoteLabel,
+.DeadlineLabel {
+  order: 1;
+  margin-top: 0%;
+  padding-top: 0%;
+  margin-left: 0%;
+}
+
+.NoteInput,
+.DeadlineInput {
+  order: 2;
+  width: 150px;
+  margin-top: 0%;
+  padding-top: 0%;
+  margin-left: 5%;
+}
+
+.InputList {
+  display: flex;
+  align-self: left;
+  flex-direction: column;
+  margin-left: 0%;
+  margin-top: 0%;
 }

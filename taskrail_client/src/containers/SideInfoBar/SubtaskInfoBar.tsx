@@ -20,19 +20,29 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   // const [text, setText] = useState(props?.text);
   const subtask = props.subtask;
   const title = subtask.getName();
+  const complete = subtask.getStatus();
   let deadline = subtask.getSubtaskDeadline();
   const note = subtask.getNote();
+  var g_month: number = 0;
+  var g_day: number = 0;
+  var g_year: number = 0;
   let [new_deadline, set_new_deadline] = useState(return_date_str(deadline));
   const [noteText, setNoteText] = useState(note);
   const [titleText, setTitleText] = useState(title);
+  const [status, setStatus] = useState(complete);
   const dispatch = useDispatch();
   function return_date_str(date: Date) {
     let [month, day, year] = [
-      (0 + date.getMonth().toString()).slice(-2),
-      (0 + date.getDate().toString()).slice(-2),
-      date.getFullYear(),
+      (0 + date.getUTCMonth().toString()).slice(-2),
+      (0 + date.getUTCDay().toString()).slice(-2),
+      date.getUTCFullYear(),
     ];
-    return year + "-" + month + "-" + day;
+    g_month = Number(month);
+    g_day = Number(day);
+    g_year = Number(year);
+    let new_date = year + "-" + month + "-" + day;
+    console.log(date.toString().split(" "));
+    return new_date;
   }
   function handleNoteChange(event: any) {
     // update this type in future
@@ -42,39 +52,74 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   }
   function handleDateChange(event: any) {
     set_new_deadline(event.target.value);
-    let date_obj = new Date(event.target.value);
-    date_obj.setDate(date_obj.getDate() + 1); //odd bug that does one day less when converting the string to date, so I'm adding a day
-    date_obj.setMonth(date_obj.getMonth() + 1);
+    let date_splitted = event.target.value.split("-");
+    let year = date_splitted[0];
+    let month = date_splitted[1];
+    let day = date_splitted[2];
+    let date_obj = new Date(year, month, day);
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setSubtaskDeadline(date_obj);
     dispatch(new UpdateSubtask(updatedSubtask));
   }
+
   function handleTitleChange(event: any) {
-    console.log("Changed.");
-    setTitleText(event.target.value);
+    setTitleText(event.target.textContent);
     let updatedSubtask = subtask.getCopy();
+    updatedSubtask.setName(event.target.textContent);
     dispatch(new UpdateSubtask(updatedSubtask));
   }
 
-  function handleInput(event: any) {
-    console.log("h");
+  function handleCheckboxChange(event: any) {
+    setStatus(event.target.checked);
+    let updatedSubtask = subtask.getCopy();
+    if (event.target.checked) {
+      updatedSubtask.completeTask();
+    } else {
+      updatedSubtask.uncompleteTask();
+    }
+    dispatch(new UpdateSubtask(updatedSubtask));
   }
+
+  console.log("Deadline:", deadline);
+
   return (
     <div className="sideinfo-bar">
-      <input type="text" placeholder={title} onChange={handleTitleChange} />
-      <ul>
-        <li className="Deadline">
-          Deadline:
+      <div className="TitleAndCheckbox">
+        <input
+          type="checkbox"
+          checked={complete}
+          className="Checkbox"
+          onClick={handleCheckboxChange}
+        />
+        <h1
+          className="Title"
+          contentEditable={"true"}
+          onBlur={handleTitleChange}
+          suppressContentEditableWarning={true}
+        >
+          {title}
+        </h1>
+      </div>
+      <hr />
+      <div className="InputList">
+        <div className="Deadline">
+          <h3 className="DeadlineLabel">Deadline:</h3>
           <input
             type="date"
             value={return_date_str(deadline)}
             onChange={handleDateChange}
-            onInput={handleInput}
+            className="DeadlineInput"
           />
-        </li>
-        <li className="Note">Note:</li>
-      </ul>
-      <textarea value={note} onChange={handleNoteChange} />
+        </div>
+        <div className="Note">
+          <h3 className="NoteLabel">Note:</h3>
+          <textarea
+            value={note}
+            onChange={handleNoteChange}
+            className="NoteInput"
+          />
+        </div>
+      </div>
     </div>
   );
 }
