@@ -1,5 +1,18 @@
-.rail-container{
+.rail-view-panel{
     position: relative;
+    width: fit-content;
     height: 100%;
-    padding-top: 30px;
+}
+
+.rail-container{
+    display: block;
+    position:absolute;
+    width: fit-content;
+    height:auto;
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    /* Same as the background calendar date section height*/
+    margin-top:60px;
 }

@@ -1,7 +1,7 @@
 export default class Workspace{
     private name: string;
     private id: string;
-    private taskParentIds: string[] = [];
+    private taskParentIds: string[];
 
     public constructor(name: string, id: string, taskParentIds?:string[]){
         this.name = name;

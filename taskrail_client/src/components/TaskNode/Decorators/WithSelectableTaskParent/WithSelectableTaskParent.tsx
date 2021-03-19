@@ -1,37 +1,37 @@
 import {TaskNodeProps} from "../../TaskNode"
 import {produce} from "immer";
-import SubTask from "../../../../models/Subtask";
 import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
-import { useDispatch, useSelector } from "react-redux";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
-import "./WithSelectableSubtask.css";
-import { deleteSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
+import { useDispatch } from "react-redux";
+import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
+import TaskParent from "../../../../models/TaskParent";
+import "./WithSelectableTaskParent.css";
 
-export interface WithSelectableSubtaskProps{
-    subtask: SubTask;
+export interface WithSelectableTaskParentProps{
+    taskParent: TaskParent;
     railUiSelection: RailUiSelection;
 }
 
-export default function WithSelectableSubtask(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableSubtaskProps>) 
+export default function WithSelectableTaskParent(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableTaskParentProps>) 
 {
     const dispatch = useDispatch();
-    const wrapperComponent = (props: TaskNodeProps&WithSelectableSubtaskProps) => {
-        const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();
+    const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps) => {
+        const isSelected = props.railUiSelection.type=="TASKPARENT" && props.railUiSelection.itemId==props.taskParent.getId();
         
         const onClickSubtask=()=>{
             if (isSelected){
                 dispatch(new SelectItem({type: "NONE", itemId: ""}));
             }else{
-                dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
+                dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
             }
         }
-        const deleteSubtask=(e: React.MouseEvent)=>{
+        const deleteTaskParent=(e: React.MouseEvent)=>{
             e.preventDefault();
-            deleteSubtaskOp(props.subtask.getId());
+            deleteTaskParentOp(props.taskParent.getId());
         }
         
         //Check if this node is selected
-        var className = "";
+        var className = "task-parent";
         if (isSelected){
             className += " selected"
         }
@@ -49,9 +49,9 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
-                <a className={deleteButtonClass} onClick={deleteSubtask}>×</a>
+                <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
             </NodeToDecorate>
-        )
+        );
     }
     return wrapperComponent;
 }

@@ -1,21 +1,22 @@
 import {useState} from "react";
 import "./BackgroundWeekCalendar.css";
 
+interface BackgroundWeekCalendarProps{
+    subtaskNodeWidth: number;
+    displayRangeStartDate: Date;
+}
 
-export default function BackgroundWeekCalendar(){
-    const leftColWidth = 100;
-    const dateColWidth = 100;
-    const [minRailWidth, setMinRailWidth] = useState(dateColWidth*7 + leftColWidth);
-
-    const subtasks = [{}, {}, {}, {}];    
-    const [subtaskNodeSize] = useState({
-        width: (minRailWidth / 7) > dateColWidth? (minRailWidth / subtasks.length): dateColWidth,
-    });
+export default function BackgroundWeekCalendar(props: BackgroundWeekCalendarProps){
     return (
     <div className="background-week-calendar">
         {
-            [...Array(7)].map((_, i)=>{                
-                // return <div className="date-divider" style={{right: props.dateColWidth*i}}/>
+            [...Array(7)].map((_, i)=>{                              
+                const xPosition = props.subtaskNodeWidth*i;
+               return <div 
+                        key={i}
+                        className="calendar-divider" 
+                        style={{right:xPosition}}
+                        />
             })
         }
     </div>

@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { getPreviousSunday } from "../../../helpers/calendar";
+import { getPreviousSunday } from "../../../helpers/DateTime";
 import SubTask from "../../../models/Subtask";
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./RailUiActions";
@@ -11,16 +11,18 @@ export interface RailUiSelection{
 
 interface RailUiState{
     taskParentNodeWidth: number;
-    subtaskNodeWidth: number;
-    railUiWidth: number;
+    subtaskNodeWidth: number; //Dynamically calculated
+    minSubtaskNodeWidth: number;
+    railUiWidth: number; //Dynamically calculated
     selection: RailUiSelection
     displayRangeStartDate: Date;
 };
 
 const initialState:RailUiState = {
-    taskParentNodeWidth: 200,
-    subtaskNodeWidth: 0,
-    railUiWidth: 0,
+    taskParentNodeWidth: 100,
+    subtaskNodeWidth: 0, 
+    minSubtaskNodeWidth: 100,
+    railUiWidth: 0, 
     selection: {type :"SUBTASK", itemId: "1"},
     displayRangeStartDate: getPreviousSunday(new Date()),
 };
@@ -30,18 +32,18 @@ function railUiReducer(
     action: ReduxAction
   ): RailUiState{
     switch (action.type) {
-        case Actions.SetSubtaskNodeWidth.type:
-            return produce(state, (state)=>{
-                // Use type casting to action to convince the compiler this action is Actions.SetSubtaskNodeWidth
-                state.subtaskNodeWidth = (<Actions.SetSubtaskNodeWidth>action).subtaskNodeWidth;
-            });
-        case Actions.SetTaskParentNodeWidth.type:
-            return produce(state, draftState => {
-                draftState.taskParentNodeWidth = (<Actions.SetTaskParentNodeWidth>action).taskParentNodeWidth;
-            })
         case Actions.SetRailUiWidth.type:
+            const railUiWidth = (<Actions.SetRailUiWidth>action).railUiWidth;
+            const outerContainerWidth = railUiWidth;
+            const taskParentNodeWidth = state.taskParentNodeWidth;
+            const minSubtaskNodeWidth = state.minSubtaskNodeWidth;
+            const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
+            // If calculated SubtaskNodeWidth is smaller than the min SubtaskWidth, 
+            // take the minimum so that we have the lower bound of the width.
+            const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;                    
             return produce(state, draftState=>{
-                draftState.railUiWidth = (<Actions.SetRailUiWidth>action).railUiWidth;
+                draftState.railUiWidth = railUiWidth;
+                draftState.subtaskNodeWidth = subtaskNodeWidth;
             });
         case Actions.SelectItem.type:
             return produce(state, draftState=>{

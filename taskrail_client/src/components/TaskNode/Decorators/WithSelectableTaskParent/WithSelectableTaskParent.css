@@ -1,4 +1,4 @@
-.subtask-skin.selected{
+.selected{
     box-shadow: 5px 5px 10px;
     transform: scale(1.1);
 }
@@ -7,7 +7,7 @@
     display: none;
 }
 
-.subtask-skin a.delete {
+a.delete {
     text-decoration: none;
     float: right;
     margin-top: -10px;
@@ -27,4 +27,19 @@
     padding-left: 1px;
     content: "x";
     z-index: -1;
+}
+
+.task-parent {
+    border: black;
+    border-style: solid;
+    border-width: medium;
+    background-color: #E00400;
+    /* border-radius: 20px; */
+}
+
+.task-parent-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 25px;
 }

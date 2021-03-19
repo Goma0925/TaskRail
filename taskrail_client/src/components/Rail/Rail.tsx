@@ -1,12 +1,8 @@
 import "./Rail.css";
-import React, {createRef, ReactNode, useEffect, useRef, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {RootState} from "../../redux/store";
+import {ReactNode, useEffect} from "react";
+import {useDispatch} from "react-redux";
 
-import { SetSubtaskNodeWidth } from "../../redux/modules/RailUi/RailUiActions";
-
-import TaskNode, { TaskNodeProps } from "../TaskNode/TaskNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox"; // not an error. vscode why
+import TaskNode from "../TaskNode/TaskNode";
 import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/TaskParent";
@@ -15,33 +11,24 @@ import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import Subtask from "../../models/Subtask";
 import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
+import TaskParentNode from "../TaskNode/TaskParentNode";
 
 interface RailProps{
     taskParent: TaskParent;
     sortedSubtasks: Subtask[];
     railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
-    outerContainerWidth: number;
+    taskParentNodeWidth: number;
+    subtaskNodeWidth: number;
 }
 
 export default function Rail (props: RailProps) {    
     const dispatch = useDispatch();  
-
-    const outerContainerWidth = props.outerContainerWidth;
-    const taskParentNodeWidth = 100;
-    const minSubtaskNodeWidth = 100;
-
-    const calculatedSubtaskNodeWidth = (outerContainerWidth - taskParentNodeWidth) / 7;  
-    
-    const subtaskNodeWidth =  calculatedSubtaskNodeWidth > minSubtaskNodeWidth? calculatedSubtaskNodeWidth : minSubtaskNodeWidth;
-    
-    dispatch(new SetSubtaskNodeWidth(subtaskNodeWidth));
-
     const displayRangeStartDate = props.displayRangeStartDate;
     
     //Categorize subtasks by day of week
     const subtasksByDay:{[day: number]: Subtask[]} = {};
-    var subtaskDay:number;
+    var subtaskDay:number;//Sunday=0
     props.sortedSubtasks.map((subtask:Subtask)=>{
         subtaskDay = subtask.getAssignedDate().getDay();
         if (!(subtaskDay in subtasksByDay)){
@@ -56,14 +43,14 @@ export default function Rail (props: RailProps) {
         const assignedDate = new Date(displayRangeStartDate.getTime());
         assignedDate.setDate(displayRangeStartDate.getDate()+day);
         columnBoxes.push(
-            <ColumnBox key={day} width={subtaskNodeWidth}>
+            <ColumnBox key={day} width={props.subtaskNodeWidth}>
                 {
                     subtasksOfDay.map((subtask)=>{
                         const Node = WithSelectableSubtask(WithSubtaskSkin(TaskNode));
-                        // Construct tasknode here.
+                        // Construct subtask tasknode here.
                         return (
                             <Fragment key={subtask.getId()}>
-                                <Node subtask={subtask} width={subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
+                                <Node subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
                             </Fragment>
                         );
                     })
@@ -72,15 +59,19 @@ export default function Rail (props: RailProps) {
             </ColumnBox>
         );
     });
-    
+
     return (
         <>
         <div 
             className="task-rail" 
         >
-            <div className="task-parent-section" style={{width: taskParentNodeWidth}}>
+            <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
                 {/* Render task parent node here */}
-                <TaskNode width={taskParentNodeWidth}></TaskNode>
+                <TaskParentNode 
+                    taskParent={props.taskParent} 
+                    railUiSelection={props.railUiSelection} 
+                    width={props.taskParentNodeWidth}
+                />
             </div>
             <div className="subtask-section">
             {

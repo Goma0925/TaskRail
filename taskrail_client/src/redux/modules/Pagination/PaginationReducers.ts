@@ -1,7 +1,7 @@
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./PaginationActions";
 import produce from "immer";
-import { getPreviousSunday } from "../../../helpers/calendar";
+import { getPreviousSunday } from "../../../helpers/DateTime";
 
 interface PaginationState{
     displayRangeStartDate: Date;

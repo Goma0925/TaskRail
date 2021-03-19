@@ -13,7 +13,3 @@ export function createSubtaskOnRailOp(subtaskName: string, taskParentId: string,
     //Increment the ID. Only for testing purpose.
     TaskDataActions.AddSubtask.idCount += 1;
 }
-
-export function createTaskParentOnRailOp(title: string){
-    const newTaskParent = TaskDataOperations.createTaskParentOp(title);
-}

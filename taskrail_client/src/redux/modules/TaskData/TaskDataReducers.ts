@@ -53,7 +53,6 @@ function taskDataReducer(
                 draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
                 // Add subtask instance and ID to the subtask store.
                 draftState.subtasks.byId[subtask.getId()] = subtask;
-
                 // ToDo the ID has to be inserted at the right location.
                 draftState.subtasks.allIds.push(subtask.getId());
             });
@@ -66,22 +65,39 @@ function taskDataReducer(
                 delete draftState.subtasks.byId[subtaskId];
                 // Delete subtask ID from task parent table.
                 draftState.taskParents.byId[taskParentId].removeSubtaskByIdFromCurrentFrame(subtaskId);
+            });
+        case Actions.UpdateSubtask.type:
+            var subtask = (<Actions.UpdateSubtask>action).subtask;
+            return produce(state, (draftState:TaskDataState)=>{
+                draftState.subtasks.byId[subtask.getId()] = subtask;
             })
         case Actions.AddTaskParent.type:
             var taskParent = (<Actions.AddTaskParent>action).taskParent;
             var taskParentId = taskParent.getId();
             return produce(state, (draftState:TaskDataState)=>{
                 // Add task parent to the workspace store
-                draftState.workspace.currentWorkspace?.addTaskParentId(taskParentId);
+                draftState.workspace.currentWorkspace?.setTaskParentIds(draftState.workspace.currentWorkspace?.getTaskParentIds().concat([taskParentId]));
                 // Add task parent ID and instances to the task parent store
                 draftState.taskParents.byId[taskParentId] = taskParent;
                 draftState.taskParents.allIds.push(taskParentId);
-            })
-        case Actions.UpdateSubtask.type:
-            var subtask = (<Actions.UpdateSubtask>action).subtask;
+            });
+        case Actions.DeleteTaskParent.type:
+            taskParentId =  (<Actions.DeleteTaskParent>action).taskParentId;
+            return produce(state, draftState=>{
+                // Delete taskparent from the taskparent table
+                draftState.taskParents.allIds.splice(draftState.taskParents.allIds.indexOf(taskParentId), 1);
+                delete draftState.taskParents.byId[taskParentId];
+                // Delete taskParent ID from workspace table.
+                var taskParentsIds = state.workspace.currentWorkspace?.getTaskParentIds();
+                taskParentsIds = taskParentsIds? taskParentsIds: [];
+                taskParentsIds?.splice(taskParentsIds.indexOf(taskParentId), 1);
+                draftState.workspace.currentWorkspace?.setTaskParentIds(taskParentsIds);
+            });
+        case Actions.UpdateTaskParent.type:
+            var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
             return produce(state, (draftState:TaskDataState)=>{
-                draftState.subtasks.byId[subtask.getId()] = subtask;
-            })
+                draftState.taskParents.byId[taskParent.getId()] = taskParent;
+            });
         default:
           return state
       }
