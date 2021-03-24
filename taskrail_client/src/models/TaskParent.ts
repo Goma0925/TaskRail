@@ -4,6 +4,7 @@ export default class TaskParent {
   private taskParentDeadline: Date | undefined;
   private currentFrameSubtaskIds: string[] = [];
   private note: string = "";
+  private complete: boolean = false;
 
   public constructor(
     name: string,
@@ -86,6 +87,10 @@ export default class TaskParent {
 
   public getNote() {
     return this.note;
+  }
+
+  public getStatus(){
+    return this.complete;
   }
 
   public getCopy() {
