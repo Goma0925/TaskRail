@@ -12,7 +12,7 @@ const DB_NAME = process.env.DB_NAME;
 const uri = `mongodb+srv://${DB_USER}:${DB_PW}@${DB_CLUSTER}.ajpsn.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
            .then(client => {
-               console.log("Connected to Database");
+               console.log("Connected to Database!");
                const db = client.db('TaskRail')
                const subtaskCollection = db.collection('Subtask')
                subtaskCollection.insertOne({name: "dsadaddsa"})
@@ -32,6 +32,6 @@ app.get("/workspace/:id", (req, res) => {
     res.send("Workspace object from MongoDB with respective id");
 });
 
-app.listen(PORT, () => "");
+app.listen(PORT || 3000, () => "");
 
 
