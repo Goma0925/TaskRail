@@ -14,7 +14,7 @@ DB_USER=someuser
 DB_PW=somepassword
 PORT=someport
  
-3. Run index.js with some tool like nodemon, running the command `nodemon index.js`.
+4. Run index.js with some tool like nodemon, running the command `nodemon index.js`.
 nodemon has hot reloading, whereas `node index.js` will not hot reload. 
 
 
