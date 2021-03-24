@@ -6,7 +6,6 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import DatePicker from "react-datepicker";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
