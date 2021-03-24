@@ -19,11 +19,13 @@ export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<Task
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
+                {/* <div className="subtask-top" style={{height:25, width:props.width-20}}> */}
                 <div className="subtask-top" style={{height:25}}>
-                    Name: {props.subtask.getName()}
+                    {props.subtask.getName()}
                 </div>
+                {/* <div className = "subtask-bottom" style={{height:25, width:props.width-20}}> */}
                 <div className = "subtask-bottom" style={{height:25}}>
-                    ID: {props.subtask.getId()}
+                    {props.subtask.getId()}
                 </div>
             </NodeToDecorate>
         )

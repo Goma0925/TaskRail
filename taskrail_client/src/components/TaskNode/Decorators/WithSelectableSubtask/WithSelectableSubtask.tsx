@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
 import "./WithSelectableSubtask.css";
 import { deleteSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
+// import WithCheckBox from "../WithCheckBox";
 
 export interface WithSelectableSubtaskProps{
     subtask: SubTask;
@@ -14,6 +15,7 @@ export interface WithSelectableSubtaskProps{
 
 export default function WithSelectableSubtask(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableSubtaskProps>) 
 {
+    // NodeToDecorate = WithCheckBox(NodeToDecorate);
     const dispatch = useDispatch();
     const wrapperComponent = (props: TaskNodeProps&WithSelectableSubtaskProps) => {
         const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();

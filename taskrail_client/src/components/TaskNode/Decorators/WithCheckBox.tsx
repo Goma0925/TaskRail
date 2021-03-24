@@ -7,7 +7,7 @@ export default function WithCheckBox(NodeToDecorate: React.ComponentType<TaskNod
             <NodeToDecorate {...props}>
                 {props.children}
                 <div className="checkbox-container">
-                    <input type="checkbox"/>
+                    <input type="checkbox" className="float-checkbox"/>
                 </div>
             </NodeToDecorate>
         )

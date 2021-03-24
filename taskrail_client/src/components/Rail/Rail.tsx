@@ -12,6 +12,7 @@ import Subtask from "../../models/Subtask";
 import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 import TaskParentNode from "../TaskNode/TaskParentNode";
+import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -46,8 +47,9 @@ export default function Rail (props: RailProps) {
             <ColumnBox key={day} width={props.subtaskNodeWidth}>
                 {
                     subtasksOfDay.map((subtask)=>{
-                        const Node = WithSelectableSubtask(WithSubtaskSkin(TaskNode));
+                        const Node = WithSelectableSubtask(WithSubtaskSkin(WithCheckBox(TaskNode)));
                         // Construct subtask tasknode here.
+                        // ^ Pass in event listener for CheckBox.
                         return (
                             <Fragment key={subtask.getId()}>
                                 <Node subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
@@ -68,6 +70,7 @@ export default function Rail (props: RailProps) {
             <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
                 {/* Render task parent node here */}
                 <TaskParentNode 
+                    // pass in function here
                     taskParent={props.taskParent} 
                     railUiSelection={props.railUiSelection} 
                     width={props.taskParentNodeWidth}

@@ -1,20 +1,18 @@
 .subtask-skin {
-    border: black;
     border-style: solid;
-    border-width: medium;
     background-color: #ff5f5c;
     border-radius: 20px;
-    width: inherit;
-    height: inherit;
-    box-sizing: content-box;
+    position: relative;
 } 
 
 .subtask-top, .subtask-bottom {
+   float: right;
    font-size: 9px;
    overflow: hidden;
    display: flex;
    justify-content: center;
    align-items: center;
+   width:80%;
 }
 
 .subtask-top {
@@ -23,4 +21,19 @@
 
 .subtask-bottom {
     border-top: solid black 1px;
+}
+
+div.subtask-skin .checkbox-container {
+    position: absolute;
+    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid black;
+    width: 20%;
+}
+
+input[type=checkbox].float-checkbox {
+    margin: 0px 0px 0px 0px;
 }

@@ -3,6 +3,9 @@
     transform: scale(1.1);
 }
 
+.selected .subtask-top {
+    margin-right: -7px;
+}
 .hide{
     display: none;
 }
@@ -30,11 +33,8 @@ a.delete {
 }
 
 .task-parent {
-    border: black;
     border-style: solid;
-    border-width: medium;
     background-color: #E00400;
-    /* border-radius: 20px; */
 }
 
 .task-parent-section {
@@ -42,4 +42,13 @@ a.delete {
     justify-content: center;
     align-items: center;
     padding-bottom: 25px;
+}
+
+div.task-parent .checkbox-container {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: solid;
 }
