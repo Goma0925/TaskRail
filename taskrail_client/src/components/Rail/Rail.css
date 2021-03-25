@@ -1,10 +1,9 @@
-.task-rail{
-    background-color: rgb(98, 99, 143);
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
+.task-rail {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
 }
-.subtask-section{
-    display: flex;
-    flex-direction: row;
+.subtask-section {
+  display: flex;
+  flex-direction: row;
 }

@@ -1,15 +1,39 @@
-.background-week-calendar{
-    height: 100%;
-    width: 100%;
-    right: 0;
-    background-color: darkolivegreen;
-    position: absolute;
-    z-index: -100;
+.background-week-calendar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-.calendar-divider{
-    border-left:1px solid #16222c; 
-    border-right:1px solid #16222c; 
-    height:100%;
-    position:absolute;
+.calendar-divider {
+  border-left: 2px solid #16222c;
+  border-right: 2px solid #16222c;
+  height: 100%;
+  align-content: center;
+  align-items: center;
+  margin-top: 0;
+}
+
+.Label {
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+  margin-top: 0;
+}
+
+.day_of_week {
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 0;
+}
+
+.day_of_month {
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: -24px;
 }
