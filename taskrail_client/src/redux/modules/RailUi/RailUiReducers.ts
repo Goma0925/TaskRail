@@ -15,6 +15,7 @@ interface RailUiState {
   subtaskNodeWidth: number; //Dynamically calculated
   minSubtaskNodeWidth: number;
   railUiWidth: number; //Dynamically calculated
+  calendarBorderWidth: number;
   selection: RailUiSelection;
   displayRangeStartDate: Date;
 }
@@ -25,6 +26,7 @@ const initialState: RailUiState = {
   subtaskNodeWidth: 0,
   minSubtaskNodeWidth: 100,
   railUiWidth: 0,
+  calendarBorderWidth: 4,
   selection: { type: "SUBTASK", itemId: "1" },
   displayRangeStartDate: getPreviousSunday(new Date()),
 };

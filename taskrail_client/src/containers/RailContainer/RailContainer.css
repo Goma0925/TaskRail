@@ -5,6 +5,8 @@
 }
 
 .rail-container{
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: block;
     position:absolute;
     width: fit-content;
@@ -14,5 +16,6 @@
     left:0;
     right:0;
     /* Same as the background calendar date section height*/
-    margin-top:60px;
+    margin-top: 60px;
+    padding-top:30px;
 }

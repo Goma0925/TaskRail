@@ -21,6 +21,7 @@ interface RailProps{
     displayRangeStartDate: Date;
     taskParentNodeWidth: number;
     subtaskNodeWidth: number;
+    calendarBorderWidth: number;
 }
 
 export default function Rail (props: RailProps) {    
@@ -44,9 +45,9 @@ export default function Rail (props: RailProps) {
         const assignedDate = new Date(displayRangeStartDate.getTime());
         assignedDate.setDate(displayRangeStartDate.getDate()+day);
         columnBoxes.push(
-            <ColumnBox key={day} width={props.subtaskNodeWidth}>
+            <ColumnBox key={day}>
                 {
-                    subtasksOfDay.map((subtask)=>{
+                    subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
                         const Node = WithSelectableSubtask(WithSubtaskSkin(WithCheckBox(TaskNode)));
                         // Construct subtask tasknode here.
                         // ^ Pass in event listener for CheckBox.
@@ -55,6 +56,11 @@ export default function Rail (props: RailProps) {
                                 <Node subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
                             </Fragment>
                         );
+                    }):
+                    // If no subtasks, render dummy node.
+                    [...Array(1)].map(()=>{                        
+                        const PlaceholderNode = TaskNode;
+                        return <PlaceholderNode width={props.subtaskNodeWidth + 4} height={0}></PlaceholderNode>
                     })
                 }
                 <AddSubtaskButton taskParentId={props.taskParent.getId()} assignedDate={assignedDate}></AddSubtaskButton>
@@ -65,7 +71,7 @@ export default function Rail (props: RailProps) {
     return (
         <>
         <div 
-            className="task-rail" 
+            className="task-rail"
         >
             <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
                 {/* Render task parent node here */}

@@ -13,17 +13,17 @@
   margin-top: 0;
 }
 
-.Label {
+.date-label {
   align-content: center;
   align-items: center;
   align-self: center;
   width: 100%;
-  height: 10%;
+  height: 60px;
   margin-top: 0;
   border-bottom: 4px solid #16222c;
 }
 
-.day_of_week {
+.date-label > .day-of-week {
   align-self: center;
   align-content: center;
   align-items: center;
@@ -33,7 +33,7 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.day_of_month {
+.date-label > .date {
   align-self: center;
   align-content: center;
   align-items: center;

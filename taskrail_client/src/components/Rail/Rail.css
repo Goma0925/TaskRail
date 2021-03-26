@@ -1,7 +1,8 @@
 .task-rail {
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
+  padding-right: 30px;
 }
 .subtask-section {
   display: flex;

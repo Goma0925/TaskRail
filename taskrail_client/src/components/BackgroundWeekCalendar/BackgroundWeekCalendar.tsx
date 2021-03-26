@@ -5,6 +5,7 @@ interface BackgroundWeekCalendarProps {
   subtaskNodeWidth: number;
   displayRangeStartDate: Date;
   taskParentSectionWidth: number;
+  calendarBorderWidth:number;
 }
 
 export default function BackgroundWeekCalendar(
@@ -21,19 +22,20 @@ export default function BackgroundWeekCalendar(
         let newDate = new Date(props.displayRangeStartDate);
         newDate.setDate(newDate.getDate() + i);
 
-        let day_of_week = newDate.toString().split(" ")[0].toUpperCase();
-        let day_of_month = newDate.toString().split(" ")[2].toUpperCase();
+        let dayOfWeek = newDate.toString().split(" ")[0].toUpperCase();
+        let dayOfMonth = newDate.toString().split(" ")[2].toUpperCase();
         return (
           <div
             key={i}
             className="calendar-divider"
             style={{
               width: props.subtaskNodeWidth,
+              // borderLeft: props.calendarBorderWidth
             }}
           >
-            <div className="Label">
-              <h2 className="day_of_week">{day_of_week}</h2>
-              <h1 className="day_of_month">{day_of_month}</h1>
+            <div className="date-label">
+              <h2 className="day-of-week">{dayOfWeek}</h2>
+              <h1 className="date">{dayOfMonth}</h1>
             </div>
           </div>
         );
