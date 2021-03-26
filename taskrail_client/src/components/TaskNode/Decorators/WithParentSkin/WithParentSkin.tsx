@@ -7,7 +7,7 @@ interface WithParentSkinProps{
     taskparent: TaskParent;
 }
 
-export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<TaskNodeProps&WithParentSkinProps>) 
+export default function WithParentSkin(NodeToDecorate: React.ComponentType<TaskNodeProps&WithParentSkinProps>) 
 {
     const wrapperComponent = (props: TaskNodeProps&WithParentSkinProps) => {
         // Copy the props and append a new skin class.
@@ -21,7 +21,7 @@ export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<Task
             <NodeToDecorate {...newProps}>
                 {newProps.children}
                 <div className="taskparent-skin" style={{height:25}}>
-                    Name: {props.taskparent.getName()};
+                    Name: {props.taskparent.getName()}
                 </div>
             </NodeToDecorate>
         )

@@ -45,6 +45,9 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
+                <div className="taskparent-skin" style={{height:25}}>
+                    {props.taskParent.getName()};
+                </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
             </NodeToDecorate>
         );
