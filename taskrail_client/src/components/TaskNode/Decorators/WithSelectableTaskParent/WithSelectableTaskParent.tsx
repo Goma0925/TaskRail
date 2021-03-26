@@ -19,11 +19,7 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
         const isSelected = props.railUiSelection.type=="TASKPARENT" && props.railUiSelection.itemId==props.taskParent.getId();
         
         const onClickSubtask=()=>{
-            if (isSelected){
-                dispatch(new SelectItem({type: "NONE", itemId: ""}));
-            }else{
-                dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
-            }
+            dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
         }
         const deleteTaskParent=(e: React.MouseEvent)=>{
             e.preventDefault();

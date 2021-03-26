@@ -21,11 +21,7 @@ export default function WithSelectableSubtask(NodeToDecorate: React.ComponentTyp
         const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();
         
         const onClickSubtask=()=>{
-            if (isSelected){
-                dispatch(new SelectItem({type: "NONE", itemId: ""}));
-            }else{
-                dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
-            }
+            dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
         }
         const deleteSubtask=(e: React.MouseEvent)=>{
             e.preventDefault();
