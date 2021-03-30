@@ -1,15 +1,14 @@
 const express = require('express');
-const dbClient = require("../DatabaseClient");
+const mongoUtil = require("../MongoUtil");
+const db = mongoUtil.getDb();
 const workspaceRouter = express.Router();
 
 workspaceRouter.get('/workspace', (req, res) => {
     console.log("workspace root");
-    const collections = dbClient.getDb().collections;
-    console.log(dbClient.getDb());
-    // res.send();
-    // collections.array.forEach(collection => {
-    //     console.log(collection);
-    // });
+    const collection = db.collection("TaskRail");
+    collection.forEach(element => {
+        console.log(element);
+    });
 });
 
 module.exports = workspaceRouter;

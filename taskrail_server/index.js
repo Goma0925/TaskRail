@@ -1,19 +1,19 @@
 require('dotenv').config(); 
 const express = require('express');
 const bodyParser = require('body-parser');
-const connect = require('./DatabaseClient.js');
+const mongoUtil = require("./MongoUtil");
 const app = express(); 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 const PORT = process.env.PORT; 
 
-(async ()=>{
-    await connect();
+mongoUtil.connect(() => {
+    // Start the app after mongo db is connected.
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
 
-    const rootRouter = require('./routes');
-    app.use("/", rootRouter);
     app.listen(PORT || 3000, () => "");
-})();
+    const rootRouter = require("./routes");
+    app.use("/", rootRouter);
+})
 
 
 
