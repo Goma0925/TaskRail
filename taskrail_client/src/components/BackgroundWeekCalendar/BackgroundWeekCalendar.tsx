@@ -5,7 +5,7 @@ interface BackgroundWeekCalendarProps {
   subtaskNodeWidth: number;
   displayRangeStartDate: Date;
   taskParentSectionWidth: number;
-  calendarBorderWidth:number;
+  calendarBorderWidth: number;
 }
 
 export default function BackgroundWeekCalendar(
@@ -24,6 +24,15 @@ export default function BackgroundWeekCalendar(
 
         let dayOfWeek = newDate.toString().split(" ")[0].toUpperCase();
         let dayOfMonth = newDate.toString().split(" ")[2].toUpperCase();
+        let today = new Date();
+        let indicator: React.ReactNode;
+        if (
+          today.getUTCDate() == newDate.getUTCDate() &&
+          today.getUTCMonth() == newDate.getUTCMonth() &&
+          today.getUTCFullYear() == newDate.getUTCFullYear()
+        ) {
+          indicator = <div className="indicator" />;
+        }
         return (
           <div
             key={i}
@@ -34,6 +43,7 @@ export default function BackgroundWeekCalendar(
             }}
           >
             <div className="date-label">
+              {indicator}
               <h2 className="day-of-week">{dayOfWeek}</h2>
               <h1 className="date">{dayOfMonth}</h1>
             </div>
