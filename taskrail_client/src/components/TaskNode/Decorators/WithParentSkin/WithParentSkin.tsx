@@ -7,9 +7,9 @@ interface WithParentSkinProps{
     taskparent: TaskParent;
 }
 
-export default function WithParentSkin(NodeToDecorate: React.ComponentType<TaskNodeProps&WithParentSkinProps>) 
+export default function WithParentSkin<GenericProps>(NodeToDecorate: React.ComponentType<GenericProps>) 
 {
-    const wrapperComponent = (props: TaskNodeProps&WithParentSkinProps) => {
+    const wrapperComponent = (props: TaskNodeProps&WithParentSkinProps&GenericProps) => {
         // Copy the props and append a new skin class.
         var newProps = produce(props, draftProps=>{
             draftProps.className = "parent-skin";

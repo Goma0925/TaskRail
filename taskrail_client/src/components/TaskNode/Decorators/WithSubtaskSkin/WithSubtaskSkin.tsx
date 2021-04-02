@@ -7,9 +7,9 @@ interface WithSubtaskSkinProps{
     subtask: SubTask;
 }
 
-export default function WithSubtaskSkin(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSubtaskSkinProps>) 
+export default function WithSubtaskSkin<GenericProps>(NodeToDecorate: React.ComponentType<GenericProps>) 
 {
-    const wrapperComponent = (props: TaskNodeProps&WithSubtaskSkinProps) => {
+    const wrapperComponent = (props: TaskNodeProps&WithSubtaskSkinProps&GenericProps) => {
         // Copy the props and append a new skin class.
         var newProps = produce(props, draftProps=>{
             draftProps.className = "subtask-skin";

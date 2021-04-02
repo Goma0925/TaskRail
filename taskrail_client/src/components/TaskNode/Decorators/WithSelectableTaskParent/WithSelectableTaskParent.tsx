@@ -13,10 +13,10 @@ export interface WithSelectableTaskParentProps{
     children?: React.ReactNode[]|React.ReactNode;
 }
 
-export default function WithSelectableTaskParent(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableTaskParentProps>) 
+export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: React.ComponentType<GenericProps>) 
 {
     const dispatch = useDispatch();
-    const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps) => {
+    const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps&GenericProps) => {
         const isSelected = props.railUiSelection.type=="TASKPARENT" && props.railUiSelection.itemId==props.taskParent.getId();
         const onClickSubtask=()=>{
             dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
