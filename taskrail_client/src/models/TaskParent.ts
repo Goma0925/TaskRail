@@ -10,14 +10,18 @@ export default class TaskParent {
     name: string,
     id: string,
     taskParentDeadline?: Date,
-    currentFrameSubtaskIds?: string[]
+    currentFrameSubtaskIds?: string[],
+    complete?: boolean
   ) {
     this.name = name;
     this.id = id;
     this.taskParentDeadline = taskParentDeadline;
-    this.currentFrameSubtaskIds = currentFrameSubtaskIds
-      ? currentFrameSubtaskIds
+    this.currentFrameSubtaskIds = currentFrameSubtaskIds?
+        currentFrameSubtaskIds
       : [];
+    this.complete = complete?
+        complete
+       :false;
   }
   //setters or modifiers
   public setName(name: string) {
@@ -89,7 +93,7 @@ export default class TaskParent {
     return this.note;
   }
 
-  public getStatus(){
+  public isComplete(){
     return this.complete;
   }
 

@@ -13,6 +13,10 @@ export interface WithSelectableSubtaskProps{
     railUiSelection: RailUiSelection;
 }
 
+interface TestProps{
+    n: number
+}
+
 export default function WithSelectableSubtask(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableSubtaskProps>) 
 {
     // NodeToDecorate = WithCheckBox(NodeToDecorate);

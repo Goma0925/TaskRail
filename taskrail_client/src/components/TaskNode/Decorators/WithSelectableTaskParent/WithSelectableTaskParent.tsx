@@ -10,6 +10,7 @@ import "./WithSelectableTaskParent.css";
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
     railUiSelection: RailUiSelection;
+    children?: React.ReactNode[]|React.ReactNode;
 }
 
 export default function WithSelectableTaskParent(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableTaskParentProps>) 
@@ -17,7 +18,6 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
     const dispatch = useDispatch();
     const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps) => {
         const isSelected = props.railUiSelection.type=="TASKPARENT" && props.railUiSelection.itemId==props.taskParent.getId();
-        
         const onClickSubtask=()=>{
             dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
         }
@@ -49,6 +49,7 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
                     {props.taskParent.getName()};
                 </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
+                {props.children}
             </NodeToDecorate>
         );
     }
