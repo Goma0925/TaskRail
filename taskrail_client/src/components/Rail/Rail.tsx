@@ -13,6 +13,7 @@ import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 import TaskParentNode from "../TaskNode/TaskParentNode";
 import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
+import { getDateStr, getNDaysLater } from "../../helpers/DateTime";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -29,25 +30,30 @@ export default function Rail (props: RailProps) {
     const displayRangeStartDate = props.displayRangeStartDate;
     
     //Categorize subtasks by day of week
-    const subtasksByDay:{[day: number]: Subtask[]} = {};
-    var subtaskDay:number;//Sunday=0
+    const subtasksByDate:{[date: string]: Subtask[]} = {};
+    var subtaskDate:string;//Sunday=0
 
     props.sortedSubtasks.map((subtask:Subtask)=>{
-        subtaskDay = subtask.getAssignedDate().getDay();
-        if (!(subtaskDay in subtasksByDay)){
-            subtasksByDay[subtaskDay] = [];
+        subtaskDate = getDateStr(subtask.getAssignedDate());
+        if (!(subtaskDate in subtasksByDate)){
+            subtasksByDate[subtaskDate] = [];
         }
-        subtasksByDay[subtaskDay].push(subtask);
+        subtasksByDate[subtaskDate].push(subtask);
     });
+    console.log("subtasksByDate", subtasksByDate);
     
     const columnBoxes: ReactNode[] = [];
     [...Array(7)].map((_, dayIndex)=>{
-        const day = dayIndex + displayRangeStartDate.getDay();
-        const subtasksOfDay = subtasksByDay[day]? subtasksByDay[day]:[];
-        const assignedDate = new Date(displayRangeStartDate.getTime());
-        assignedDate.setDate(displayRangeStartDate.getDate()+day);
+        var date = getNDaysLater(displayRangeStartDate, dayIndex);
+        const dateStr = getDateStr(date);
+        console.log("date:", date);
+        
+        // Increment one by one from the display start date
+
+        const subtasksOfDay = subtasksByDate[dateStr]? subtasksByDate[dateStr]:[];
+        const assignedDate = date;
         columnBoxes.push(
-            <ColumnBox key={day}>
+            <ColumnBox key={dateStr}>
                 {
                     subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
                         const Node = WithSelectableSubtask(WithSubtaskSkin(WithCheckBox(TaskNode)));

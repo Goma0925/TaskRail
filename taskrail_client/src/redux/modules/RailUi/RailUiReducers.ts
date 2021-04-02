@@ -28,7 +28,7 @@ const initialState: RailUiState = {
   railUiWidth: 0,
   calendarBorderWidth: 4,
   selection: { type: "SUBTASK", itemId: "1" },
-  displayRangeStartDate: new Date(),
+  displayRangeStartDate: getPreviousSunday(new Date()),
 };
 
 function railUiReducer(state = initialState, action: ReduxAction): RailUiState {
