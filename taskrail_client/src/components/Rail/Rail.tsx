@@ -31,16 +31,18 @@ export default function Rail (props: RailProps) {
     //Categorize subtasks by day of week
     const subtasksByDay:{[day: number]: Subtask[]} = {};
     var subtaskDay:number;//Sunday=0
+
     props.sortedSubtasks.map((subtask:Subtask)=>{
         subtaskDay = subtask.getAssignedDate().getDay();
         if (!(subtaskDay in subtasksByDay)){
             subtasksByDay[subtaskDay] = [];
         }
         subtasksByDay[subtaskDay].push(subtask);
-    })
-
+    });
+    
     const columnBoxes: ReactNode[] = [];
-    [...Array(7)].map((_, day)=>{
+    [...Array(7)].map((_, dayIndex)=>{
+        const day = dayIndex + displayRangeStartDate.getDay();
         const subtasksOfDay = subtasksByDay[day]? subtasksByDay[day]:[];
         const assignedDate = new Date(displayRangeStartDate.getTime());
         assignedDate.setDate(displayRangeStartDate.getDate()+day);

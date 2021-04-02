@@ -39,13 +39,13 @@ const allSubtaskIds: string[] = [];
 var subtaskId = 0;
 allTaskParentIds.map((taskParentId, taskParentIndex) => {
   const monday = getPreviousSunday(new Date());
-  [...Array(7)].map((_, dayIndex) => {
+  [...Array(14)].map((_, dayIndex) => {
     if ((dayIndex + taskParentIndex) % 2 == 0) {
-      const assignedDate = new Date("December 17, 1995 03:24:00");
+      const assignedDate = getPreviousSunday(new Date());
       assignedDate.setDate(monday.getDate() + dayIndex);
       subtasks.push(
         new SubTask(
-          "Subtask on " + days[dayIndex],
+          "Subtask on " + (assignedDate.getMonth()+1) + "/" +assignedDate.getDate() + "(" + days[assignedDate.getDay()]+")",
           subtaskId.toString(),
           taskParentId,
           assignedDate,
