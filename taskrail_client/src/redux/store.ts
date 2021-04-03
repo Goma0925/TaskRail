@@ -5,6 +5,7 @@ import { createLogger } from 'redux-logger';
 
 const rootReducer = combineReducers({
     railUi: RailUiReducers, //stateSliceName: reducerName
+    pagination: PaginationReducers,
     taskData: TaskDataReducers,
 });
 

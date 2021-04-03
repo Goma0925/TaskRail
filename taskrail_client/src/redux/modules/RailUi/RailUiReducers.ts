@@ -17,7 +17,6 @@ interface RailUiState {
   railUiWidth: number; //Dynamically calculated
   calendarBorderWidth: number;
   selection: RailUiSelection;
-  displayRangeStartDate: Date;
 }
 
 const initialState: RailUiState = {
@@ -28,7 +27,6 @@ const initialState: RailUiState = {
   railUiWidth: 0,
   calendarBorderWidth: 4,
   selection: { type: "SUBTASK", itemId: "1" },
-  displayRangeStartDate: getPreviousSunday(new Date()),
 };
 
 function railUiReducer(state = initialState, action: ReduxAction): RailUiState {
