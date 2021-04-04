@@ -38,6 +38,7 @@ a.delete {
 }
 
 .task-parent-section {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,4 +57,9 @@ div.task-parent .checkbox-container {
 .taskparent-skin {
     width: 70%;
     float: right;
+    font-size: 12px;
+}
+
+.faded {
+    opacity: 0.5;
 }

@@ -56,7 +56,7 @@ export default function Rail (props: RailProps) {
             <ColumnBox key={dateStr}>
                 {
                     subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
-                        const Node = WithSelectableSubtask(WithSubtaskSkin(WithCheckBox(TaskNode)));
+                        const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
                         // Construct subtask tasknode here.
                         // ^ Pass in event listener for CheckBox.
                         return (

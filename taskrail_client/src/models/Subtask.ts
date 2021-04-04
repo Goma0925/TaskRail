@@ -13,7 +13,8 @@ export default class SubTask {
     parentId: string,
     assignedDate: Date,
     subtaskDeadline: Date,
-    note = ""
+    note = "",
+    complete?: boolean
   ) {
     this.name = name;
     this.assignedDate = assignedDate;
@@ -21,6 +22,9 @@ export default class SubTask {
     this.id = subtaskId;
     this.taskParentId = parentId;
     this.note = note;
+    this.complete = complete?
+        complete
+       :false;
   }
   //setters or modifiers
   public setName(name: string) {

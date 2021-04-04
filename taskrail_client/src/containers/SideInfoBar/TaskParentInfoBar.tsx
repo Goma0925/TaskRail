@@ -14,7 +14,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
     const dispatch = useDispatch();
     const taskParent = props.taskParent;
     const title = taskParent.getName();
-    const complete = taskParent.getStatus();
+    const complete = taskParent.isComplete();
     const taskParentDeadline = taskParent.getDeadline();    
     const taskParentDeadlineStr = taskParentDeadline?getDateStr(taskParentDeadline):"";
     const note = taskParent.getNote();    
