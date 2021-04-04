@@ -57,3 +57,7 @@ div.task-parent .checkbox-container {
     width: 70%;
     float: right;
 }
+
+.faded {
+    opacity: 0.5;
+}

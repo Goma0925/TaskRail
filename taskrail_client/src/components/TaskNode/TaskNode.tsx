@@ -14,7 +14,7 @@ const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {
     var className = "node";
     className += props.className? " " + props.className: "";
     
-    // Accumulate all the even handler functions passed in.
+    // Accumulate all the event handler functions passed in.
     const onClickHandlers:((event:React.MouseEvent) => void | (()=>{}))[] = [];
     if (props.onClickHandlers){
         props.onClickHandlers.map((handler)=>onClickHandlers.push(handler));
