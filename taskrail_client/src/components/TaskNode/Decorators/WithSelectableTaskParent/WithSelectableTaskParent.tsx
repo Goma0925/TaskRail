@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import TaskParent from "../../../../models/TaskParent";
 import "./WithSelectableTaskParent.css";
+import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";
 
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
@@ -40,13 +41,19 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
             draftProps.className += props.className? props.className: "";
         });
 
+        function onChangeName(event: any) {
+            let updatedTaskParent = props.taskParent.getCopy();
+            updatedTaskParent.setName(event.target.textContent);
+            dispatch(new UpdateTaskParent(updatedTaskParent));
+        }
+
         var deleteButtonClass = "delete";
         deleteButtonClass += isSelected?"": " hide";
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
                 <div className="taskparent-skin" style={{height:25}}>
-                    {props.taskParent.getName()};
+                    <p contentEditable={true} onBlur={onChangeName}>{props.taskParent.getName()}</p>
                 </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
                 {props.children}
