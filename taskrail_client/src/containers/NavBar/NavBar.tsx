@@ -1,14 +1,17 @@
 import React from "react";
-import "./style.css";
-// Jibraan's work
-export default class NavBar extends React.Component{
-    constructor(props: any){
-        super(props);
-    }
+import { useSelector } from "react-redux";
+import WeekPaginationButton from "../../components/BackgroundWeekCalendar/CalendarPagination/WeekPaginationButton";
+import { RootState } from "../../redux/store";
+import "./NavBar.css";
 
-    render(){
-        return  <div className="nav"> 
-                        <h1 className="MotivationalSpeech">Stay on Track!</h1> 
-                </div>;
-    }
+export default function NavBar(){
+    const displayRangeStartDate = useSelector((state:RootState)=>{
+        return state.pagination.displayRangeStartDate;
+    })
+    return (
+    <div className="nav"> 
+        <div className="title">Stay on Track!</div> 
+        <WeekPaginationButton displayRangeStartDate={displayRangeStartDate}></WeekPaginationButton>
+    </div>
+    )
 }

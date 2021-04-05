@@ -29,7 +29,7 @@ const RailContainer: React.FC = () => {
     (state: RootState) => state.railUi.selection
   );
   const displayRangeStartDate = useSelector(
-    (state: RootState) => state.railUi.displayRangeStartDate
+    (state: RootState) => state.pagination.displayRangeStartDate
   );
 
   const dispatch = useDispatch();

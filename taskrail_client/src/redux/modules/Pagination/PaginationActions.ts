@@ -13,6 +13,13 @@ export class SetSubtaskOnDay{
     }
 }
 
-export class SetTaskParentInPaginationFrame{
-    
+export class SetDisplayRangeStartDate{
+    static type: string = "PaginateNextWeek";
+    type: string;
+    date: Date;
+    constructor(date: Date){
+        this.type = SetDisplayRangeStartDate.type;
+        this.date = date;
+    }
 }
+

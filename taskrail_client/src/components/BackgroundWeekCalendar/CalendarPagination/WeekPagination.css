@@ -1,0 +1,22 @@
+.week-pagination {
+  display: inline-block;
+}
+
+.week-pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid rgb(91, 90, 90);
+  background-color: #ddd;
+}
+
+.week-pagination a:hover:not(.active) {background-color: #ddd;}
+
+.week-pagination-label{
+  display: table-cell;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-style: bold;
+  vertical-align: middle;}

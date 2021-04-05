@@ -10,6 +10,7 @@ import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   railUi: RailUiReducers, //stateSliceName: reducerName
+  pagination: PaginationReducers,
   taskData: TaskDataReducers,
 });
 

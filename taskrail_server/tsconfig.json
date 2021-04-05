@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": false,
     "target": "es6",
     "module": "commonjs",
     "lib": [
@@ -12,7 +13,7 @@
     "outDir": "./dist",
     "moduleResolution": "node",
     "removeComments": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "noImplicitThis": true,
@@ -33,5 +34,6 @@
   "include": [
     "./src/**/*.tsx",
     "./src/**/*.ts",
+    "./*.ts",
   ]
 }

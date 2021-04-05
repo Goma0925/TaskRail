@@ -6,18 +6,19 @@ import { useDispatch } from "react-redux";
 import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import TaskParent from "../../../../models/TaskParent";
 import "./WithSelectableTaskParent.css";
+import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";
 
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
     railUiSelection: RailUiSelection;
+    children?: React.ReactNode[]|React.ReactNode;
 }
 
-export default function WithSelectableTaskParent(NodeToDecorate: React.ComponentType<TaskNodeProps&WithSelectableTaskParentProps>) 
+export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: React.ComponentType<GenericProps>) 
 {
     const dispatch = useDispatch();
-    const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps) => {
+    const wrapperComponent = (props: TaskNodeProps&WithSelectableTaskParentProps&GenericProps) => {
         const isSelected = props.railUiSelection.type=="TASKPARENT" && props.railUiSelection.itemId==props.taskParent.getId();
-        
         const onClickSubtask=()=>{
             dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
         }
@@ -40,15 +41,22 @@ export default function WithSelectableTaskParent(NodeToDecorate: React.Component
             draftProps.className += props.className? props.className: "";
         });
 
+        function onChangeName(event: any) {
+            let updatedTaskParent = props.taskParent.getCopy();
+            updatedTaskParent.setName(event.target.textContent);
+            dispatch(new UpdateTaskParent(updatedTaskParent));
+        }
+
         var deleteButtonClass = "delete";
         deleteButtonClass += isSelected?"": " hide";
         return (
             <NodeToDecorate {...newProps}>
                 {newProps.children}
                 <div className="taskparent-skin" style={{height:25}}>
-                    {props.taskParent.getName()};
+                    <p contentEditable={true} onBlur={onChangeName}>{props.taskParent.getName()}</p>
                 </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
+                {props.children}
             </NodeToDecorate>
         );
     }

@@ -75,6 +75,9 @@ const SplitPane: React.FC<SplitPaneProps> = (props)=>{
         // to use overflow:scroll CSS in each content-col.
         const topHeight = topRef.current?.clientHeight? topRef.current?.clientHeight: 0;
         setContentHeight(window.innerHeight - topHeight);
+
+        // Set definite height for top pane
+        topRef.current?.setAttribute("height", topHeight.toString());
     });
 
     return (
