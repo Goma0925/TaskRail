@@ -72,3 +72,12 @@ export function deleteTaskParentOp(taskParentId: string) {
 export function updateTaskParentOp(taskParent: TaskParent) {
   store.dispatch(new UpdateTaskParent(taskParent));
 }
+
+export async function loadAllContentOp(){
+  // Get workspace
+    //Parse taskparents from workspace
+  // Get subtasks
+  // const workspace: any = axios.get()
+  // store.dispatch(new CreateWorkspace())
+  // store.dispatch(new CreateSubtask());
+}

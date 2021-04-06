@@ -10,6 +10,7 @@ export interface RailUiSelection {
 }
 
 interface RailUiState {
+  contentLoaded: boolean;
   taskParentSectionWidth: number;
   taskParentNodeWidth: number;
   subtaskNodeWidth: number; //Dynamically calculated
@@ -20,6 +21,7 @@ interface RailUiState {
 }
 
 const initialState: RailUiState = {
+  contentLoaded: true,
   taskParentSectionWidth: 100,
   taskParentNodeWidth: 100,
   subtaskNodeWidth: 0,
