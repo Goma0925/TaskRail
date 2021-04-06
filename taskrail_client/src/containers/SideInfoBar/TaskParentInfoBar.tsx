@@ -1,4 +1,4 @@
-import TaskParent from "../../models/TaskParent";
+import TaskParent from "../../models/ClientModels/TaskParent";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";

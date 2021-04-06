@@ -1,7 +1,6 @@
-import SubtaskInfoBar from "../../../../containers/SideInfoBar/SubtaskInfoBar";
-import SubTask from "../../../../models/Subtask";
-import TaskParent from "../../../../models/TaskParent";
-import Workspace from "../../../../models/Workspace";
+import SubTask from "../../../../models/ClientModels/Subtask";
+import TaskParent from "../../../../models/ClientModels/TaskParent";
+import Workspace from "../../../../models/ClientModels/Workspace";
 
 function getPreviousSunday(d: Date) {
   d = new Date(d);

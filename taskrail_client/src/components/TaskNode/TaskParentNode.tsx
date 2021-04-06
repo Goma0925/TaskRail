@@ -1,7 +1,5 @@
 import produce from "immer";
-import { propTypes } from "react-bootstrap/esm/Image";
 import { useDispatch } from "react-redux";
-import TaskParent from "../../models/TaskParent";
 import WithCheckBox from "./Decorators/WithCheckBox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import TaskNode, { TaskNodeProps } from "./TaskNode";

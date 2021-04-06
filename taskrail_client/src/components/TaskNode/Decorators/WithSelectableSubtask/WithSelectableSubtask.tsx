@@ -1,6 +1,6 @@
 import {TaskNodeProps} from "../../TaskNode"
 import {produce} from "immer";
-import SubTask from "../../../../models/Subtask";
+import SubTask from "../../../../models/ClientModels/Subtask";
 import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
 import { useDispatch, useSelector } from "react-redux";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";

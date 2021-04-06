@@ -4,7 +4,7 @@ import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
 import { useDispatch } from "react-redux";
 import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
-import TaskParent from "../../../../models/TaskParent";
+import TaskParent from "../../../../models/ClientModels/TaskParent";
 import "./WithSelectableTaskParent.css";
 import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";
 
