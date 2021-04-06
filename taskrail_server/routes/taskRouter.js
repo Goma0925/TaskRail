@@ -92,7 +92,7 @@ workspaceRouter.get("/users/:userId/workspaces/:workspaceId/taskparents/:taskPar
     const cursor = await db.collection(Collections.Subtasks).find(queryByTaskParentId);
     const subtasks = await cursor.toArray();
     console.log(subtasks);
-    res.send({success:true, subtasks: subtasks})
+    res.send({success:true, data: subtasks})
 }));
 
 // CREATE Subtask
