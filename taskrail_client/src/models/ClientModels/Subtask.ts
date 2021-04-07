@@ -86,7 +86,8 @@ export default class SubTask {
       this.taskParentId,
       this.assignedDate,
       this.subtaskDeadline,
-      this.note
+      this.note,
+      this.complete
     );
     return newSubtask;
   }
