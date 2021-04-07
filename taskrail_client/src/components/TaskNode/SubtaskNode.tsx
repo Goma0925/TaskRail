@@ -35,8 +35,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     if (isSelected){
         className += " selected"
     }
-    if (props.subtask.getStatus()){
-        className += " complete"
+    if (props.subtask.getStatus() || props.subtask.getParentComplete()){
+        className += " faded"
     }
     //Update props
     var newProps = produce(props, draftProps=>{

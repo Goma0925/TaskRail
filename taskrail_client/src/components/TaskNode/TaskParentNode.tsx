@@ -1,5 +1,6 @@
 import produce from "immer";
 import { useDispatch } from "react-redux";
+import { UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
 import WithCheckBox from "./Decorators/WithCheckBox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import TaskNode, { TaskNodeProps } from "./TaskNode";
@@ -7,7 +8,8 @@ import TaskNode, { TaskNodeProps } from "./TaskNode";
 type TaskParentNodeProps = WithSelectableTaskParentProps&TaskNodeProps;
 
 export default function TaskParentNode(props: TaskParentNodeProps){
-    const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
+    // const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
+    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     // define function ^
     const dispatch = useDispatch();
     const completeTaskParent = ()=>{
@@ -41,6 +43,24 @@ export default function TaskParentNode(props: TaskParentNodeProps){
     //     props.className += " unfaded"
     // }
 
+    function onClickCheckbox(event: any) {
+        let updatedTaskParent = props.taskParent.getCopy();
+        if (updatedTaskParent.isComplete()) {
+            updatedTaskParent.uncompleteTask();
+            // unfade all children
+            // if (props.children != null) {
+            //     props.children.map(()=>{
+
+            //     })
+            // }
+            /* stuck here right now ^ */
+        } else {
+            updatedTaskParent.completeTask();
+            // fade all children
+        }
+        dispatch(new UpdateTaskParent(updatedTaskParent));
+    }
+
     var newProps = produce(props, draftProps=>{
         // Append className
         // draftProps.className = props.className + " faded";
@@ -57,7 +77,8 @@ export default function TaskParentNode(props: TaskParentNodeProps){
                 // onClickCheckBox={functionA}
                 taskParent={props.taskParent} 
                 railUiSelection={props.railUiSelection}>
-
-                {/* {fadeOverlay} */}
+                <div className="checkbox-container">
+                    <input type="checkbox" className="float-checkbox" onClick={onClickCheckbox}/>
+                </div>
             </TaskParentNode>
 }
