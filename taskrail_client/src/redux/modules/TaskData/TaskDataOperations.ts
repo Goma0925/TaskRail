@@ -1,4 +1,4 @@
-import TaskParent from "../../../models/TaskParent";
+import TaskParent from "../../../models/ClientModels/TaskParent";
 import { Dispatch } from "redux";
 import {
   AddTaskParent,
@@ -8,7 +8,7 @@ import {
 } from "./TaskDataActions";
 import store from "../../store";
 import { AddSubtask } from "./TaskDataActions";
-import SubTask from "../../../models/Subtask";
+import SubTask from "../../../models/ClientModels/Subtask";
 import thunk from "redux-thunk";
 
 export function CreateSubtask(){ // CreateSubtask is an operation/action that returns a function.
@@ -71,4 +71,13 @@ export function deleteTaskParentOp(taskParentId: string) {
 
 export function updateTaskParentOp(taskParent: TaskParent) {
   store.dispatch(new UpdateTaskParent(taskParent));
+}
+
+export async function loadAllContentOp(){
+  // Get workspace
+    //Parse taskparents from workspace
+  // Get subtasks
+  // const workspace: any = axios.get()
+  // store.dispatch(new CreateWorkspace())
+  // store.dispatch(new CreateSubtask());
 }

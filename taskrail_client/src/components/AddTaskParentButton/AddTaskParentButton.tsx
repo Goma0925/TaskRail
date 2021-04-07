@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import TaskParent from "../../models/TaskParent";
 import { createTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import "./AddTaskParentButton.css";
 

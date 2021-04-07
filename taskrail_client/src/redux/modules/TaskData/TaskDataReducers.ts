@@ -1,9 +1,9 @@
 import { produce } from "immer";
 import ReduxAction from "../ReduxAction";
-import Workspace from "../../../models/Workspace";
+import Workspace from "../../../models/ClientModels/Workspace";
 import * as Actions from "./TaskDataActions";
-import TaskParent from "../../../models/TaskParent";
-import SubTask from "../../../models/Subtask";
+import TaskParent from "../../../models/ClientModels/TaskParent";
+import SubTask from "../../../models/ClientModels/Subtask";
 import TestTaskData from "./TestTaskData/TestTaskDataFactory";
 
 interface TaskDataState{

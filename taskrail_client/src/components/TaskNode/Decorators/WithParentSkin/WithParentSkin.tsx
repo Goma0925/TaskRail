@@ -1,6 +1,6 @@
 import {TaskNodeProps} from "../../TaskNode"
 import {produce} from "immer";
-import TaskParent from "../../../../models/TaskParent";
+import TaskParent from "../../../../models/ClientModels/TaskParent"; 
 import "./WithParentSkin.css";
 import { useDispatch } from "react-redux";
 import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";

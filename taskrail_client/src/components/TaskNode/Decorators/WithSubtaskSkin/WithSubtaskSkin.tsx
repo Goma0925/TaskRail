@@ -1,7 +1,7 @@
 import "./WithSubtaskSkin.css"
 import {TaskNodeProps} from "../../TaskNode"
 import {produce} from "immer";
-import SubTask from "../../../../models/Subtask";
+import SubTask from "../../../../models/ClientModels/Subtask";
 import { useDispatch } from "react-redux";
 import { UpdateSubtask } from "../../../../redux/modules/TaskData/TaskDataActions";
 

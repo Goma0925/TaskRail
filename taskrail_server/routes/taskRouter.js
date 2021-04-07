@@ -144,9 +144,14 @@ workspaceRouter.get(
       .find(queryByTaskParentId);
     const subtasks = await cursor.toArray();
     console.log(subtasks);
+<<<<<<< HEAD
     res.send({ success: true, data: subtasks });
   }
 );
+=======
+    res.send({success:true, data: subtasks})
+}));
+>>>>>>> 23e410272404c727f285fa03eae549ff987df0a2
 
 // CREATE Subtask
 workspaceRouter.post(

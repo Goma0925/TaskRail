@@ -1,10 +1,6 @@
-// Michael
-import React, { useState } from "react";
-import Subtask from "../../models/Subtask";
-import TaskParent from "../../models/TaskParent";
+import Subtask from "../../models/ClientModels/Subtask";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
 
 // Typescript uses interfaces (static, compile-time checking)

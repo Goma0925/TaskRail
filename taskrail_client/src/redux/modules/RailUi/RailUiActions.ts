@@ -1,4 +1,4 @@
-import SubTask from "../../../models/Subtask";
+import SubTask from "../../../models/ClientModels/Subtask";
 import ReduxAction from "../ReduxAction";
 import { RailUiSelection } from "./RailUiReducers";
 export class SetRailUiWidth implements ReduxAction{

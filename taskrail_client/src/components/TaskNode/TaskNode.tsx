@@ -1,4 +1,4 @@
-import Subtask from "../../models/Subtask";
+import Subtask from "../../models/ClientModels/Subtask";
 import React from 'react';
 
 export interface TaskNodeProps {

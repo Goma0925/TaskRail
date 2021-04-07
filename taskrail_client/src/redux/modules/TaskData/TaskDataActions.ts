@@ -1,6 +1,6 @@
-import Subtask from "../../../models/Subtask";
-import SubTask from "../../../models/Subtask";
-import TaskParent from "../../../models/TaskParent";
+import Subtask from "../../../models/ClientModels/Subtask";
+import SubTask from "../../../models/ClientModels/Subtask";
+import TaskParent from "../../../models/ClientModels/TaskParent";
 import ReduxAction from "../ReduxAction";
 
 export class AddSubtask implements ReduxAction{

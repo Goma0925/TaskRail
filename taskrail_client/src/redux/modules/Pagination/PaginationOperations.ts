@@ -1,5 +1,5 @@
 import { getNDaysLater } from "../../../helpers/DateTime";
-import SubTask from "../../../models/Subtask";
+import SubTask from "../../../models/ClientModels/Subtask";
 import store from "../../store";
 import * as TaskDataActions from "../TaskData/TaskDataActions";
 import * as TaskDataOperations from "../TaskData/TaskDataOperations";

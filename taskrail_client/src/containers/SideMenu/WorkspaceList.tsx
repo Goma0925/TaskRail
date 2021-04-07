@@ -1,5 +1,5 @@
 import React from "react";
-import Workspace from "../../models/Workspace";
+import Workspace from "../../models/ClientModels/Workspace";
 
 export default function WorkspaceList() {
 
