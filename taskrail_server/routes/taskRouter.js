@@ -16,7 +16,7 @@ workspaceRouter.get('/users/:userId/workspaces', (async (req, res) => {
     const workspaces = await cursor.toArray();
     console.log(cursor);
     //May require error checking.
-    res.send({success:true, data:workspaces});
+    res.send({success:true, data:workspaces?workspaces:[]});
 }));
 
 //READ a particular workspace
