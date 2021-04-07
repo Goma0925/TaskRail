@@ -6,14 +6,14 @@ import {
   DeleteTaskParent,
   UpdateTaskParent,
 } from "./TaskDataActions";
-import store from "../../store";
+import store, { RootState } from "../../store";
 import { AddSubtask } from "./TaskDataActions";
 import SubTask from "../../../models/ClientModels/Subtask";
-import thunk from "redux-thunk";
 import axios, { AxiosResponse } from "axios";
 import { WorkspaceJson } from "../../../models/ApiModels/TaskDataJson";
 import { BaseJson } from "../../../models/ApiModels/BaseJson";
 import Workspace from "../../../models/ClientModels/Workspace";
+import { AppDispatch } from "../../redux-utils/ReduxUtils";
 
 export function CreateSubtask(){ // CreateSubtask is an operation/action that returns a function.
     return async (dispatch: Dispatch) => { //Uses the dispatch method function to run an action asynchronously.
@@ -77,10 +77,12 @@ export function updateTaskParentOp(taskParent: TaskParent) {
   store.dispatch(new UpdateTaskParent(taskParent));
 }
 
-export async function loadAllContentOp(){
-  return async (dispatch: Dispatch) => {
+export function loadAllContentOp(){  
+  return async (dispatch: AppDispatch) => {
     const baseURL = "http://localhost:4000"; //Make sure to separate this so we can deploy app on any domain.
     const workspaceId = "606ce37557f04e1e3594dd82";
+    console.log("loadAllContentOp thunk", baseURL + "/users/1/workspaces/"+workspaceId);
+
     axios.get(baseURL + "/users/1/workspaces/"+workspaceId)
         .then((response:AxiosResponse<BaseJson<WorkspaceJson>>)=>{
             console.log("Initial operation called");
@@ -97,6 +99,8 @@ export async function loadAllContentOp(){
             }
         })
         .catch((err: Error)=>{
+            console.log("loadAllContentOp failed");
+          
             console.log(err);
         })
   }

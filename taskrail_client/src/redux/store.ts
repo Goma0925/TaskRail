@@ -18,7 +18,8 @@ const logger = createLogger();
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk, classInstanceUnpacker, logger)
+  //Always make sure classInstanceUnpacker comes at last when using class-based action.
+  applyMiddleware(thunk, classInstanceUnpacker, logger) 
 );
 
 export default store;
