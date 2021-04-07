@@ -64,7 +64,12 @@ export default function Rail (props: RailProps) {
                         // ^ Pass in event listener for CheckBox.
                         return (
                             <Fragment key={subtask.getId()}>
-                                <SubtaskNode subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></SubtaskNode>
+                                <SubtaskNode 
+                                    subtask={subtask} 
+                                    width={props.subtaskNodeWidth} 
+                                    railUiSelection={props.railUiSelection}
+                                    parent={props.taskParent}>
+                                </SubtaskNode>
                             </Fragment>
                         );
                     }):
@@ -91,6 +96,7 @@ export default function Rail (props: RailProps) {
                     taskParent={props.taskParent} 
                     railUiSelection={props.railUiSelection} 
                     width={props.taskParentNodeWidth}
+                    subtasks={props.sortedSubtasks}
                 />
             </div>
             <div className="subtask-section">

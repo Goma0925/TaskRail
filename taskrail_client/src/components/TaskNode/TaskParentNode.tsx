@@ -1,13 +1,19 @@
 import produce from "immer";
 import { useDispatch } from "react-redux";
-import { UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
+import SubTask from "../../models/ClientModels/Subtask";
+import { UpdateSubtask, UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
 import WithCheckBox from "./Decorators/WithCheckBox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
+import SubtaskNode from "./SubtaskNode";
 import TaskNode, { TaskNodeProps } from "./TaskNode";
 
-type TaskParentNodeProps = WithSelectableTaskParentProps&TaskNodeProps;
+interface TaskParentNodeProps {
+    subtasks: SubTask[];
+}
 
-export default function TaskParentNode(props: TaskParentNodeProps){
+type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeProps;
+
+export default function TaskParentNode(props: ComposedProps){
     // const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
     const TaskParentNode = WithSelectableTaskParent(TaskNode);
     // define function ^
@@ -48,15 +54,20 @@ export default function TaskParentNode(props: TaskParentNodeProps){
         if (updatedTaskParent.isComplete()) {
             updatedTaskParent.uncompleteTask();
             // unfade all children
-            // if (props.children != null) {
-            //     props.children.map(()=>{
-
-            //     })
-            // }
+            props.subtasks.map((subtask)=>{
+                let updatedSubtask = subtask.getCopy();
+                /* Just refreshing it. */
+                dispatch(new UpdateSubtask(updatedSubtask));
+            })
             /* stuck here right now ^ */
         } else {
             updatedTaskParent.completeTask();
             // fade all children
+            props.subtasks.map((subtask)=>{
+                let updatedSubtask = subtask.getCopy();
+                /* Just refreshing it. */
+                dispatch(new UpdateSubtask(updatedSubtask));
+            })
         }
         dispatch(new UpdateTaskParent(updatedTaskParent));
     }

@@ -16,7 +16,6 @@ export default class SubTask {
     subtaskDeadline: Date,
     note = "",
     complete?: boolean,
-    parentComplete?: boolean
   ) {
     this.name = name;
     this.assignedDate = assignedDate;
@@ -57,13 +56,6 @@ export default class SubTask {
     this.complete = false;
   }
 
-  public setParentComplete() {
-    this.parentComplete = true;
-  }
-
-  public setParentUncomplete() {
-    this.parentComplete = false;
-  }
   //getters
   public getName() {
     return this.name;

@@ -9,10 +9,12 @@ import { deleteSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations
 import TaskNode, { TaskNodeProps } from "./TaskNode";
 import "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin.css";
 import "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask.css";
+import TaskParent from "../../models/ClientModels/TaskParent";
 
 export interface SubtaskNodeProps {
     subtask: SubTask;
     railUiSelection: RailUiSelection;
+    parent: TaskParent;
 }
 
 export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
@@ -35,7 +37,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     if (isSelected){
         className += " selected"
     }
-    if (props.subtask.getStatus() || props.subtask.getParentComplete()){
+    if (props.subtask.getStatus() || props.parent.isComplete()){
         className += " faded"
     }
     //Update props
