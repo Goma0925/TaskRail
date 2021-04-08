@@ -62,11 +62,8 @@ function taskDataReducer(
         case  Actions.AddSubtask.type:
             var subtask = (<Actions.AddSubtask>action).subtask;
             var taskParentId = subtask.getParentId();
-            console.log("Action subtask", subtask);
             
-            return produce(state, draftState=>{
-                console.log("Reducer",taskParentId, "|", draftState.taskParents.byId[taskParentId].getSubtaskIdsFromCurrentFrame().concat([subtask.getId()]));
-                
+            return produce(state, draftState=>{                
                 // Add subtask ID to the taskparent store.
                 draftState.taskParents.byId[taskParentId].setSubtaskIdsToCurrentFrame(
                     draftState.taskParents.byId[taskParentId].getSubtaskIdsFromCurrentFrame().concat([subtask.getId()])

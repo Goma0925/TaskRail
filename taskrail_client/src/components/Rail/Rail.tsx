@@ -33,7 +33,6 @@ export default function Rail (props: RailProps) {
     //Categorize subtasks by day of week
     const subtasksByDate:{[date: string]: Subtask[]} = {};
     var subtaskDate:string;//Sunday=0
-    console.log("Before filter subs:", props.subtasks);
 
     props.subtasks.map((subtask:Subtask)=>{
         subtaskDate = getDateStr(subtask.getAssignedDate());
@@ -42,15 +41,12 @@ export default function Rail (props: RailProps) {
         }
         subtasksByDate[subtaskDate].push(subtask);
     });
-    console.log("After filter subts:", subtasksByDate);
-    
     
     const columnBoxes: ReactNode[] = [];
     [...Array(7)].map((_, dayIndex)=>{
         // Get date object from start date to seven days later.
         var date = getNDaysLater(displayRangeStartDate, dayIndex);        
         const dateStr = getDateStr(date);  
-        console.log("dateStr", dateStr);
       
         // Get all the subtasks in an array for the particular day to render them.
         const subtasksOfDay = subtasksByDate[dateStr]? subtasksByDate[dateStr]:[];        

@@ -49,7 +49,6 @@ const RailContainer: React.FC = () => {
           const subtasks = currentFrameSubtaskIds.map(
             (id) => subtasksById[id]
           );
-          console.log("TaskparentName=",taskParentsById[id].getName(), "|",subtasks);
           
           return (
             <Fragment key={id}>

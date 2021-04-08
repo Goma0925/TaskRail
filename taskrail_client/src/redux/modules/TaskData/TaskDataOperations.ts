@@ -24,12 +24,9 @@ export function createSubtaskOp(
   taskParentId: string,
   assignedDate: Date
 ) {
-  return async (dispatch: AppDispatch)=>{
-    console.log("Convertion", assignedDate, getDateStr(assignedDate));
-    
+  return async (dispatch: AppDispatch)=>{    
     const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
     if (workspaceId){
-      console.log("URL", TaskDataEndpoints.POST.sutasks.createByHierarchy(workspaceId, taskParentId));
       // POST request to create a subtask here
       const subtask: SubtaskJson = {
         _id: "",
@@ -53,7 +50,6 @@ export function createSubtaskOp(
             subtaskJson.complete,
           );
           //Dispatch a new subtask to the redux store.
-          console.log("createdSubtask", createdSubtask);
           dispatch(new AddSubtask(createdSubtask));
         }, )
     }else{
@@ -67,21 +63,24 @@ export function deleteSubtaskOp(subtaskId: string) {
 }
 
 export function createTaskParentOp(title: string) {
-  // //Increment the ID. Only for testing purpose.
-  // AddTaskParent.idCount += 1;
-  // // This method will be overwritten once we have API.
-  // const subtaskId = AddTaskParent.idCount.toString();
+  return async (dispatch: AppDispatch)=>{
+    window.alert("hi");
+    //Increment the ID. Only for testing purpose.
+    AddTaskParent.idCount += 1;
+    // This method will be overwritten once we have API.
+    const subtaskId = AddTaskParent.idCount.toString();
 
-  // // POST request to create here
+    // POST request to create here
 
-  // const taskParent = new TaskParent(
-  //   title,
-  //   AddTaskParent.idCount.toString(),
-  //   new Date()
-  // );
+    const taskParent = new TaskParent(
+      title,
+      AddTaskParent.idCount.toString(),
+      new Date()
+    );
 
-  // // ToDo: Rename AddTaskParent
-  // store.dispatch(new AddTaskParent(taskParent));
+    // ToDo: Rename AddTaskParent
+    store.dispatch(new AddTaskParent(taskParent));
+  }
 }
 
 export function deleteTaskParentOp(taskParentId: string) {
