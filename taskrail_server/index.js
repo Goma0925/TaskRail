@@ -1,9 +1,14 @@
 require('dotenv').config(); 
 const express = require('express');
+var cors = require('cors')
 const bodyParser = require('body-parser');
 const mongoUtil = require("./MongoUtil");
 const app = express(); 
 const PORT = process.env.PORT; 
+
+var corsOptions = {
+    origin: 'http://localhost:3000',
+}
 
 mongoUtil.connect(() => {
     // Start the app after mongo db is connected.
@@ -12,7 +17,7 @@ mongoUtil.connect(() => {
 
     app.listen(PORT || 3000, () => "");
     const rootRouter = require("./routes");
-    app.use("/", rootRouter);
+    app.use("/", cors(corsOptions), rootRouter);
 })
 
 
