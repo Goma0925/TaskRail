@@ -10,6 +10,7 @@ import TaskNode, { TaskNodeProps } from "./TaskNode";
 import "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin.css";
 import "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask.css";
 import TaskParent from "../../models/ClientModels/TaskParent";
+import { getDateStr, getMonthAndDay, LocalDateParse } from "../../helpers/DateTime";
 
 export interface SubtaskNodeProps {
     subtask: SubTask;
@@ -59,11 +60,13 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
 
     function handleBottomChange(event: any) {
-        /* In the final product, you probably don't 
-           want to let the user change the id. */
-        let updatedSubtask = props.subtask.getCopy();
-        updatedSubtask.setId(event.target.textContent);
-        dispatch(new UpdateSubtask(updatedSubtask));
+        // TODO: Modify date, either through datepicker
+        // or by allowing user to modify string and
+        // encoding it back into a date.
+
+        // let updatedSubtask = props.subtask.getCopy();
+        // updatedSubtask.setId(event.target.textContent);
+        // dispatch(new UpdateSubtask(updatedSubtask));
     }
 
     function onClickCheckbox(event: any) {
@@ -89,7 +92,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
                 <p contentEditable={true} onBlur={handleBottomChange}>
-                    {props.subtask.getId()}</p>
+                    {getMonthAndDay(props.subtask.getSubtaskDeadline())}</p>
+                {/* <input type="date"></input> */}
             </div>
         </TaskNode>
     )
