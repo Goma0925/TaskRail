@@ -1,20 +1,17 @@
 import Subtask from "../../../models/ClientModels/Subtask";
 import SubTask from "../../../models/ClientModels/Subtask";
 import TaskParent from "../../../models/ClientModels/TaskParent";
+import Workspace from "../../../models/ClientModels/Workspace";
 import ReduxAction from "../ReduxAction";
 
 export class AddSubtask implements ReduxAction{
     // This method needs to be overwritten once we have an API.
-    static idCount = 100;
-    static type = "CreateSubtask";
+    static type = "AddSubtask";
     type: string;
     subtask: SubTask;
     constructor(subtask: Subtask){
         this.type = AddSubtask.type;
         this.subtask = subtask;
-
-        // Only for testing purpose
-        AddSubtask.idCount+=1;
     }
 }
 
@@ -62,5 +59,35 @@ export class UpdateTaskParent implements ReduxAction{
     constructor(taskParent: TaskParent){
         this.type = UpdateTaskParent.type;
         this.taskParent = taskParent;
+    }
+}
+
+export class SetCurrentWorkspace{
+    static type = "AddWorkspace";
+    type: string;
+    workspace: Workspace;
+    constructor(workspace: Workspace){
+        this.type = SetCurrentWorkspace.type;
+        this.workspace = workspace;
+    }
+}
+
+export class DeleteWorkspace{
+    static type = "DeleteWorkspace";
+    type: string;
+    workspace: Workspace;
+    constructor(workspace: Workspace){
+        this.type = DeleteWorkspace.type;
+        this.workspace = workspace;
+    }
+}
+
+export class UpdateWorkspace{
+    static type = "UpdateWorkspace";
+    type: string;
+    workspace: Workspace;
+    constructor(workspace: Workspace){
+        this.type = UpdateWorkspace.type;
+        this.workspace = workspace;
     }
 }

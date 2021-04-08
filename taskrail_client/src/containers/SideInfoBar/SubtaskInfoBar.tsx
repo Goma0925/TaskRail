@@ -103,7 +103,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
           <h3 className="DeadlineLabel">Deadline:</h3>
           <input
             type="date"
-            value={return_date_str(deadline)}
+            value={deadline?return_date_str(deadline):""}
             onChange={handleDateChange}
             className="DeadlineInput"
           />

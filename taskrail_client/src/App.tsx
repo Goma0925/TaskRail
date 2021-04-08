@@ -10,12 +10,13 @@ import { ThunkDispatch } from 'redux-thunk';
 
 function App() {
   const contentLoaded = useSelector((state: RootState)=>state.railUi.contentLoaded);
-
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(()=>{
-    dispatch(loadAllContentOp());
-  })
+    if (!contentLoaded){
+      dispatch(loadAllContentOp("606ce37557f04e1e3594dd82"));
+    }
+  }, [])
 
   return (
     <>

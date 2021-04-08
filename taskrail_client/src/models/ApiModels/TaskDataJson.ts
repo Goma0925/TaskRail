@@ -3,7 +3,7 @@ import { BaseJson } from "./BaseJson";
 export interface TaskParentJson{
     _id: string;
     name: string;
-    taskParentDeadline: Date;
+    taskParentDeadline: string;
     note: string;
     complete: boolean;
 }
@@ -19,7 +19,7 @@ export interface SubtaskJson{
     taskParentId: string;
     name: string;
     scheduledDate: string;
-    deadline: string;
+    deadline: string|null;
     note: string;
     complete: boolean
 }

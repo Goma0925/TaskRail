@@ -21,14 +21,14 @@ interface RailUiState {
 }
 
 const initialState: RailUiState = {
-  contentLoaded: true,
+  contentLoaded: false,
   taskParentSectionWidth: 100,
   taskParentNodeWidth: 100,
   subtaskNodeWidth: 0,
   minSubtaskNodeWidth: 100,
   railUiWidth: 0,
   calendarBorderWidth: 4,
-  selection: { type: "SUBTASK", itemId: "1" },
+  selection: { type: "NONE", itemId: "" },
 };
 
 function railUiReducer(state = initialState, action: ReduxAction): RailUiState {
@@ -57,6 +57,10 @@ function railUiReducer(state = initialState, action: ReduxAction): RailUiState {
           action
         )).selection.itemId;
       });
+    case Actions.SetContentLoaded.type:
+      return produce(state, (draftState)=>{
+        draftState.contentLoaded = (<Actions.SetContentLoaded>action).loaded;
+      })
     default:
       return state;
   }

@@ -4,47 +4,62 @@ import {
   AddTaskParent,
   DeleteSubtask,
   DeleteTaskParent,
+  SetCurrentWorkspace,
   UpdateTaskParent,
 } from "./TaskDataActions";
 import store, { RootState } from "../../store";
 import { AddSubtask } from "./TaskDataActions";
 import SubTask from "../../../models/ClientModels/Subtask";
 import axios, { AxiosResponse } from "axios";
-import { WorkspaceJson } from "../../../models/ApiModels/TaskDataJson";
+import { SubtaskJson, TaskParentJson, WorkspaceJson } from "../../../models/ApiModels/TaskDataJson";
 import { BaseJson } from "../../../models/ApiModels/BaseJson";
 import Workspace from "../../../models/ClientModels/Workspace";
 import { AppDispatch } from "../../redux-utils/ReduxUtils";
-
-export function CreateSubtask(){ // CreateSubtask is an operation/action that returns a function.
-    return async (dispatch: Dispatch) => { //Uses the dispatch method function to run an action asynchronously.
-        try { // Try the following code
-            
-        } catch(e){ //Catch the error
-            console.error(e);
-        }
-    }
-}
+import { getDateStr, LocalDateParse } from "../../../helpers/DateTime";
+import { SetContentLoaded } from "../RailUi/RailUiActions";
+import * as TaskDataEndpoints from "../../api_endpoints/TaskData";
 
 export function createSubtaskOp(
   subtaskName: string,
   taskParentId: string,
   assignedDate: Date
 ) {
-  // This method will be overwritten once we have API.
-  const subtaskId = AddSubtask.idCount.toString();
-
-  // POST request to create a subtask here
-  const subtask = new SubTask(
-    subtaskName,
-    AddSubtask.idCount.toString(),
-    taskParentId,
-    assignedDate,
-    assignedDate
-  );
-
-  // ToDo: Rename CreateSubtask
-  store.dispatch(new AddSubtask(subtask));
-  return subtask;
+  return async (dispatch: AppDispatch)=>{
+    console.log("Convertion", assignedDate, getDateStr(assignedDate));
+    
+    const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
+    if (workspaceId){
+      console.log("URL", TaskDataEndpoints.POST.sutasks.createByHierarchy(workspaceId, taskParentId));
+      // POST request to create a subtask here
+      const subtask: SubtaskJson = {
+        _id: "",
+        name: subtaskName,
+        taskParentId: taskParentId,
+        scheduledDate: getDateStr(assignedDate),
+        deadline: null,
+        note: "",
+        complete: false,
+      };
+      axios.post(TaskDataEndpoints.POST.sutasks.createByHierarchy(workspaceId, taskParentId), subtask)
+        .then((res: AxiosResponse<BaseJson<SubtaskJson>>)=>{
+          const subtaskJson = res.data.data;
+          const createdSubtask = new SubTask(
+            subtaskJson.name,
+            subtaskJson._id,
+            subtaskJson.taskParentId,
+            LocalDateParse(subtaskJson.scheduledDate),
+            subtaskJson.deadline?LocalDateParse(subtaskJson.deadline):undefined,
+            subtaskJson.note,
+            subtaskJson.complete,
+          );
+          //Dispatch a new subtask to the redux store.
+          console.log("createdSubtask", createdSubtask);
+          dispatch(new AddSubtask(createdSubtask));
+        }, )
+    }else{
+      throw Error("Workspace does not exists");
+    }
+  }
 }
 
 export function deleteSubtaskOp(subtaskId: string) {
@@ -52,21 +67,21 @@ export function deleteSubtaskOp(subtaskId: string) {
 }
 
 export function createTaskParentOp(title: string) {
-  //Increment the ID. Only for testing purpose.
-  AddTaskParent.idCount += 1;
-  // This method will be overwritten once we have API.
-  const subtaskId = AddTaskParent.idCount.toString();
+  // //Increment the ID. Only for testing purpose.
+  // AddTaskParent.idCount += 1;
+  // // This method will be overwritten once we have API.
+  // const subtaskId = AddTaskParent.idCount.toString();
 
-  // POST request to create here
+  // // POST request to create here
 
-  const taskParent = new TaskParent(
-    title,
-    AddTaskParent.idCount.toString(),
-    new Date()
-  );
+  // const taskParent = new TaskParent(
+  //   title,
+  //   AddTaskParent.idCount.toString(),
+  //   new Date()
+  // );
 
-  // ToDo: Rename AddTaskParent
-  store.dispatch(new AddTaskParent(taskParent));
+  // // ToDo: Rename AddTaskParent
+  // store.dispatch(new AddTaskParent(taskParent));
 }
 
 export function deleteTaskParentOp(taskParentId: string) {
@@ -77,38 +92,73 @@ export function updateTaskParentOp(taskParent: TaskParent) {
   store.dispatch(new UpdateTaskParent(taskParent));
 }
 
-export function loadAllContentOp(){  
+export function loadAllContentOp(workspaceId: string){  
   return async (dispatch: AppDispatch) => {
-    const baseURL = "http://localhost:4000"; //Make sure to separate this so we can deploy app on any domain.
-    const workspaceId = "606ce37557f04e1e3594dd82";
-    console.log("loadAllContentOp thunk", baseURL + "/users/1/workspaces/"+workspaceId);
-
-    axios.get(baseURL + "/users/1/workspaces/"+workspaceId)
-        .then((response:AxiosResponse<BaseJson<WorkspaceJson>>)=>{
-            console.log("Initial operation called");
-            console.log(response.data);
-            if (response.data.success){
-              const nestedWorkspaceJson: WorkspaceJson = response.data.data;
-              const workspace = new Workspace(
-                  nestedWorkspaceJson.name,
-                  nestedWorkspaceJson._id,
-                  nestedWorkspaceJson.taskparents.map(taskParent=>taskParent._id)
-              )
-              console.log("-----------Workspace Model constructed from JSON response-------------");
-              console.log(workspace);
-            }
+    var workspace: Workspace|undefined = undefined;
+    var taskParents:TaskParent[] = [];
+    await axios.get(TaskDataEndpoints.GET.workspaces.byId(workspaceId))
+        .then((res:AxiosResponse<BaseJson<WorkspaceJson>>)=>{
+          if (res.data.success){
+            const nestedWorkspaceJson: WorkspaceJson = res.data.data;
+            
+            workspace = new Workspace(
+                nestedWorkspaceJson.name,
+                nestedWorkspaceJson._id,
+                [], //Leave the ID blank because AddTaskParent action will add the ID automatically
+            )
+            // Set the current workspace instance.
+            dispatch(new SetCurrentWorkspace(workspace));
+            
+            taskParents = nestedWorkspaceJson.taskparents.map((taskParentJson: TaskParentJson)=>{    
+              const taskParent = new TaskParent(
+                taskParentJson.name,
+                taskParentJson._id,
+                taskParentJson.taskParentDeadline!=null?LocalDateParse(taskParentJson.taskParentDeadline):undefined,
+                [],
+                taskParentJson.complete
+              );
+              // Dispatch task parent to the redux store.
+              dispatch(new AddTaskParent(taskParent));
+              // Return to the array to call the subtask API later.
+              return taskParent;
+            });
+            
+          }
         })
         .catch((err: Error)=>{
-            console.log("loadAllContentOp failed");
-          
-            console.log(err);
-        })
-  }
+            throw err;
+        });
 
-  // Get workspace
-    //Parse taskparents from workspace
-  // Get subtasks
-  // const workspace: any = axios.get()
-  // store.dispatch(new CreateWorkspace())
-  // store.dispatch(new CreateSubtask());
+    // Query for subtasks
+    for (let i=0; i<taskParents.length; i++){
+      const subtaskIds:string[] = []
+      const taskParent = taskParents[i]      
+      await axios.get(TaskDataEndpoints.GET.subtasks.allByHierarchy(workspaceId, taskParent.getId()))
+        .then((res:AxiosResponse<BaseJson<SubtaskJson[]>>)=>{
+          if (res.data.success){
+            // For-loop all the subtasks and construct Subtask instances.
+            res.data.data.map((subtaskJson:SubtaskJson)=>{     
+              // Collect the subtask IDs to an array to set them to parent.
+              subtaskIds.push(subtaskJson._id);
+              //Create subtask instance                    
+              const subtask = new SubTask(
+                subtaskJson.name,
+                subtaskJson._id,
+                subtaskJson.taskParentId,
+                LocalDateParse(subtaskJson.scheduledDate),
+                subtaskJson.deadline?LocalDateParse(subtaskJson.deadline):undefined,
+                subtaskJson.note,
+                subtaskJson.complete,
+              );
+              //Dispatch subtask to the redux store.
+              dispatch(new AddSubtask(subtask));
+            });
+          }
+        }).catch((err: Error)=>{
+          throw err;
+        })
+    }
+    // Dispatch SetContentLoaded to stop the loading view.
+    dispatch(new SetContentLoaded(true));
+  }
 }

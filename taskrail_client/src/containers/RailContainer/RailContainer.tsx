@@ -46,14 +46,16 @@ const RailContainer: React.FC = () => {
           const currentFrameSubtaskIds = taskParentsById[
             id
           ].getSubtaskIdsFromCurrentFrame();
-          const sortedSubtasks = currentFrameSubtaskIds.map(
+          const subtasks = currentFrameSubtaskIds.map(
             (id) => subtasksById[id]
           );
+          console.log("TaskparentName=",taskParentsById[id].getName(), "|",subtasks);
+          
           return (
             <Fragment key={id}>
               <Rail
                 taskParent={taskParentsById[id]}
-                sortedSubtasks={sortedSubtasks}
+                subtasks={subtasks}
                 railUiSelection={railUiSelection}
                 displayRangeStartDate={displayRangeStartDate}
                 subtaskNodeWidth={subtaskNodeWidth}

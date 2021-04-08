@@ -9,7 +9,7 @@ export default class TaskParent {
   public constructor(
     name: string,
     id: string,
-    taskParentDeadline?: Date,
+    taskParentDeadline?: Date|undefined,
     currentFrameSubtaskIds?: string[],
     complete?: boolean
   ) {
@@ -40,7 +40,7 @@ export default class TaskParent {
   }
 
   public setSubtaskIdsToCurrentFrame(subtaskIds: string[]) {
-    this.currentFrameSubtaskIds.concat(subtaskIds);
+    this.currentFrameSubtaskIds = subtaskIds
   }
 
   public addSubtaskIdToCurrentFrame(subtaskId: string) {

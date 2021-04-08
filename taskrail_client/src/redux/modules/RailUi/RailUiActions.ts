@@ -20,3 +20,13 @@ export class SelectItem implements ReduxAction{
         this.selection = selection;
     }
 }
+
+export class SetContentLoaded implements ReduxAction{
+    static type = "SetContentLoaded";
+    type: string;
+    loaded:boolean;
+    constructor(loaded: boolean){
+        this.type = SetContentLoaded.type;
+        this.loaded = loaded
+    }
+}

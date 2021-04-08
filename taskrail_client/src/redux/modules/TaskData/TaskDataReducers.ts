@@ -25,18 +25,32 @@ interface TaskDataState{
     }
 };
 
+// const initialState:TaskDataState = {
+//     workspace: {
+//         currentWorkspace: TestTaskData.workspace,
+//         allIds: TestTaskData.allWorkspaceIds,
+//     },
+//     taskParents: {
+//         byId: TestTaskData.taskParentById,
+//         allIds: TestTaskData.allTaskParentIds
+//     },
+//     subtasks: {
+//         byId: TestTaskData.subtaskbyId,
+//         allIds: TestTaskData.allSubtaskIds
+//     }
+// };
 const initialState:TaskDataState = {
     workspace: {
-        currentWorkspace: TestTaskData.workspace,
-        allIds: TestTaskData.allWorkspaceIds,
+        currentWorkspace: undefined,
+        allIds: [],
     },
     taskParents: {
-        byId: TestTaskData.taskParentById,
-        allIds: TestTaskData.allTaskParentIds
+        byId: {},
+        allIds: []
     },
     subtasks: {
-        byId: TestTaskData.subtaskbyId,
-        allIds: TestTaskData.allSubtaskIds
+        byId: {},
+        allIds: []
     }
 };
 
@@ -48,13 +62,19 @@ function taskDataReducer(
         case  Actions.AddSubtask.type:
             var subtask = (<Actions.AddSubtask>action).subtask;
             var taskParentId = subtask.getParentId();
+            console.log("Action subtask", subtask);
+            
             return produce(state, draftState=>{
+                console.log("Reducer",taskParentId, "|", draftState.taskParents.byId[taskParentId].getSubtaskIdsFromCurrentFrame().concat([subtask.getId()]));
+                
                 // Add subtask ID to the taskparent store.
-                draftState.taskParents.byId[taskParentId].addSubtaskIdToCurrentFrame(subtask.getId());
+                draftState.taskParents.byId[taskParentId].setSubtaskIdsToCurrentFrame(
+                    draftState.taskParents.byId[taskParentId].getSubtaskIdsFromCurrentFrame().concat([subtask.getId()])
+                    )
                 // Add subtask instance and ID to the subtask store.
                 draftState.subtasks.byId[subtask.getId()] = subtask;
                 // ToDo the ID has to be inserted at the right location.
-                draftState.subtasks.allIds.push(subtask.getId());
+                draftState.subtasks.allIds = draftState.subtasks.allIds.concat([subtask.getId()]);
             });
         case Actions.DeleteSubtask.type:
             var subtaskId = (<Actions.DeleteSubtask>action).subtaskId;
@@ -95,9 +115,25 @@ function taskDataReducer(
             });
         case Actions.UpdateTaskParent.type:
             var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
-            return produce(state, (draftState:TaskDataState)=>{
+            return produce(state, (draftState)=>{
                 draftState.taskParents.byId[taskParent.getId()] = taskParent;
             });
+        case Actions.SetCurrentWorkspace.type:
+            var workspace = (<Actions.SetCurrentWorkspace>action).workspace;
+            return produce(state, (draftState=>{
+                draftState.workspace.currentWorkspace = workspace;
+                draftState.workspace.allIds = state.workspace.allIds.concat([workspace.getId()]);
+            }));
+        case Actions.UpdateWorkspace.type:
+            var workspace = (<Actions.SetCurrentWorkspace>action).workspace;
+            return produce(state, (draftState)=>{
+                draftState.workspace.currentWorkspace = workspace;
+            });
+        case Actions.DeleteWorkspace.type:
+            var workspace = (<Actions.SetCurrentWorkspace>action).workspace;
+            return produce(state, (draftState)=>{
+                draftState.workspace.currentWorkspace = undefined;
+            })
         default:
           return state
       }

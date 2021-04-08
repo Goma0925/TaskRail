@@ -17,7 +17,7 @@ import { getDateStr, getNDaysLater } from "../../helpers/DateTime";
 
 interface RailProps{
     taskParent: TaskParent;
-    sortedSubtasks: Subtask[];
+    subtasks: Subtask[];
     railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
     taskParentNodeWidth: number;
@@ -26,31 +26,32 @@ interface RailProps{
 }
 
 export default function Rail (props: RailProps) {    
-    const dispatch = useDispatch();  
     const displayRangeStartDate = props.displayRangeStartDate;
     
     //Categorize subtasks by day of week
     const subtasksByDate:{[date: string]: Subtask[]} = {};
     var subtaskDate:string;//Sunday=0
+    console.log("Before filter subs:", props.subtasks);
 
-    props.sortedSubtasks.map((subtask:Subtask)=>{
+    props.subtasks.map((subtask:Subtask)=>{
         subtaskDate = getDateStr(subtask.getAssignedDate());
         if (!(subtaskDate in subtasksByDate)){
             subtasksByDate[subtaskDate] = [];
         }
         subtasksByDate[subtaskDate].push(subtask);
     });
-    console.log("subtasksByDate", subtasksByDate);
+    console.log("After filter subts:", subtasksByDate);
+    
     
     const columnBoxes: ReactNode[] = [];
     [...Array(7)].map((_, dayIndex)=>{
-        var date = getNDaysLater(displayRangeStartDate, dayIndex);
-        const dateStr = getDateStr(date);
-        console.log("date:", date);
-        
-        // Increment one by one from the display start date
-
-        const subtasksOfDay = subtasksByDate[dateStr]? subtasksByDate[dateStr]:[];
+        // Get date object from start date to seven days later.
+        var date = getNDaysLater(displayRangeStartDate, dayIndex);        
+        const dateStr = getDateStr(date);  
+        console.log("dateStr", dateStr);
+      
+        // Get all the subtasks in an array for the particular day to render them.
+        const subtasksOfDay = subtasksByDate[dateStr]? subtasksByDate[dateStr]:[];        
         const assignedDate = date;
         columnBoxes.push(
             <ColumnBox key={dateStr}>

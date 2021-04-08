@@ -1,7 +1,7 @@
 export default class SubTask {
   private name: string;
   private id: string;
-  private subtaskDeadline: Date;
+  private subtaskDeadline: Date|undefined;
   private assignedDate: Date;
   private taskParentId: string;
   private note: string;
@@ -12,7 +12,7 @@ export default class SubTask {
     subtaskId: string,
     parentId: string,
     assignedDate: Date,
-    subtaskDeadline: Date,
+    subtaskDeadline: Date|undefined,
     note = "",
     complete?: boolean
   ) {
