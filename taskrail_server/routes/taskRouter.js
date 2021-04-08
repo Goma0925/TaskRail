@@ -87,13 +87,13 @@ workspaceRouter.post(
 );
 
 //Delete a TaskParent
-workspaceRouter.post(
-  "/users/:userId/workspaces/:workspaceId/taskparentsRemove",
+workspaceRouter.delete(
+  "/users/:userId/workspaces/:workspaceId/taskparents",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentName = req.body.name;
     const taskParentId = req.body._id;
-    const taskParentDeadline = req.body.deadline;
+    const taskParentDeadline = req.body.taskParentDeadline;
     const taskParentNote = req.body.note;
     const taskParentComplete = req.body.complete;
     console.log(
@@ -122,7 +122,134 @@ workspaceRouter.post(
     const update = {
       $pull: { taskparents: taskParent },
     };
+
+    const subtaskCollection = db.collection(Collections.Subtasks);
+    const query2 = { taskParentId: taskParentId };
+
     const status = await workspaceCollection.updateOne(query, update);
+    const status2 = await subtaskCollection.remove(query2);
+
+    if (status.result.ok && status2.result.ok) {
+      res.send({ success: true, data: taskParent });
+    } else {
+      res.send({ success: false });
+    }
+  }
+);
+
+//Delete Workspace
+workspaceRouter.delete("/users/:userId/workspaces", async (req, res) => {
+  const workspaceId = req.body._id;
+  const workspaceCollection = db.collection(Collections.Workspaces);
+  const subtaskCollection = db.collection(Collections.Subtasks);
+  const query = { _id: ObjectID(workspaceId) };
+  const workspace = await workspaceCollection.findOne(query);
+  const taskParents = workspace.taskparents.map((obj) => {
+    return obj._id.toString();
+  });
+  console.log(
+    "Delete workspace:",
+    "\n\t",
+    workspaceId,
+    "\n\t",
+    workspace,
+    "\n\t",
+    taskParents
+  );
+
+  //Delete workspace
+  const status = await workspaceCollection.remove(query);
+  const query2 = { taskParentId: { $in: taskParents } };
+  const status2 = await subtaskCollection.remove(query2);
+
+  console.log("Subtasks:", status2);
+  if (status.result.ok && status2.result.ok) {
+    res.send({ success: true, data: workspace });
+  } else {
+    res.send({ success: false });
+  }
+});
+
+//Delete Subtask
+workspaceRouter.delete(
+  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  async (req, res) => {
+    const subtaskId = req.body._id;
+    const taskParentId = req.body.taskParentId;
+    const subtaskName = req.body.name;
+    const subtaskScheduledDate = req.body.scheduledDate;
+    const subtaskDeadline = req.body.deadline;
+    const subtaskNote = req.body.note;
+    const subtaskComplete = req.body.complete;
+    console.log("Delete subtask:", "\n\t", subtaskId);
+    const subtask = {
+      _id: ObjectID(subtaskId),
+      taskParentId: taskParentId,
+      name: subtaskName,
+      scheduledDate: subtaskScheduledDate,
+      deadline: subtaskDeadline,
+      note: subtaskNote,
+      complete: subtaskComplete,
+    };
+    const subtaskCollection = db.collection(Collections.Subtasks);
+    const query = { _id: ObjectID(subtaskId) };
+    //Delete subtask
+    const status = await subtaskCollection.remove(query);
+
+    if (status.result.ok) {
+      res.send({ success: true, data: subtask });
+    } else {
+      res.send({ success: false });
+    }
+  }
+);
+
+//Update taskparent
+workspaceRouter.put(
+  "/users/:userId/workspaces/:workspaceId/taskparents",
+  async (req, res) => {
+    const workspaceId = req.params.workspaceId;
+    const taskParentName = req.body.name;
+    const taskParentId = req.body._id;
+    const taskParentDeadline = req.body.taskParentDeadline;
+    const taskParentNote = req.body.note;
+    const taskParentComplete = req.body.complete;
+    console.log(
+      "Update taskparent:",
+      "\n\t",
+      taskParentName,
+      "\n\t",
+      taskParentId,
+      "\n\t",
+      taskParentDeadline,
+      "\n\t",
+      taskParentNote,
+      "\n\t",
+      taskParentComplete
+    );
+    const taskParent = {
+      _id: ObjectID(taskParentId),
+      name: taskParentName,
+      taskParentDeadline: taskParentDeadline,
+      note: taskParentNote,
+      complete: taskParentComplete,
+    };
+    const workspaceCollection = db.collection(Collections.Workspaces);
+    //Update taskparent
+    const query = {
+      _id: ObjectID(workspaceId),
+      "taskparents._id": ObjectID(taskParentId),
+    };
+    const update = {
+      $set: {
+        "taskparents.$.name": taskParentName,
+        "taskparents.$.taskParentDeadline": taskParentDeadline,
+        "taskparents.$.note": taskParentNote,
+        "taskparents.$.complete": taskParentComplete,
+      },
+    };
+    const status = await workspaceCollection.updateOne(query, update);
+
     if (status.result.ok) {
       res.send({ success: true, data: taskParent });
     } else {
@@ -131,27 +258,95 @@ workspaceRouter.post(
   }
 );
 
+//Update subtask
+workspaceRouter.put(
+  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  async (req, res) => {
+    const subtaskId = req.body._id;
+    const taskParentId = req.params.taskParentId;
+    const subtaskName = req.body.name;
+    const subtaskScheduledDate = req.body.scheduledDate;
+    const subtaskDeadline = req.body.deadline;
+    const subtaskNote = req.body.note;
+    const subtaskComplete = req.body.complete;
+    console.log(
+      "Update subtask:",
+      "\n\t",
+      subtaskId,
+      "\n\t",
+      taskParentId,
+      "\n\t",
+      subtaskName,
+      "\n\t",
+      subtaskScheduledDate,
+      "\n\t",
+      subtaskDeadline,
+      "\n\t",
+      subtaskNote,
+      "\n\t",
+      subtaskComplete
+    );
+    const subtask = {
+      _id: ObjectID(subtaskId),
+      taskParentId: taskParentId,
+      name: subtaskName,
+      scheduledDate: subtaskScheduledDate,
+      deadline: subtaskDeadline,
+      note: subtaskNote,
+      complete: subtaskComplete,
+    };
+    const query = {
+      _id: ObjectID(subtaskId),
+    };
+    const update = { $set: subtask };
+    const subtaskCollection = db.collection(Collections.Subtasks);
+    const status = await subtaskCollection.update(query, update);
+
+    if (status.result.ok) {
+      res.send({ success: true, data: subtask });
+    } else {
+      res.send({ success: false });
+    }
+  }
+);
+
+//update workspace
+workspaceRouter.put("/users/:userId/workspaces", async (req, res) => {
+  const workspaceId = req.body._id;
+  const workspaceName = req.body.name;
+  console.log("Update Workspace:", "\n\t", workspaceId, "\n\t", workspaceName);
+  const workspace = {
+    name: workspaceName,
+  };
+  const query = {
+    _id: ObjectID(workspaceId),
+  };
+  const update = { $set: workspace };
+  const workspaceCollection = db.collection(Collections.Workspaces);
+  const status = await workspaceCollection.update(query, update);
+
+  if (status.result.ok) {
+    res.send({ success: true, data: workspace });
+  } else {
+    res.send({ success: false });
+  }
+});
+
 //READ all subtasks
 workspaceRouter.get(
   "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentId = req.params.taskParentId;
-
     const queryByTaskParentId = { taskParentId: taskParentId };
     const cursor = await db
       .collection(Collections.Subtasks)
       .find(queryByTaskParentId);
     const subtasks = await cursor.toArray();
     console.log(subtasks);
-<<<<<<< HEAD
     res.send({ success: true, data: subtasks });
   }
 );
-=======
-    res.send({success:true, data: subtasks})
-}));
->>>>>>> 23e410272404c727f285fa03eae549ff987df0a2
 
 // CREATE Subtask
 workspaceRouter.post(
