@@ -79,6 +79,10 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         dispatch(new UpdateSubtask(updatedSubtask));
     }
 
+    const subtaskDeadline = props.subtask.getSubtaskDeadline()
+    const subtaskDeadlineStr = subtaskDeadline?
+                                getMonthAndDay(subtaskDeadline):
+                                "No deadline"
     return (
         <TaskNode {...newProps}>
             {newProps.children}
@@ -92,7 +96,10 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
                 <p contentEditable={true} onBlur={handleBottomChange}>
-                    {getMonthAndDay(props.subtask.getSubtaskDeadline())}</p>
+                    {
+                        subtaskDeadlineStr
+                    }
+                </p>
                 {/* <input type="date"></input> */}
             </div>
         </TaskNode>
