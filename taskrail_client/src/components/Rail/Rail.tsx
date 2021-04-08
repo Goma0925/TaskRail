@@ -1,5 +1,5 @@
 import "./Rail.css";
-import {ReactNode, useEffect} from "react";
+import React, {ReactNode, useEffect} from "react";
 import {useDispatch} from "react-redux";
 
 import TaskNode from "../TaskNode/TaskNode";
@@ -14,6 +14,8 @@ import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 import TaskParentNode from "../TaskNode/TaskParentNode";
 import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
 import { getDateStr, getNDaysLater } from "../../helpers/DateTime";
+import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
+import SubtaskNode from "../TaskNode/SubtaskNode";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -57,12 +59,18 @@ export default function Rail (props: RailProps) {
             <ColumnBox key={dateStr}>
                 {
                     subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
-                        const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
+                        // const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
+                        
                         // Construct subtask tasknode here.
                         // ^ Pass in event listener for CheckBox.
                         return (
                             <Fragment key={subtask.getId()}>
-                                <Node subtask={subtask} width={props.subtaskNodeWidth} railUiSelection={props.railUiSelection}></Node>
+                                <SubtaskNode 
+                                    subtask={subtask} 
+                                    width={props.subtaskNodeWidth} 
+                                    railUiSelection={props.railUiSelection}
+                                    parent={props.taskParent}>
+                                </SubtaskNode>
                             </Fragment>
                         );
                     }):
@@ -89,6 +97,7 @@ export default function Rail (props: RailProps) {
                     taskParent={props.taskParent} 
                     railUiSelection={props.railUiSelection} 
                     width={props.taskParentNodeWidth}
+                    subtasks={props.subtasks}
                 />
             </div>
             <div className="subtask-section">

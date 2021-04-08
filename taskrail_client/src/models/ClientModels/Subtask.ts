@@ -6,6 +6,7 @@ export default class SubTask {
   private taskParentId: string;
   private note: string;
   private complete: boolean = false;
+  private parentComplete: boolean = false;
 
   public constructor(
     name: string,
@@ -14,7 +15,7 @@ export default class SubTask {
     assignedDate: Date,
     subtaskDeadline: Date|undefined,
     note = "",
-    complete?: boolean
+    complete?: boolean,
   ) {
     this.name = name;
     this.assignedDate = assignedDate;
@@ -54,6 +55,7 @@ export default class SubTask {
   public uncompleteTask() {
     this.complete = false;
   }
+
   //getters
   public getName() {
     return this.name;
@@ -86,12 +88,17 @@ export default class SubTask {
       this.taskParentId,
       this.assignedDate,
       this.subtaskDeadline,
-      this.note
+      this.note,
+      this.complete
     );
     return newSubtask;
   }
 
   public getStatus() {
     return this.complete;
+  }
+
+  public getParentComplete() {
+    return this.parentComplete;
   }
 }

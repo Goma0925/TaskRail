@@ -62,6 +62,14 @@ export default class TaskParent {
     this.currentFrameSubtaskIds = [];
   }
 
+  public completeTask() {
+    this.complete = true;
+  }
+
+  public uncompleteTask() {
+    this.complete = false;
+  }
+
   //getters
   public getName() {
     return this.name;
@@ -102,7 +110,8 @@ export default class TaskParent {
       this.name,
       this.id,
       this.taskParentDeadline,
-      this.currentFrameSubtaskIds
+      this.currentFrameSubtaskIds,
+      this.complete
     );
   }
 }

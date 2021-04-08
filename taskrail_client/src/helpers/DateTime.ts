@@ -27,3 +27,8 @@ export function getDateStr(date: Date){
     let [month, day, year] = [("0" + (date.getMonth()+1).toString()).slice(-2), ("0" + (date.getDate().toString())).slice(-2), date.getFullYear()];
     return year + "-" + month + "-" + day;
 }
+
+export function getMonthAndDay(date: Date){
+    let [month, day] = [(date.getMonth() + 1).toString(), date.getDate().toString()];
+    return month + "/" + day;
+}
