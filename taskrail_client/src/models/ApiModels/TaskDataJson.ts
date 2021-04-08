@@ -1,9 +1,7 @@
-import { BaseJson } from "./BaseJson";
-
 export interface TaskParentJson{
     _id: string;
     name: string;
-    taskParentDeadline: string;
+    taskParentDeadline: string|null;
     note: string;
     complete: boolean;
 }

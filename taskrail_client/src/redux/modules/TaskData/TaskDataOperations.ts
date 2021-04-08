@@ -1,5 +1,4 @@
 import TaskParent from "../../../models/ClientModels/TaskParent";
-import { Dispatch } from "redux";
 import {
   AddTaskParent,
   DeleteSubtask,
@@ -7,7 +6,7 @@ import {
   SetCurrentWorkspace,
   UpdateTaskParent,
 } from "./TaskDataActions";
-import store, { RootState } from "../../store";
+import store from "../../store";
 import { AddSubtask } from "./TaskDataActions";
 import SubTask from "../../../models/ClientModels/Subtask";
 import axios, { AxiosResponse } from "axios";
@@ -27,7 +26,7 @@ export function createSubtaskOp(
   return async (dispatch: AppDispatch)=>{    
     const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
     if (workspaceId){
-      // POST request to create a subtask here
+      // Create a JSON subtask to post to the server.
       const subtask: SubtaskJson = {
         _id: "",
         name: subtaskName,
@@ -37,9 +36,12 @@ export function createSubtaskOp(
         note: "",
         complete: false,
       };
+      // POST request to create a new subtask.
       axios.post(TaskDataEndpoints.POST.sutasks.createByHierarchy(workspaceId, taskParentId), subtask)
         .then((res: AxiosResponse<BaseJson<SubtaskJson>>)=>{
           const subtaskJson = res.data.data;
+          // Reconstruct the client subtask model from the server response to 
+          // add to the Redux store.
           const createdSubtask = new SubTask(
             subtaskJson.name,
             subtaskJson._id,
@@ -53,7 +55,8 @@ export function createSubtaskOp(
           dispatch(new AddSubtask(createdSubtask));
         }, )
     }else{
-      throw Error("Workspace does not exists");
+      window.alert("Fatal error occured. Workspace is not selected.")
+      throw Error("Workspace ID does not exists");
     }
   }
 }
@@ -63,23 +66,36 @@ export function deleteSubtaskOp(subtaskId: string) {
 }
 
 export function createTaskParentOp(title: string) {
-  return async (dispatch: AppDispatch)=>{
-    window.alert("hi");
-    //Increment the ID. Only for testing purpose.
-    AddTaskParent.idCount += 1;
-    // This method will be overwritten once we have API.
-    const subtaskId = AddTaskParent.idCount.toString();
-
-    // POST request to create here
-
-    const taskParent = new TaskParent(
-      title,
-      AddTaskParent.idCount.toString(),
-      new Date()
-    );
-
-    // ToDo: Rename AddTaskParent
-    store.dispatch(new AddTaskParent(taskParent));
+  const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
+  if (workspaceId){
+    const taskParentJson: TaskParentJson = {
+      _id: "",
+      name: title,
+      taskParentDeadline: null,
+      note: "",
+      complete: false,
+    }
+    return async (dispatch: AppDispatch)=>{
+      axios.post(TaskDataEndpoints.POST.taskParents.createForWorkspace(workspaceId), taskParentJson)
+        .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
+          //Reconstruc the taskparent as a client model
+          const taskParent = new TaskParent(
+            taskParentJson.name,
+            taskParentJson._id,
+            taskParentJson.taskParentDeadline?
+              LocalDateParse(taskParentJson.taskParentDeadline):undefined,
+            [],
+            taskParentJson.complete
+          );
+          //Dispatch it to the redux store
+          dispatch(new AddTaskParent(taskParent));
+        }).catch((err: Error)=>{
+          throw err;
+        });
+    }
+  }else{
+    window.alert("Fatal error occured. Workspace is not selected.")
+    throw Error("Workspace ID does not exists");
   }
 }
 
