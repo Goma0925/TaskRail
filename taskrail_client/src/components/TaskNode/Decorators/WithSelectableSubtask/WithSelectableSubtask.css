@@ -29,6 +29,6 @@
     z-index: -1;
 }
 
-.complete {
+.faded {
     opacity: 0.4;
 }

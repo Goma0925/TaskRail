@@ -1,13 +1,21 @@
 import produce from "immer";
 import { useDispatch } from "react-redux";
+import SubTask from "../../models/ClientModels/Subtask";
+import { UpdateSubtask, UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
 import WithCheckBox from "./Decorators/WithCheckBox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
+import SubtaskNode from "./SubtaskNode";
 import TaskNode, { TaskNodeProps } from "./TaskNode";
 
-type TaskParentNodeProps = WithSelectableTaskParentProps&TaskNodeProps;
+interface TaskParentNodeProps {
+    subtasks: SubTask[];
+}
 
-export default function TaskParentNode(props: TaskParentNodeProps){
-    const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
+type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeProps;
+
+export default function TaskParentNode(props: ComposedProps){
+    // const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
+    const TaskParentNode = WithSelectableTaskParent(TaskNode);
     // define function ^
     const dispatch = useDispatch();
     const completeTaskParent = ()=>{
@@ -41,6 +49,29 @@ export default function TaskParentNode(props: TaskParentNodeProps){
     //     props.className += " unfaded"
     // }
 
+    function onClickCheckbox(event: any) {
+        let updatedTaskParent = props.taskParent.getCopy();
+        if (updatedTaskParent.isComplete()) {
+            updatedTaskParent.uncompleteTask();
+            // unfade all children
+            props.subtasks.map((subtask)=>{
+                let updatedSubtask = subtask.getCopy();
+                /* Just refreshing it. */
+                dispatch(new UpdateSubtask(updatedSubtask));
+            })
+            /* stuck here right now ^ */
+        } else {
+            updatedTaskParent.completeTask();
+            // fade all children
+            props.subtasks.map((subtask)=>{
+                let updatedSubtask = subtask.getCopy();
+                /* Just refreshing it. */
+                dispatch(new UpdateSubtask(updatedSubtask));
+            })
+        }
+        dispatch(new UpdateTaskParent(updatedTaskParent));
+    }
+
     var newProps = produce(props, draftProps=>{
         // Append className
         // draftProps.className = props.className + " faded";
@@ -57,7 +88,8 @@ export default function TaskParentNode(props: TaskParentNodeProps){
                 // onClickCheckBox={functionA}
                 taskParent={props.taskParent} 
                 railUiSelection={props.railUiSelection}>
-
-                {/* {fadeOverlay} */}
+                <div className="checkbox-container">
+                    <input type="checkbox" className="float-checkbox" onClick={onClickCheckbox}/>
+                </div>
             </TaskParentNode>
 }
