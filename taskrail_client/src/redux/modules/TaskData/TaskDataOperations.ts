@@ -37,6 +37,8 @@ export function createSubtaskOp(
         note: "",
         complete: false,
       };
+      console.log("!subtask", TaskDataEndpoints.POST.sutasks.createOneByHierarchy(workspaceId, taskParentId), "\n",subtask);
+      
       // POST request to create a new subtask.
       axios.post(TaskDataEndpoints.POST.sutasks.createOneByHierarchy(workspaceId, taskParentId), subtask)
         .then((res: AxiosResponse<BaseJson<SubtaskJson>>)=>{
