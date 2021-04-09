@@ -5,7 +5,7 @@ import SubTask from "../../models/ClientModels/Subtask";
 import { SelectItem } from "../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import { deleteSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
+import { deleteSubtaskOp, updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import TaskNode, { TaskNodeProps } from "./TaskNode";
 import "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin.css";
 import "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask.css";
@@ -56,7 +56,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     function handleTopChange(event: any) {
         let updatedSubtask = props.subtask.getCopy();
         updatedSubtask.setName(event.target.textContent);
-        dispatch(new UpdateSubtask(updatedSubtask));
+        // dispatch(new UpdateSubtask(updatedSubtask));
+        dispatch(updateSubtaskOp(updatedSubtask));
     }
 
     function handleBottomChange(event: any) {
@@ -67,6 +68,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         // let updatedSubtask = props.subtask.getCopy();
         // updatedSubtask.setId(event.target.textContent);
         // dispatch(new UpdateSubtask(updatedSubtask));
+        var date = (document.getElementById("date-picker") as HTMLInputElement)
+        console.log(date.value)
     }
 
     function onClickCheckbox(event: any) {
@@ -82,7 +85,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
     const subtaskDeadlineStr = subtaskDeadline?
                                 getMonthAndDay(subtaskDeadline):
-                                "No deadline"
+                                ""
     return (
         <TaskNode {...newProps}>
             {newProps.children}
@@ -95,12 +98,9 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     {props.subtask.getName()}</p>
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
-                <p contentEditable={true} onBlur={handleBottomChange}>
-                    {
-                        subtaskDeadlineStr
-                    }
-                </p>
-                {/* <input type="date"></input> */}
+                {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
+                <p> {subtaskDeadlineStr} </p>
+                <input type="date" id="date-picker" onInput={handleBottomChange}></input>
             </div>
         </TaskNode>
     )

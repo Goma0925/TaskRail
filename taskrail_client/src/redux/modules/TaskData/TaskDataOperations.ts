@@ -28,7 +28,7 @@ export function createSubtaskOp(
   return async (dispatch: AppDispatch)=>{    
     if (workspaceId){
       // Create a JSON subtask to post to the server.
-      const subtask: SubtaskJson = {
+      const rawSubtaskJson: SubtaskJson = {
         _id: "",
         name: subtaskName,
         taskParentId: taskParentId,
@@ -36,26 +36,24 @@ export function createSubtaskOp(
         deadline: null,
         note: "",
         complete: false,
-      };
-      console.log("!subtask", TaskDataEndpoints.POST.sutasks.createOneByHierarchy(workspaceId, taskParentId), "\n",subtask);
-      
+      };      
       // POST request to create a new subtask.
-      axios.post(TaskDataEndpoints.POST.sutasks.createOneByHierarchy(workspaceId, taskParentId), subtask)
+      axios.post(TaskDataEndpoints.POST.sutasks.createOneByHierarchy(workspaceId, taskParentId), rawSubtaskJson)
         .then((res: AxiosResponse<BaseJson<SubtaskJson>>)=>{
-          const subtaskJson = res.data.data;
+          const returnedSubtaskJson = res.data.data;
           // Reconstruct the client subtask model from the server response to 
           // add to the Redux store.
-          const createdSubtask = new SubTask(
-            subtaskJson.name,
-            subtaskJson._id,
-            subtaskJson.taskParentId,
-            LocalDateParse(subtaskJson.scheduledDate),
-            subtaskJson.deadline?LocalDateParse(subtaskJson.deadline):undefined,
-            subtaskJson.note,
-            subtaskJson.complete,
+          const newSubtask = new SubTask(
+            returnedSubtaskJson.name,
+            returnedSubtaskJson._id,
+            returnedSubtaskJson.taskParentId,
+            LocalDateParse(returnedSubtaskJson.scheduledDate),
+            returnedSubtaskJson.deadline?LocalDateParse(returnedSubtaskJson.deadline):undefined,
+            returnedSubtaskJson.note,
+            returnedSubtaskJson.complete,
           );
           //Dispatch a new subtask to the redux store.
-          dispatch(new AddSubtask(createdSubtask));
+          dispatch(new AddSubtask(newSubtask));
         })
         .catch((err: Error)=>{
           throw err;
@@ -112,24 +110,27 @@ export function createTaskParentOp(title: string) {
   const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
   return async (dispatch: AppDispatch)=>{
     if (workspaceId){
-    const taskParentJson: TaskParentJson = {
+    const rawTaskParentJson: TaskParentJson = {
       _id: "",
       name: title,
       taskParentDeadline: null,
       note: "",
       complete: false,
     }
-    axios.post(TaskDataEndpoints.POST.taskParents.createOneByHierarchy(workspaceId), taskParentJson)
+    axios.post(TaskDataEndpoints.POST.taskParents.createOneByHierarchy(workspaceId), rawTaskParentJson)
       .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
+        const createdTaskParentJson = res.data.data;
         //Reconstruct the taskparent as a client model
         const taskParent = new TaskParent(
-          taskParentJson.name,
-          taskParentJson._id,
-          taskParentJson.taskParentDeadline?
-            LocalDateParse(taskParentJson.taskParentDeadline):null,
+          createdTaskParentJson.name,
+          createdTaskParentJson._id,
+          createdTaskParentJson.taskParentDeadline?
+            LocalDateParse(createdTaskParentJson.taskParentDeadline):null,
           [],
-          taskParentJson.complete
+          createdTaskParentJson.complete
         );
+        console.log("CREATED TASKPARENT:", taskParent);
+        
         //Dispatch it to the redux store
         dispatch(new AddTaskParent(taskParent));
       }).catch((err: Error)=>{
@@ -145,7 +146,7 @@ export function createTaskParentOp(title: string) {
 export function deleteTaskParentOp(taskParentId: string) {
   const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
   return async (dispatch: AppDispatch)=>{
-    if (workspaceId){
+    if (workspaceId){      
       axios.delete(TaskDataEndpoints.DELETE.taskParents.deleteOneByHierarchy(workspaceId, taskParentId))
         .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
           if (res.data.success){

@@ -23,6 +23,7 @@
 .subtask-bottom {
     border-top: solid black 1px;
     /* font-size: 1vw; */
+    position: relative;
 }
 
 div.subtask-skin .checkbox-container {
@@ -38,4 +39,15 @@ div.subtask-skin .checkbox-container {
 
 input[type=checkbox].float-checkbox {
     margin: 0px 0px 0px 0px;
+}
+
+.subtask-bottom input[type=date] {
+    background-color: #ff5f5c;
+    border: none;
+    border-radius: 25px;
+    margin-right: 5%;
+}
+
+.subtask-bottom p {
+    margin-left: 5%;
 }
