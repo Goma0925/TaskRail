@@ -9,9 +9,9 @@ const PUT = {
         updateOneByHierarchy: 
             (workspaceId: string, taskParentId: string) => baseUrl + `/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}`
     },
-    sutasks: {
+    subtasks: {
         updateOneByHierarchy: 
-            (workspaceId: string, taskParentId: string) => baseUrl + `/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks`
+            (workspaceId: string, subtaskId: string) => baseUrl + `/users/:userId/workspaces/${workspaceId}/taskparents/${subtaskId}/subtasks`
     }
 }
 

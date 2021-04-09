@@ -7,7 +7,7 @@
 
 .subtask-top, .subtask-bottom {
    float: right;
-   /* font-size: 9px; */
+   font-size: 12px;
    overflow: hidden;
    display: flex;
    justify-content: center;
@@ -17,12 +17,12 @@
 
 .subtask-top {
     border-bottom: solid black 1px;
-    font-size: 0.75vw;
+    /* font-size: 0.75vw; */
 }
 
 .subtask-bottom {
     border-top: solid black 1px;
-    font-size: 1vw;
+    /* font-size: 1vw; */
 }
 
 div.subtask-skin .checkbox-container {

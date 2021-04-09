@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
-    "@types/axios": "^0.14.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.19.16",
     "@types/react": "^17.0.1",
@@ -51,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/redux-logger": "^3.0.8"
   }
 }

@@ -98,7 +98,7 @@ export default class SubTask {
     return this.complete;
   }
 
-  public getParentComplete() {
-    return this.parentComplete;
-  }
+  // public getParentComplete() {
+  //   return this.parentComplete;
+  // }
 }

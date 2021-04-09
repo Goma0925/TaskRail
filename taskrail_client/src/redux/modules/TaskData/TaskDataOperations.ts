@@ -121,7 +121,7 @@ export function createTaskParentOp(title: string) {
     }
     axios.post(TaskDataEndpoints.POST.taskParents.createOneByHierarchy(workspaceId), taskParentJson)
       .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
-        //Reconstruc the taskparent as a client model
+        //Reconstruct the taskparent as a client model
         const taskParent = new TaskParent(
           taskParentJson.name,
           taskParentJson._id,
@@ -189,6 +189,15 @@ export function updateTaskParentOp(taskParent: TaskParent) {
     }
   }
 }
+
+// export function updateSubtaskOp(subtask: SubTask) {
+//   const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
+//   return async (dispatch:AppDispatch)=>{
+//     if (workspaceId){
+//       const subtaskJSON
+//     }
+//   }
+// }
 
 export function loadAllContentOp(workspaceId: string){  
   return async (dispatch: AppDispatch) => {
