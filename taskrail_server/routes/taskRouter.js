@@ -177,26 +177,28 @@ workspaceRouter.delete(
     const subtaskId = req.params.subtaskId;
     const taskParentId = req.body.taskParentId;
     const subtaskName = req.body.name;
-    const subtaskScheduledDate = req.body.scheduledDate;
-    const subtaskDeadline = req.body.deadline;
-    const subtaskNote = req.body.note;
-    const subtaskComplete = req.body.complete;
+    // const subtaskScheduledDate = req.body.scheduledDate;
+    // const subtaskDeadline = req.body.deadline;
+    // const subtaskNote = req.body.note;
+    // const subtaskComplete = req.body.complete;
     console.log("Delete subtask:", "\n\t", subtaskId);
-    const subtask = {
-      _id: ObjectID(subtaskId),
-      taskParentId: taskParentId,
-      name: subtaskName,
-      scheduledDate: subtaskScheduledDate,
-      deadline: subtaskDeadline,
-      note: subtaskNote,
-      complete: subtaskComplete,
-    };
+    // const subtask = {
+    //   _id: ObjectID(subtaskId),
+    //   taskParentId: taskParentId,
+    //   name: subtaskName,
+    //   scheduledDate: subtaskScheduledDate,
+    //   deadline: subtaskDeadline,
+    //   note: subtaskNote,
+    //   complete: subtaskComplete,
+    // };
     const subtaskCollection = db.collection(Collections.Subtasks);
     const query = { _id: ObjectID(subtaskId) };
     //Delete subtask
-    const status = await subtaskCollection.remove(query);
-
-    if (status.result.ok) {
+    const status = await subtaskCollection.findOneAndDelete(query);
+    console.log("status", status);
+    console.log("ok?", status.ok);
+    if (status.ok) {
+      const subtask = status.value;
       res.send({ success: true, data: subtask });
     } else {
       res.send({ success: false });
