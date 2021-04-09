@@ -68,12 +68,7 @@ export function deleteSubtaskOp(subtaskId: string) {
   const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
   // Get taskParentsById for later to look up the given subtask's parent ID.
   const taskParentsById = store.getState().taskData.taskParents.byId;
-  console.log("deleteSubtaskOp");
-  store.dispatch(new SelectItem({type: "NONE", itemId: ""}))
   return async (dispatch: AppDispatch)=>{ 
-    console.log("!!!!")
-    // Unselect the current item first.
-    dispatch(new SelectItem({type: "NONE", itemId: ""}));  
     if (workspaceId){
       // WARNING: This is an inefficient look up due to the API structure. Should be refactored.
       // API endpoint should be replaced with a one that only requires subtask ID.
@@ -89,13 +84,13 @@ export function deleteSubtaskOp(subtaskId: string) {
       }
       if (taskParentId!=null){
         // Call the API to delete the subtask.
-        axios.delete(TaskDataEndpoints.DELETE.sutasks.deleteOneByHierarchy(workspaceId, taskParentId))
+        axios.delete(TaskDataEndpoints.DELETE.sutasks.deleteOneByHierarchy(workspaceId, taskParentId, subtaskId))
           .then((res: AxiosResponse<BaseJson<SubtaskJson>>)=>{
             if (res.data.success){
+              // Unselect the current item first.
+              dispatch(new SelectItem({type: "NONE", itemId: ""}));  
               const subtaskJson = res.data.data;
               dispatch(new DeleteSubtask(subtaskJson._id));
-            }else{
-              throw "Subtask could not be deleted due to a server error.";
             }
           }).catch((err: Error)=>{
             window.alert("Deletion failed");
