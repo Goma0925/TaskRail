@@ -117,19 +117,20 @@ workspaceRouter.delete(
       note: taskParentNote,
       complete: taskParentComplete,
     };
-    //Delete taskparent
-    const query = { _id: ObjectID(workspaceId) };
-    const update = {
-      $pull: { taskparents: taskParent },
+    //Construct query to delete taskparent from a workspace
+    const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
+    const deleteTaskParentQuery = {
+      $pull: { taskparents: {_id: ObjectID(taskParentId)} },
     };
 
+    //Construc a query to delete all the subtasks of the taskparent.
     const subtaskCollection = db.collection(Collections.Subtasks);
-    const query2 = { taskParentId: taskParentId };
+    const selectSubtaskQuery = { taskParentId: taskParentId };
 
-    const status = await workspaceCollection.updateOne(query, update);
-    const status2 = await subtaskCollection.remove(query2);
-
-    if (status.result.ok && status2.result.ok) {
+    // Execute the queries.
+    const subtaskDeletionStatus = await subtaskCollection.deleteMany(selectSubtaskQuery);
+    const taskParentDeletionStatus = await workspaceCollection.updateOne(selectWorkspaceQuery, deleteTaskParentQuery);
+    if (taskParentDeletionStatus.result.ok && subtaskDeletionStatus.result.ok) {
       res.send({ success: true, data: taskParent });
     } else {
       res.send({ success: false });
