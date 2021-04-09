@@ -293,8 +293,8 @@ workspaceRouter.put(
 workspaceRouter.put(
   "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
   async (req, res) => {
-    const subtaskId = req.body._id;
     const taskParentId = req.params.taskParentId;
+    const subtaskId = req.body._id;
     const subtaskName = req.body.name;
     const subtaskScheduledDate = req.body.scheduledDate;
     const subtaskDeadline = req.body.deadline;
@@ -326,15 +326,25 @@ workspaceRouter.put(
       note: subtaskNote,
       complete: subtaskComplete,
     };
-    const query = {
+    const selectSubtaskQuery = {
       _id: ObjectID(subtaskId),
     };
-    const update = { $set: subtask };
+    const updateConttentQuery = { 
+      $set: 
+        {
+          name: subtaskName,
+          scheduledDate: subtaskScheduledDate,
+          deadline: subtaskDeadline,
+          note: subtaskNote,
+          complete: subtaskComplete,
+        } 
+    };
     const subtaskCollection = db.collection(Collections.Subtasks);
-    const status = await subtaskCollection.update(query, update);
-
-    if (status.result.ok) {
-      res.send({ success: true, data: subtask });
+    const updateStatus = await subtaskCollection.update(selectSubtaskQuery, updateConttentQuery);
+    // Look up a fresh instance from the DB to return to client.
+    const updatedSubtask = await subtaskCollection.findOne(selectSubtaskQuery);
+    if (updateStatus.result.ok) {
+      res.send({ success: true, data: updatedSubtask });
     } else {
       res.send({ success: false });
     }
