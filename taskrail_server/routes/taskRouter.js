@@ -100,13 +100,56 @@ workspaceRouter.delete(
     );
     // Construc a query to get the taskparent to return
     const workspaceCollection = db.collection(Collections.Workspaces);
-    const selectTaskParentQuery = {$elemMatch: { taskparents: {_id: ObjectID(taskParentId)} }};
+    const selectWorkspaceQuery = {_id: ObjectID(workspaceId)};
+    const workspace = await workspaceCollection.findOne(selectWorkspaceQuery);
+    if (!workspace){
+      res.send({success: false, error_msg: "No matching workspace found with the ID:"+workspaceId});
+    }else{
+      const previousTaskParents = workspace.taskparents;
+      console.log("before", workspace.taskparents);
+      // Find taskparent from the workspace
+      var taskParentToRemove = null;
+      var foundTaskParentToRemove = false;
+      const newTaskParents = previousTaskParents.filter((tp)=>{
+        if (tp._id == taskParentId){
+          taskParentToRemove = tp;
+          return false //Exclude the item if we find the taskParentToRemove.
+        }else{
+          return true
+        }
+      });
+      console.log("After", newTaskParents);
+      console.log("Found:", taskParentToRemove);
+      // Check if we have found the taskparent.
+      if (previousTaskParents.length == newTaskParents.length) {
+        // If there's no matching taskparent, the length of the arrays stays the same.
+        res.send({ success: false, error_msg: "No matching taskparent found with the ID:"+ taskParentId});
+      }else{
+        // Construc a query to update the workspace's taskparents arr 
+        // with a new one without the target taskparent.
+        const udpateTaskParentQuery = {$set : {taskparents: newTaskParents}};
 
-    //Construct query to delete taskparent from a workspace
-    const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
-    const deleteTaskParentQuery = {
-      $pull: { taskparents: {_id: ObjectID(taskParentId)} },
-    };
+        //Construct a query to delete all the subtasks of the taskparent.
+        const subtaskCollection = db.collection(Collections.Subtasks);
+        const selectSubtaskQuery = { taskParentId: taskParentId };
+
+        // Execute the queries.
+        const subtaskDeletionStatus = await subtaskCollection.deleteMany(selectSubtaskQuery);
+        const workspaceUpdateStatus = await workspaceCollection.updateOne(selectWorkspaceQuery, udpateTaskParentQuery);
+        if (workspaceUpdateStatus.result.ok){
+          res.send({ success: true, data: taskParentToRemove });
+        }else{
+          res.send({ success: false, error_msg: "Error occurred while updating workspace." });
+        }
+      }
+    }
+ 
+
+    // //Construct query to delete taskparent from a workspace
+    // const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
+    // const deleteTaskParentQuery = {
+    //   $pull: { taskparents: {_id: ObjectID(taskParentId)} },
+    // };
 
     //Construc a query to delete all the subtasks of the taskparent.
     const subtaskCollection = db.collection(Collections.Subtasks);
@@ -115,11 +158,11 @@ workspaceRouter.delete(
     // Execute the queries.
     const subtaskDeletionStatus = await subtaskCollection.deleteMany(selectSubtaskQuery);
     const taskParentDeletionStatus = await workspaceCollection.updateOne(selectWorkspaceQuery, deleteTaskParentQuery);
-    if (taskParentDeletionStatus.result.ok && subtaskDeletionStatus.result.ok) {
-      res.send({ success: true, data: {test:"TBD"} });
-    } else {
-      res.send({ success: false });
-    }
+    // if (taskParentDeletionStatus.result.ok && subtaskDeletionStatus.result.ok) {
+    //   res.send({ success: true, data: selectTaskParentStatus });
+    // } else {
+    //   res.send({ success: false });
+    // }
   }
 );
 
