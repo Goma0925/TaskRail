@@ -20,7 +20,7 @@ const workspace = new Workspace(
 );
 
 const taskParents = allTaskParentIds.map(
-  (id) => new TaskParent("TaskParent-" + id, id)
+  (id) => new TaskParent("TaskParent-" + id, id, null, [], false)
 );
 
 // Create subtasks for each task parent.

@@ -3,10 +3,9 @@ import {produce} from "immer";
 import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
 import { useDispatch } from "react-redux";
-import { deleteTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
+import { deleteTaskParentOp, updateTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import TaskParent from "../../../../models/ClientModels/TaskParent";
 import "./WithSelectableTaskParent.css";
-import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";
 
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
@@ -24,7 +23,7 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
         }
         const deleteTaskParent=(e: React.MouseEvent)=>{
             e.preventDefault();
-            deleteTaskParentOp(props.taskParent.getId());
+            dispatch(deleteTaskParentOp(props.taskParent.getId()));
         }
         
         //Check if this node is selected
@@ -44,7 +43,7 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
         function onChangeName(event: any) {
             let updatedTaskParent = props.taskParent.getCopy();
             updatedTaskParent.setName(event.target.textContent);
-            dispatch(new UpdateTaskParent(updatedTaskParent));
+            dispatch(updateTaskParentOp(updatedTaskParent));
         }
 
         var deleteButtonClass = "delete";

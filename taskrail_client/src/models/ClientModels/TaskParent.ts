@@ -1,7 +1,7 @@
 export default class TaskParent {
   private name: string;
   private id: string;
-  private taskParentDeadline: Date | undefined;
+  private taskParentDeadline: Date | null;
   private currentFrameSubtaskIds: string[] = [];
   private note: string = "";
   private complete: boolean = false;
@@ -9,7 +9,7 @@ export default class TaskParent {
   public constructor(
     name: string,
     id: string,
-    taskParentDeadline?: Date|undefined,
+    taskParentDeadline: Date|null,
     currentFrameSubtaskIds?: string[],
     complete?: boolean
   ) {

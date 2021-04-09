@@ -2,14 +2,14 @@ import baseUrl from "../BaseUrl";
 
 const GET = {
     workspaces:{
-        byId: 
+        getOneById: 
             (workspaceId:string) => baseUrl+`/users/1/workspaces/${workspaceId}`,
-        all:
+        getAll:
             () =>  baseUrl+`/users/1/workspaces` 
     },
     
     subtasks: {
-        allByHierarchy: 
+        getAllByHierarchy: 
             (workspaceId: string, taskParentId: string)=> baseUrl+`/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks`,
     }
 }

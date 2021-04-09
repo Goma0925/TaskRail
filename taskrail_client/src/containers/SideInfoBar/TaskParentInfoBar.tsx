@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import { useState } from "react";
 import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
-import { UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
 
 interface TaskParentInfoBarProps {
     taskParent: TaskParent;
@@ -22,7 +21,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
     function handleTitleChange(event: any) {
         let updatedTaskParent = taskParent.getCopy();
         updatedTaskParent.setName(event.target.textContent);
-        dispatch(new UpdateTaskParent(updatedTaskParent));
+        dispatch(updateTaskParentOp(updatedTaskParent));
     }
 
     function handleNoteChange(event: any) { // update this type in future 
@@ -45,7 +44,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
         } else {
         //   updatedTaskParent.uncompleteTask();
         }
-        dispatch(new UpdateTaskParent(updatedTaskParent));
+        dispatch(updateTaskParentOp(updatedTaskParent));
     }
     return (
         <div className="sideinfo-bar">

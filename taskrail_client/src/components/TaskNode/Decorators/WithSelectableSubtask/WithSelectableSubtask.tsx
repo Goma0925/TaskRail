@@ -2,11 +2,11 @@ import {TaskNodeProps} from "../../TaskNode"
 import {produce} from "immer";
 import SubTask from "../../../../models/ClientModels/Subtask";
 import { SelectItem } from "../../../../redux/modules/RailUi/RailUiActions";
-import { useDispatch, useSelector } from "react-redux";
 import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers";
 import "./WithSelectableSubtask.css";
 import { deleteSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import { GenericType } from "typescript";
+import { useDispatch } from "react-redux";
 // import WithCheckBox from "../WithCheckBox";
 
 export interface WithSelectableSubtaskProps{
@@ -29,8 +29,8 @@ export default function WithSelectableSubtask<GenericProps>(NodeToDecorate: Reac
             dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
         }
         const deleteSubtask=(e: React.MouseEvent)=>{
+            dispatch(deleteSubtaskOp(props.subtask.getId()));
             e.preventDefault();
-            deleteSubtaskOp(props.subtask.getId());
         }
         
         //Check if this node is selected

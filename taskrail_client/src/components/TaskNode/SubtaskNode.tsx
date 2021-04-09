@@ -30,7 +30,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     
     const deleteSubtask=(e: React.MouseEvent)=>{
         e.preventDefault();
-        deleteSubtaskOp(props.subtask.getId());
+        dispatch(deleteSubtaskOp(props.subtask.getId()));
     }
     
     //Check if this node is selected

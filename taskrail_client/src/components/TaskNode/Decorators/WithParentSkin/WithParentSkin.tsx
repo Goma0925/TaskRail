@@ -3,7 +3,7 @@ import {produce} from "immer";
 import TaskParent from "../../../../models/ClientModels/TaskParent"; 
 import "./WithParentSkin.css";
 import { useDispatch } from "react-redux";
-import { UpdateTaskParent } from "../../../../redux/modules/TaskData/TaskDataActions";
+import { updateTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 
 interface WithParentSkinProps{
     taskparent: TaskParent;
@@ -23,7 +23,7 @@ export default function WithParentSkin<GenericProps>(NodeToDecorate: React.Compo
         function onChangeName(event: any) {
             let updatedTaskParent = props.taskparent.getCopy();
             updatedTaskParent.setName(event.target.textContent);
-            dispatch(new UpdateTaskParent(updatedTaskParent));
+            dispatch(updateTaskParentOp(updatedTaskParent));
         }
         
         return (

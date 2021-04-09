@@ -1,7 +1,8 @@
 import produce from "immer";
 import { useDispatch } from "react-redux";
 import SubTask from "../../models/ClientModels/Subtask";
-import { UpdateSubtask, UpdateTaskParent } from "../../redux/modules/TaskData/TaskDataActions";
+import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
+import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import WithCheckBox from "./Decorators/WithCheckBox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import SubtaskNode from "./SubtaskNode";
@@ -33,7 +34,7 @@ export default function TaskParentNode(props: ComposedProps){
             //     prevTaskParent.getName(),
                 
             // );
-            // dispatch(new UpdateTaskParent(taskParent))
+            // dispatch(updateTaskParentOp(taskParent))
 
         }
     };
@@ -69,7 +70,7 @@ export default function TaskParentNode(props: ComposedProps){
                 dispatch(new UpdateSubtask(updatedSubtask));
             })
         }
-        dispatch(new UpdateTaskParent(updatedTaskParent));
+        dispatch(updateTaskParentOp(updatedTaskParent));
     }
 
     var newProps = produce(props, draftProps=>{
