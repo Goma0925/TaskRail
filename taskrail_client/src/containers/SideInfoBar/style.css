@@ -1,3 +1,7 @@
+.no-selection-message{
+  text-align: center;
+}
+
 .sideinfo-bar {
   height: 100%;
   align-self: left;

@@ -21,7 +21,7 @@ export default function SideInfoBarContainer() {
             break;
         case "NONE":
             SideInfoBarContent = <div>
-                <h1>None Side Bar</h1>
+                <p className="no-side-bar-message">Nothing is selected</p>
             </div>;
             break;
         default:
