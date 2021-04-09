@@ -4,6 +4,7 @@ import {
   DeleteSubtask,
   DeleteTaskParent,
   SetCurrentWorkspace,
+  UpdateSubtask,
   UpdateTaskParent,
 } from "./TaskDataActions";
 import store from "../../store";
@@ -201,14 +202,48 @@ export function updateTaskParentOp(taskParent: TaskParent) {
   }
 }
 
-// export function updateSubtaskOp(subtask: SubTask) {
-//   const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
-//   return async (dispatch:AppDispatch)=>{
-//     if (workspaceId){
-//       const subtaskJSON
-//     }
-//   }
-// }
+export function updateSubtaskOp(subtask: SubTask) {
+  const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
+  return async (dispatch:AppDispatch)=>{
+    if (workspaceId){
+      /* Construct the SubTask JSON */
+      const subtaskDeadline = subtask.getSubtaskDeadline()
+      const subtaskJSON: SubtaskJson = {
+        _id: subtask.getId(),
+        taskParentId: subtask.getParentId(),
+        name: subtask.getName(),
+        scheduledDate: getDateStr(subtask.getAssignedDate()),
+        deadline: subtaskDeadline? getDateStr(subtaskDeadline):null,
+        note: subtask.getNote(),
+        complete: subtask.getStatus()
+      }
+      /* Then post it to the server */
+      axios.post(
+          TaskDataEndpoints.PUT.subtasks.updateOneByHierarchy(workspaceId, subtask.getId()),
+          subtaskJSON)
+        .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
+          const taskParent = new TaskParent(
+            subtaskJSON.name,
+            subtaskJSON._id,
+            subtaskJSON.deadline?
+              LocalDateParse(subtaskJSON.deadline):
+              null,
+            [],
+            subtaskJSON.complete
+          )
+          // Dispatch the update to the redux store.
+          dispatch(new UpdateSubtask(subtask));
+        }).catch((err: Error)=>{
+          throw err;
+        })
+    } 
+    else {
+        window.alert("Fatal error occured. Workspace is not selected.")
+        throw Error("Workspace ID does not exists");
+    }
+    
+  }
+}
 
 export function loadAllContentOp(workspaceId: string){  
   return async (dispatch: AppDispatch) => {
