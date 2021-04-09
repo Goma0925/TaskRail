@@ -91,6 +91,8 @@ export function deleteSubtaskOp(subtaskId: string) {
               dispatch(new SelectItem({type: "NONE", itemId: ""}));  
               const subtaskJson = res.data.data;
               dispatch(new DeleteSubtask(subtaskJson._id));
+            }else{
+              throw "Subtask could not be deleted due to a server error";
             }
           }).catch((err: Error)=>{
             window.alert("Deletion failed");
@@ -138,10 +140,24 @@ export function createTaskParentOp(title: string) {
 }
 
 export function deleteTaskParentOp(taskParentId: string) {
+  const workspaceId = store.getState().taskData.workspace.currentWorkspace?.getId();
   return async (dispatch: AppDispatch)=>{
-    // Unselect the current item first.
-    dispatch(new SelectItem({type: "NONE", itemId: ""})); 
-    dispatch(new DeleteTaskParent(taskParentId));
+    if (workspaceId){
+      axios.delete(TaskDataEndpoints.DELETE.taskParents.deleteOneByHierarchy(workspaceId, taskParentId))
+        .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
+          if (res.data.success){
+            const taskParentJson = res.data.data
+            // Unselect the current item first.
+            dispatch(new SelectItem({type: "NONE", itemId: ""}));
+            dispatch(new DeleteTaskParent(taskParentJson._id)); 
+          }else{
+            throw "TaskParent could not be deleted due to a server error.";
+          }
+        })
+    }else{
+      window.alert("Fatal error occured. Workspace is not selected.")
+      throw Error("Workspace ID does not exists");
+    }
   }
 }
 
