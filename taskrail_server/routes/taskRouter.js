@@ -88,11 +88,11 @@ workspaceRouter.post(
 
 //Delete a TaskParent
 workspaceRouter.delete(
-  "/users/:userId/workspaces/:workspaceId/taskparents",
+  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentName = req.body.name;
-    const taskParentId = req.body._id;
+    const taskParentId = req.params.taskParentId;
     const taskParentDeadline = req.body.taskParentDeadline;
     const taskParentNote = req.body.note;
     const taskParentComplete = req.body.complete;
@@ -138,8 +138,8 @@ workspaceRouter.delete(
 );
 
 //Delete Workspace
-workspaceRouter.delete("/users/:userId/workspaces", async (req, res) => {
-  const workspaceId = req.body._id;
+workspaceRouter.delete("/users/:userId/workspaces/:workspaceId", async (req, res) => {
+  const workspaceId = req.params.workspaceId;
   const workspaceCollection = db.collection(Collections.Workspaces);
   const subtaskCollection = db.collection(Collections.Subtasks);
   const query = { _id: ObjectID(workspaceId) };
@@ -172,9 +172,9 @@ workspaceRouter.delete("/users/:userId/workspaces", async (req, res) => {
 
 //Delete Subtask
 workspaceRouter.delete(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks/:subtaskId",
   async (req, res) => {
-    const subtaskId = req.body._id;
+    const subtaskId = req.params.subtaskId;
     const taskParentId = req.body.taskParentId;
     const subtaskName = req.body.name;
     const subtaskScheduledDate = req.body.scheduledDate;
@@ -206,11 +206,11 @@ workspaceRouter.delete(
 
 //Update taskparent
 workspaceRouter.put(
-  "/users/:userId/workspaces/:workspaceId/taskparents",
+  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentName = req.body.name;
-    const taskParentId = req.body._id;
+    const taskParentId = req.params.taskParentId;
     const taskParentDeadline = req.body.taskParentDeadline;
     const taskParentNote = req.body.note;
     const taskParentComplete = req.body.complete;
