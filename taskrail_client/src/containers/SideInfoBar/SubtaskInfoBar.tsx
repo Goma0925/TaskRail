@@ -2,6 +2,7 @@ import Subtask from "../../models/ClientModels/Subtask";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
+import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -50,7 +51,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     // update this type in future
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setNote(event.target.value);
-    dispatch(new UpdateSubtask(updatedSubtask));
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
   function handleDateChange(event: any) {
     var split_str = event.target.value.split("-");
@@ -60,13 +61,13 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     var returning_date = new Date(year, month, day);
     var updatedSubtask = subtask.getCopy();
     updatedSubtask.setSubtaskDeadline(returning_date);
-    dispatch(new UpdateSubtask(updatedSubtask));
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
 
   function handleTitleChange(event: any) {
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setName(event.target.textContent);
-    dispatch(new UpdateSubtask(updatedSubtask));
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
 
   function handleCheckboxChange(event: any) {
@@ -76,7 +77,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     } else {
       updatedSubtask.uncompleteTask();
     }
-    dispatch(new UpdateSubtask(updatedSubtask));
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
 
   return (

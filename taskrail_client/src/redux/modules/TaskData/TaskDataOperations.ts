@@ -171,7 +171,7 @@ export function updateTaskParentOp(taskParent: TaskParent) {
     if (workspaceId){
       //Contruct taskparent JSON
       const taskParentDeadline = taskParent.getDeadline();
-      const taskParentJson: TaskParentJson = {
+      const rawTaskParentJson: TaskParentJson = {
         _id: taskParent.getId(),
         name: taskParent.getName(),
         taskParentDeadline: taskParentDeadline?
@@ -179,20 +179,11 @@ export function updateTaskParentOp(taskParent: TaskParent) {
         note: "",
         complete: false,
       } 
-      //Post it to the server
-      axios.post(
+      //PUT it to the server
+      axios.put(
           TaskDataEndpoints.PUT.taskParents.updateOneByHierarchy(workspaceId, taskParent.getId()),
-          taskParentJson)
-        .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
-          const taskParent = new TaskParent(
-            taskParentJson.name,
-            taskParentJson._id,
-            taskParentJson.taskParentDeadline?
-              LocalDateParse(taskParentJson.taskParentDeadline):
-              null,
-            [],
-            taskParentJson.complete
-          )
+          rawTaskParentJson)
+        .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{          
           // Dispatch the update to the redux store.
           dispatch(new UpdateTaskParent(taskParent));
         }).catch((err: Error)=>{
@@ -211,7 +202,7 @@ export function updateSubtaskOp(subtask: SubTask) {
     if (workspaceId){
       /* Construct the SubTask JSON */
       const subtaskDeadline = subtask.getSubtaskDeadline()
-      const subtaskJSON: SubtaskJson = {
+      const rawSubtaskJson: SubtaskJson = {
         _id: subtask.getId(),
         taskParentId: subtask.getParentId(),
         name: subtask.getName(),
@@ -221,21 +212,16 @@ export function updateSubtaskOp(subtask: SubTask) {
         complete: subtask.getStatus()
       }
       /* Then post it to the server */
-      axios.post(
+      axios.put(
           TaskDataEndpoints.PUT.subtasks.updateOneByHierarchy(workspaceId, subtask.getId()),
-          subtaskJSON)
+          rawSubtaskJson)
         .then((res: AxiosResponse<BaseJson<TaskParentJson>>)=>{
-          const taskParent = new TaskParent(
-            subtaskJSON.name,
-            subtaskJSON._id,
-            subtaskJSON.deadline?
-              LocalDateParse(subtaskJSON.deadline):
-              null,
-            [],
-            subtaskJSON.complete
-          )
-          // Dispatch the update to the redux store.
-          dispatch(new UpdateSubtask(subtask));
+          if (res.data.success){
+            // Dispatch the update to the redux store.
+            dispatch(new UpdateSubtask(subtask));
+          }else{
+            throw "Subtask could not be created due to a server error."
+          }
         }).catch((err: Error)=>{
           throw err;
         })

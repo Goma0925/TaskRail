@@ -56,7 +56,6 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     function handleTopChange(event: any) {
         let updatedSubtask = props.subtask.getCopy();
         updatedSubtask.setName(event.target.textContent);
-        // dispatch(new UpdateSubtask(updatedSubtask));
         dispatch(updateSubtaskOp(updatedSubtask));
     }
 
@@ -79,19 +78,24 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         } else {
             updatedSubtask.completeTask();
         }
-        dispatch(new UpdateSubtask(updatedSubtask));
+        dispatch(updateSubtaskOp(updatedSubtask));
     }
 
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
     const subtaskDeadlineStr = subtaskDeadline?
                                 getMonthAndDay(subtaskDeadline):
-                                ""
+                                "";
     return (
         <TaskNode {...newProps}>
             {newProps.children}
             <a className={deleteButtonClass} onClick={deleteSubtask}>×</a>
             <div className="checkbox-container">
-                <input type="checkbox" className="float-checkbox" onClick={onClickCheckbox}/>
+                <input 
+                    type="checkbox" 
+                    className="float-checkbox" 
+                    onClick={onClickCheckbox} 
+                    checked={props.subtask.getStatus()}
+                />
             </div>
             <div className="subtask-top" style={{height:25}}>
                 <p contentEditable={true} onBlur={handleTopChange}>

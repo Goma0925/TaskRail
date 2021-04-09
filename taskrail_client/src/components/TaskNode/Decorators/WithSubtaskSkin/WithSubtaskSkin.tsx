@@ -4,6 +4,7 @@ import {produce} from "immer";
 import SubTask from "../../../../models/ClientModels/Subtask";
 import { useDispatch } from "react-redux";
 import { UpdateSubtask } from "../../../../redux/modules/TaskData/TaskDataActions";
+import { updateSubtaskOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 
 interface WithSubtaskSkinProps{
     subtask: SubTask;
@@ -43,7 +44,7 @@ export default function WithSubtaskSkin<GenericProps>(NodeToDecorate: React.Comp
         function handleTopChange(event: any) {
             let updatedSubtask = props.subtask.getCopy();
             updatedSubtask.setName(event.target.textContent);
-            dispatch(new UpdateSubtask(updatedSubtask));
+            dispatch(updateSubtaskOp(updatedSubtask));
         }
 
         function handleBottomChange(event: any) {
@@ -51,7 +52,7 @@ export default function WithSubtaskSkin<GenericProps>(NodeToDecorate: React.Comp
                want to let the user change the id. */
             let updatedSubtask = props.subtask.getCopy();
             updatedSubtask.setId(event.target.textContent);
-            dispatch(new UpdateSubtask(updatedSubtask));
+            dispatch(updateSubtaskOp(updatedSubtask));
         }
         
         return (

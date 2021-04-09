@@ -58,7 +58,7 @@ export default function TaskParentNode(props: ComposedProps){
             props.subtasks.map((subtask)=>{
                 let updatedSubtask = subtask.getCopy();
                 /* Just refreshing it. */
-                dispatch(new UpdateSubtask(updatedSubtask));
+                dispatch(updateTaskParentOp(updatedTaskParent));
             })
             /* stuck here right now ^ */
         } else {
@@ -67,7 +67,7 @@ export default function TaskParentNode(props: ComposedProps){
             props.subtasks.map((subtask)=>{
                 let updatedSubtask = subtask.getCopy();
                 /* Just refreshing it. */
-                dispatch(new UpdateSubtask(updatedSubtask));
+                dispatch(updateTaskParentOp(updatedTaskParent));
             })
         }
         dispatch(updateTaskParentOp(updatedTaskParent));
@@ -90,7 +90,12 @@ export default function TaskParentNode(props: ComposedProps){
                 taskParent={props.taskParent} 
                 railUiSelection={props.railUiSelection}>
                 <div className="checkbox-container">
-                    <input type="checkbox" className="float-checkbox" onClick={onClickCheckbox}/>
+                    <input 
+                        type="checkbox" 
+                        className="float-checkbox" 
+                        onClick={onClickCheckbox}
+                        checked={props.taskParent.isComplete()}    
+                    />
                 </div>
             </TaskParentNode>
 }
