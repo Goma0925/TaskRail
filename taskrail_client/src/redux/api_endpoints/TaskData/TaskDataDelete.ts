@@ -11,7 +11,7 @@ const DELETE = {
     },
     sutasks: {
         deleteOneByHierarchy: 
-            (workspaceId: string, taskParentId: string) => baseUrl + `/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks`
+            (workspaceId: string, taskParentId: string, subtaskId:string) => baseUrl + `/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks/${subtaskId}`
     }
 }
 
