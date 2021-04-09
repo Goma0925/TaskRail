@@ -1,5 +1,5 @@
 import produce from "immer";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import SubTask from "../../models/ClientModels/Subtask";
 import { SelectItem } from "../../redux/modules/RailUi/RailUiActions";
@@ -60,15 +60,12 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
 
     function handleBottomChange(event: any) {
-        // TODO: Modify date, either through datepicker
-        // or by allowing user to modify string and
-        // encoding it back into a date.
+        const newDeadlineStr:string = event.target.value;
+        const newDeadline = LocalDateParse(newDeadlineStr);
 
-        // let updatedSubtask = props.subtask.getCopy();
-        // updatedSubtask.setId(event.target.textContent);
-        // dispatch(new UpdateSubtask(updatedSubtask));
-        var date = (document.getElementById("date-picker") as HTMLInputElement)
-        console.log(date.value)
+        let updatedSubtask = props.subtask.getCopy();
+        updatedSubtask.setSubtaskDeadline(newDeadline);
+        dispatch(new UpdateSubtask(updatedSubtask));
     }
 
     function onClickCheckbox(event: any) {
@@ -82,9 +79,10 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
 
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
-    const subtaskDeadlineStr = subtaskDeadline?
-                                getMonthAndDay(subtaskDeadline):
-                                "";
+    const subtaskDeadlineMonthAndDay = subtaskDeadline?
+                                getMonthAndDay(subtaskDeadline):"";    
+    const datePickerValueStr = subtaskDeadline?
+                                getDateStr(subtaskDeadline):"";
     return (
         <TaskNode {...newProps}>
             {newProps.children}
@@ -103,8 +101,13 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
                 {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
-                <p> {subtaskDeadlineStr} </p>
-                <input type="date" id="date-picker" onInput={handleBottomChange}></input>
+                <p> {subtaskDeadlineMonthAndDay} </p>
+                <input 
+                    type="date" 
+                    id="date-picker" 
+                    value={datePickerValueStr} 
+                    onInput={handleBottomChange}
+                    ></input>
             </div>
         </TaskNode>
     )

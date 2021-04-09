@@ -64,10 +64,12 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
     dispatch(updateSubtaskOp(updatedSubtask));
   }
 
-  function handleTitleChange(event: any) {
-    let updatedSubtask = subtask.getCopy();
-    updatedSubtask.setName(event.target.textContent);
-    dispatch(updateSubtaskOp(updatedSubtask));
+  function handleTitleChange(event: React.FocusEvent<HTMLHeadingElement>) {
+    if (event.target.textContent){
+      let updatedSubtask = subtask.getCopy();
+      updatedSubtask.setName(event.target.textContent);
+      dispatch(updateSubtaskOp(updatedSubtask));
+    }
   }
 
   function handleCheckboxChange(event: any) {
