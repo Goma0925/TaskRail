@@ -63,7 +63,7 @@ workspaceRouter.post(
     // Return workspace with task parents nested inside of it.
     const workspaceId = req.params.workspaceId;
     const taskParentName = req.body.name;
-    console.log("Create taskparent:", workspaceId);
+    console.log("Create taskparent at workspace:", workspaceId);
     const workspaceCollection = db.collection(Collections.Workspaces);
     const taskParent = {
       _id: ObjectID(),
@@ -78,6 +78,7 @@ workspaceRouter.post(
       $push: { taskparents: taskParent },
     };
     const status = await workspaceCollection.updateOne(query, update);
+    console.log("TaskParentID:", taskParent._id);
     if (status.result.ok) {
       res.send({ success: true, data: taskParent });
     } else {
@@ -91,33 +92,14 @@ workspaceRouter.delete(
   "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
-    const taskParentName = req.body.name;
     const taskParentId = req.params.taskParentId;
-    const taskParentDeadline = req.body.taskParentDeadline;
-    const taskParentNote = req.body.note;
-    const taskParentComplete = req.body.complete;
     console.log(
-      "Delete taskparent:",
-      "\n\t",
-      taskParentName,
-      "\n\t",
+      "Delete taskparent:\n",
+      "\ntaskParentId:\t",
       taskParentId,
-      "\n\t",
-      taskParentDeadline,
-      "\n\t",
-      taskParentNote,
-      "\n\t",
-      taskParentComplete
     );
-    const workspaceCollection = db.collection(Collections.Workspaces);
-    const taskParent = {
-      _id: ObjectID(taskParentId),
-      name: taskParentName,
-      taskParentDeadline: taskParentDeadline,
-      note: taskParentNote,
-      complete: taskParentComplete,
-    };
     //Construct query to delete taskparent from a workspace
+    const workspaceCollection = db.collection(Collections.Workspaces);
     const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
     const deleteTaskParentQuery = {
       $pull: { taskparents: {_id: ObjectID(taskParentId)} },
@@ -126,12 +108,14 @@ workspaceRouter.delete(
     //Construc a query to delete all the subtasks of the taskparent.
     const subtaskCollection = db.collection(Collections.Subtasks);
     const selectSubtaskQuery = { taskParentId: taskParentId };
-
     // Execute the queries.
     const subtaskDeletionStatus = await subtaskCollection.deleteMany(selectSubtaskQuery);
-    const taskParentDeletionStatus = await workspaceCollection.updateOne(selectWorkspaceQuery, deleteTaskParentQuery);
+    const taskParentDeletionStatus = await workspaceCollection.findOneAndUpdate(selectWorkspaceQuery, deleteTaskParentQuery);
+    
+    console.log("taskParentDeletionStatus.value", taskParentDeletionStatus.value);
+
     if (taskParentDeletionStatus.result.ok && subtaskDeletionStatus.result.ok) {
-      res.send({ success: true, data: taskParent });
+      res.send({ success: true, data: {empty: taskParentDeletionStatus.value} });
     } else {
       res.send({ success: false });
     }
