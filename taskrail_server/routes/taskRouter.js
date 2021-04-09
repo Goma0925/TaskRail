@@ -98,8 +98,11 @@ workspaceRouter.delete(
       "\ntaskParentId:\t",
       taskParentId,
     );
-    //Construct query to delete taskparent from a workspace
+    // Construc a query to get the taskparent to return
     const workspaceCollection = db.collection(Collections.Workspaces);
+    const selectTaskParentQuery = {$elemMatch: { taskparents: {_id: ObjectID(taskParentId)} }};
+
+    //Construct query to delete taskparent from a workspace
     const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
     const deleteTaskParentQuery = {
       $pull: { taskparents: {_id: ObjectID(taskParentId)} },
