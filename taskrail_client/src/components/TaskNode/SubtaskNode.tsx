@@ -62,10 +62,11 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     function handleBottomChange(event: any) {
         const newDeadlineStr:string = event.target.value;
         const newDeadline = LocalDateParse(newDeadlineStr);
-
+        console.log("newDeadline: " + newDeadline);
         let updatedSubtask = props.subtask.getCopy();
         updatedSubtask.setSubtaskDeadline(newDeadline);
-        dispatch(new UpdateSubtask(updatedSubtask));
+        // dispatch(new UpdateSubtask(updatedSubtask));
+        dispatch(updateSubtaskOp(updatedSubtask));
     }
 
     function onClickCheckbox(event: any) {
@@ -79,10 +80,12 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
 
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
+    console.log("subtask deadline: " + subtaskDeadline)
     const subtaskDeadlineMonthAndDay = subtaskDeadline?
                                 getMonthAndDay(subtaskDeadline):"";    
     const datePickerValueStr = subtaskDeadline?
                                 getDateStr(subtaskDeadline):"";
+    console.log("date picker value: " + datePickerValueStr);
     return (
         <TaskNode {...newProps}>
             {newProps.children}
@@ -101,7 +104,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
                 {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
-                <p> {subtaskDeadlineMonthAndDay} </p>
+                {/* <p> {subtaskDeadlineMonthAndDay} </p> */}
                 <input 
                     type="date" 
                     id="date-picker" 

@@ -43,15 +43,17 @@ input[type=checkbox].float-checkbox {
 
 .subtask-bottom input[type=date] {
     background-color: transparent;
-    color:transparent;
+    /* color:transparent; */
     border: none;
     border-radius: 25px;
     margin-right: 5%;
+    /* text-align: center; */
+    margin-left: 5%;
 }
 
-.subtask-bottom input[type=date]:focus{
+/* .subtask-bottom input[type=date]:focus{
     color:transparent;
-}
+} */
 
 .subtask-bottom p {
     margin-left: 5%;
