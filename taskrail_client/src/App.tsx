@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import "./App.css";
+import "./common_css/App.css";
 import { RootState } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { SplitPane, NavBar, SideInfoBarContainer, SideMenu, RailContainer } from "./containers/index"; // just export components from index.ts in containers

@@ -5,8 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from "./redux/store";
 import { Provider } from 'react-redux';
-import { loadAllContentOp } from './redux/modules/TaskData/TaskDataOperations';
-import {ThunkAction} from 'redux-thunk';
 
 ReactDOM.render(
   <React.StrictMode>

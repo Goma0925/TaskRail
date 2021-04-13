@@ -12,7 +12,7 @@ const uri = `mongodb+srv://${DB_USER}:${DB_PW}@${DB_CLUSTER}.ajpsn.mongodb.net/$
 function connect(callback) {
     MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(client => {
-        console.log("connect to db");
+        console.log("Database connection established.");
         _client = client;
         callback(); 
     })
