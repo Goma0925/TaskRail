@@ -73,7 +73,7 @@ export default function Rail (props: RailProps) {
                     // If no subtasks, render dummy node.
                     [...Array(1)].map(()=>{                        
                         const PlaceholderNode = TaskNode;
-                        return <PlaceholderNode width={props.subtaskNodeWidth + 4} height={0}></PlaceholderNode>
+                        return <PlaceholderNode width={props.subtaskNodeWidth} height={0}></PlaceholderNode>
                     })
                 }
                 <AddSubtaskButton taskParentId={props.taskParent.getId()} assignedDate={assignedDate}></AddSubtaskButton>
