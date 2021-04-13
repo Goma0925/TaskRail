@@ -25,13 +25,13 @@ export default function BackgroundWeekCalendar(
         let dayOfWeek = newDate.toString().split(" ")[0].toUpperCase();
         let dayOfMonth = newDate.toString().split(" ")[2].toUpperCase();
         let today = new Date();
-        let indicator: React.ReactNode;
+        let currDateIndicatorActive: boolean = false;
         if (
           today.getUTCDate() == newDate.getUTCDate() &&
           today.getUTCMonth() == newDate.getUTCMonth() &&
           today.getUTCFullYear() == newDate.getUTCFullYear()
         ) {
-          indicator = <div className="indicator" />;
+          currDateIndicatorActive = true;
         }
         return (
           <div
@@ -43,9 +43,10 @@ export default function BackgroundWeekCalendar(
             }}
           >
             <div className="date-label">
-              {indicator}
-              <h2 className="day-of-week">{dayOfWeek}</h2>
-              <h1 className="date">{dayOfMonth}</h1>
+              <div className={`indicator ${currDateIndicatorActive?" active":""}`}>
+                <div className="day-of-week">{dayOfWeek}</div>
+                <div className="date">{dayOfMonth}</div>
+              </div>
             </div>
           </div>
         );

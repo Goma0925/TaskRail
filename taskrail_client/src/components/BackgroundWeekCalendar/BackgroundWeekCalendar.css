@@ -26,28 +26,34 @@
   flex-flow: column nowrap;
 }
 
-.indicator {
-  z-index: -1;
+.indicator.active {
   border-radius: 100%;
   background-color: brown;
-  height: 100%;
+  height: 94%;
   position: absolute;
-  width: 60px;
-  margin: 0 auto;
+  width: 55px;
+  margin: auto;
+  margin-top: 2.5%;
+}
+/* Flip the text color for active indicator */
+.indicator.active > * {
+  color: white;
 }
 
-.date-label > .day-of-week {
+.date-label > * .day-of-week {
   text-align: center;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
+  height: 50%;
 }
 
-.date-label > .date {
+.date-label > * .date {
   text-align: center;
   margin: 0;
   font-family: "Courier New", Courier, monospace;
   font-weight: lighter;
-  font-size: 20px;
+  font-size: 18px;
+  height: 50%;
 }

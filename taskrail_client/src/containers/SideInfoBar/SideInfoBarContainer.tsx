@@ -29,7 +29,5 @@ export default function SideInfoBarContainer() {
                 <h1>Default Side Bar</h1>
             </div>
     }
-        return(
-            <div>{SideInfoBarContent}</div>
-        )
+        return <>{SideInfoBarContent}</>;
 }

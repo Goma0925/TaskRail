@@ -3,7 +3,6 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
 import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import { getDateStr } from "../../helpers/DateTime";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -35,14 +34,25 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   const deadline = subtask.getSubtaskDeadline();
   const note = subtask.getNote();
   const dispatch = useDispatch();
+  function return_date_str(date: Date) {
+    let date_str = date.toString();
+    let split_up_date = date_str.split(" ");
+    let returning_str =
+      split_up_date[3] +
+      "-" +
+      months[split_up_date[1]] +
+      "-" +
+      split_up_date[2];
 
+    console.log(returning_str);
+    return returning_str;
+  }
   function handleNoteChange(event: any) {
     // update this type in future
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setNote(event.target.value);
     dispatch(updateSubtaskOp(updatedSubtask));
   }
-
   function handleDateChange(event: any) {
     var split_str = event.target.value.split("-");
     var year = Number(split_str[0]);
@@ -73,16 +83,17 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   }
 
   return (
-    <nav className="panel sideinfo-bar">
-      <div className="panel-heading sideinfo-bar-top">
+    <div className="sideinfo-bar">
+      <div className="TitleAndCheckbox">
         <input
           type="checkbox"
           checked={complete}
-          className="infobar-checkbox"
+          className="Checkbox"
           onClick={handleCheckboxChange}
         />
         <h1
-          className="infobar-title"
+          className="Title"
+          className="Title"
           contentEditable={"true"}
           onBlur={handleTitleChange}
           suppressContentEditableWarning={true}
@@ -90,25 +101,27 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
           {title}
         </h1>
       </div>
-      <div className="input-section">
-        <div className="panel-block">
+      <hr />
+      <div className="InputList">
+        <div className="Deadline">
+          <h3 className="DeadlineLabel">Deadline:</h3>
           <input
             type="date"
-            value={deadline?getDateStr(deadline):""}
+            value={deadline?return_date_str(deadline):""}
             onChange={handleDateChange}
-            className="input"
+            className="DeadlineInput"
           />
         </div>
-        <div className="note">
+        <div className="Note">
+          <h3 className="NoteLabel">Note:</h3>
           <textarea
             value={note}
-            placeholder="Note"
             onChange={handleNoteChange}
-            className="textarea"
+            className="NoteInput"
           />
         </div>
       </div>
-    </nav>
+    </div>
   );
 }
 
