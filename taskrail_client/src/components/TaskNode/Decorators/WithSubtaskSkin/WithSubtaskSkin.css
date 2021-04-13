@@ -17,12 +17,10 @@
 
 .subtask-top {
     border-bottom: solid black 1px;
-    /* font-size: 0.75vw; */
 }
 
 .subtask-bottom {
     border-top: solid black 1px;
-    /* font-size: 1vw; */
     position: relative;
 }
 
@@ -43,15 +41,22 @@ input[type=checkbox].float-checkbox {
 
 .subtask-bottom input[type=date] {
     background-color: transparent;
-    color:transparent;
+    /* color:transparent; */
     border: none;
     border-radius: 25px;
     margin-right: 5%;
+    /* text-align: center; */
+    margin-left: 5%;
+    font-size: 85%;
 }
 
-.subtask-bottom input[type=date]:focus{
-    color:transparent;
+::-webkit-calendar-picker-indicator{
+    margin-left: 0px;
 }
+
+/* .subtask-bottom input[type=date]:focus{
+    color:transparent;
+} */
 
 .subtask-bottom p {
     margin-left: 5%;
