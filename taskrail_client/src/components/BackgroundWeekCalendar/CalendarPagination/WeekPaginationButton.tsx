@@ -1,5 +1,5 @@
-import { getMonthStr, getNDaysLater } from "../../../helpers/DateTime";
-import { paginateNextWeek, paginatePrevWeek } from "../../../redux/modules/Pagination/PaginationOperations";
+import { getMonthAndDay, getMonthStr, getNDaysLater, getPreviousSunday } from "../../../helpers/DateTime";
+import { setWeekStartDate } from "../../../redux/modules/Pagination/PaginationOperations";
 import "./WeekPagination.css";
 
 interface WeekPaginationButton{
@@ -11,22 +11,29 @@ export default function WeekPaginationButton(props: WeekPaginationButton){
 
     const displayRangeEndDate = getNDaysLater(props.displayRangeStartDate, 7);
     if (props.displayRangeStartDate.getMonth() == displayRangeEndDate.getMonth()){
-        monthLabel = getMonthStr(props.displayRangeStartDate);
+        monthLabel = getMonthAndDay(props.displayRangeStartDate);
     }else{
-        monthLabel = getMonthStr(props.displayRangeStartDate) + " - " + getMonthStr(displayRangeEndDate);
+        monthLabel = getMonthAndDay(props.displayRangeStartDate) + " - " + getMonthAndDay(displayRangeEndDate);
     }
 
-    const jumpPrevWeek = ()=>{
-        paginatePrevWeek(props.displayRangeStartDate);
+    const jumpToPrevWeek = ()=>{
+        const oneWeekLater = getNDaysLater(props.displayRangeStartDate , -7);
+        setWeekStartDate(oneWeekLater);
     }
-    const jumpNextWeek = ()=>{
-        paginateNextWeek(props.displayRangeStartDate);
+    const jumpToCurrWeek = ()=>{
+        const currentWeekSunday = getPreviousSunday(new Date());
+        setWeekStartDate(currentWeekSunday);
+    }
+    const jumpToNextWeek = ()=>{
+        const oneWeekBefore = getNDaysLater(props.displayRangeStartDate , 7);
+        setWeekStartDate(oneWeekBefore);
     }
     return (
         <>
         <div className="week-pagination">
-            <a href="#" onClick={jumpPrevWeek}>❮</a>
-            <a href="#" onClick={jumpNextWeek}>❯</a>
+            <a href="#" onClick={jumpToPrevWeek}>❮</a>
+            <a href="#" onClick={jumpToCurrWeek}>Today</a>
+            <a href="#" onClick={jumpToNextWeek}>❯</a>
         </div>
         <div className="week-pagination-label">{monthLabel}</div>
         </>
