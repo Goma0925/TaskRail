@@ -65,7 +65,6 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         console.log("newDeadline: " + newDeadline);
         let updatedSubtask = props.subtask.getCopy();
         updatedSubtask.setSubtaskDeadline(newDeadline);
-        // dispatch(new UpdateSubtask(updatedSubtask));
         dispatch(updateSubtaskOp(updatedSubtask));
     }
 
@@ -80,12 +79,12 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
 
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
-    console.log("subtask deadline: " + subtaskDeadline)
+
     const subtaskDeadlineMonthAndDay = subtaskDeadline?
                                 getMonthAndDay(subtaskDeadline):"";    
     const datePickerValueStr = subtaskDeadline?
                                 getDateStr(subtaskDeadline):"";
-    console.log("date picker value: " + datePickerValueStr);
+
     return (
         <TaskNode {...newProps}>
             {newProps.children}

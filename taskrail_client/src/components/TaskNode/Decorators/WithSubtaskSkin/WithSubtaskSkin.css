@@ -17,12 +17,10 @@
 
 .subtask-top {
     border-bottom: solid black 1px;
-    /* font-size: 0.75vw; */
 }
 
 .subtask-bottom {
     border-top: solid black 1px;
-    /* font-size: 1vw; */
     position: relative;
 }
 
@@ -49,6 +47,11 @@ input[type=checkbox].float-checkbox {
     margin-right: 5%;
     /* text-align: center; */
     margin-left: 5%;
+    font-size: 85%;
+}
+
+::-webkit-calendar-picker-indicator{
+    margin-left: 0px;
 }
 
 /* .subtask-bottom input[type=date]:focus{
