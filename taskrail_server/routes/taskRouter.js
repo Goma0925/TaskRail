@@ -352,8 +352,8 @@ workspaceRouter.put(
 );
 
 //update workspace
-workspaceRouter.put("/users/:userId/workspaces", async (req, res) => {
-  const workspaceId = req.body._id;
+workspaceRouter.put("/users/:userId/workspaces/:workspaceId", async (req, res) => {
+  const workspaceId = req.params._id;
   const workspaceName = req.body.name;
   console.log("Update Workspace:", "\n\t", workspaceId, "\n\t", workspaceName);
   const workspace = {
@@ -364,7 +364,7 @@ workspaceRouter.put("/users/:userId/workspaces", async (req, res) => {
   };
   const update = { $set: workspace };
   const workspaceCollection = db.collection(Collections.Workspaces);
-  const status = await workspaceCollection.update(query, update);
+  const status = await workspaceCollection.updateOne(query, update);
 
   if (status.result.ok) {
     res.send({ success: true, data: workspace });
