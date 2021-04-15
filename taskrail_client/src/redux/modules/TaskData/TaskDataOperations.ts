@@ -290,6 +290,7 @@ export function updateSubtaskOp(subtask: SubTask) {
   };
 }
 
+// create workspace operation
 export function createWorkspaceOp(workspace: Workspace) {
   const rawWorkspaceJson: WorkspaceJson = {
     _id: "",
@@ -320,6 +321,7 @@ export function createWorkspaceOp(workspace: Workspace) {
   };
 }
 
+// delete workspace operation
 export function deleteWorkspaceOp(workspaceId: string) {
   return async (dispatch: AppDispatch) => {
     axios
@@ -333,6 +335,7 @@ export function deleteWorkspaceOp(workspaceId: string) {
   };
 }
 
+// update workspace operation
 export function updateWorkspaceOp(workspace: Workspace) {
   return async (dispatch: AppDispatch) => {
     const rawWorkspaceJson: WorkspaceJson = {
