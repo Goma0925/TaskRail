@@ -19,10 +19,10 @@ export default function NavBar() {
   const displayRangeStartDate = useSelector((state: RootState) => {
     return state.pagination.displayRangeStartDate;
   });
-  let workspaceId = useSelector((state: RootState) => {
+  const workspaceId = useSelector((state: RootState) => {
     return state.taskData.workspaces.currentWorkspace?.getId();
   });
-  let workspaceName = useSelector((state: RootState) => {
+  const workspaceName = useSelector((state: RootState) => {
     return state.taskData.workspaces.currentWorkspace?.getName();
   });
   let workspacesArray = useSelector((state: RootState) => {
@@ -39,18 +39,52 @@ export default function NavBar() {
   const [nameInput, setNameInput] = useState(
     <div
       contentEditable="true"
-      onBlur={handleNameChange}
+      onBlur={(event) => {
+        if (
+          event.target.textContent &&
+          event.target.textContent.length &&
+          event.target.textContent.trim() &&
+          workspaceId
+        ) {
+          dispatch(
+            operations.updateWorkspaceOp(
+              new Workspace(event.target.textContent, workspaceId, [])
+            )
+          );
+          setDefaultNameInput(workspaceId, event.target.textContent);
+        } else {
+          if (workspaceId) {
+            setDefaultNameInput(
+              workspaceId,
+              workspacesArray[workspaceId].getName()
+            );
+          }
+        }
+      }}
       key={workspaceId}
       placeholder="Workspace Name"
     >
       {workspaceName}
     </div>
   );
-  const setDefaultNameInput = (name?: string | undefined) => {
+  const setDefaultNameInput = (id: string, name?: string | undefined) => {
     setNameInput(
       <div
         contentEditable="true"
-        onBlur={handleNameChange}
+        onBlur={(event) => {
+          if (
+            event.target.textContent &&
+            event.target.textContent.length &&
+            event.target.textContent.trim() &&
+            workspaceId
+          ) {
+            dispatch(
+              operations.updateWorkspaceOp(
+                new Workspace(event.target.textContent, id, [])
+              )
+            );
+          }
+        }}
         key={workspaceId}
         placeholder="Workspace Name"
       >
@@ -90,12 +124,12 @@ export default function NavBar() {
                 )
               );
             }
-            setDefaultNameInput(event.target.value);
+            setDefaultNameInput(id, event.target.value);
           } else {
             if (!operation) {
-              setDefaultNameInput(workspacesArray[id].getName());
+              setDefaultNameInput(id, workspacesArray[id].getName());
             } else {
-              setDefaultNameInput(workspaceName);
+              setDefaultNameInput(id, workspaceName);
             }
           }
         }}
@@ -112,6 +146,7 @@ export default function NavBar() {
   ) => {
     placeHolder = placeHolder ? placeHolder : workspacesArray[id].getName();
     if (!operation) {
+      console.log("Loading workspaces...");
       dispatch(operations.loadCurrentWorkspaceContent(id));
     }
     setInputNameInput(id, operation, placeHolder);
@@ -132,18 +167,8 @@ export default function NavBar() {
                   href="javascript:;"
                   className="dropdown-item"
                   onClick={() => {
-                    workspaceName = workspacesArray[id].getName();
                     dispatch(operations.loadCurrentWorkspaceContent(id));
-                    setNameInput(
-                      <div
-                        contentEditable="true"
-                        onBlur={handleNameChange}
-                        key={workspaceId}
-                        placeholder="Workspace Name"
-                      >
-                        {workspacesArray[id].getName()}
-                      </div>
-                    );
+                    setDefaultNameInput(id, workspacesArray[id].getName());
                   }}
                 >
                   {workspacesArray[id].getName()}
@@ -166,12 +191,15 @@ export default function NavBar() {
                         if (Object.keys(workspacesArray).length > 1) {
                           dispatch(operations.deleteWorkspaceOp(id));
                           TurnOffDropDownMenu();
-                          dispatch(
-                            operations.loadCurrentWorkspaceContent(
-                              workspacesIdArray[0]
-                            )
-                          );
+                          if (id == workspaceId) {
+                            dispatch(
+                              operations.loadCurrentWorkspaceContent(
+                                workspacesIdArray[0]
+                              )
+                            );
+                          }
                           setDefaultNameInput(
+                            workspacesIdArray[0],
                             workspacesArray[workspacesIdArray[0]].getName()
                           );
                         }
@@ -216,37 +244,6 @@ export default function NavBar() {
       TurnOffDropDownMenu();
     }
   };
-
-  function handleNameChange(event: React.FocusEvent<HTMLHeadingElement>) {
-    if (
-      event.target.textContent &&
-      workspaceId &&
-      event.target.textContent != ""
-    ) {
-      const updatedWorkspace = new Workspace(
-        event.target.textContent,
-        workspaceId,
-        []
-      );
-      dispatch(operations.updateWorkspaceOp(updatedWorkspace));
-      if (!dropDown) {
-        dropDownRender();
-        dropDownRender();
-      }
-    } else if (!event.target.textContent && workspaceId) {
-      event.target.textContent = "Name";
-      const updatedWorkspace = new Workspace(
-        event.target.textContent,
-        workspaceId,
-        []
-      );
-      dispatch(operations.updateWorkspaceOp(updatedWorkspace));
-      if (!dropDown) {
-        dropDownRender();
-        dropDownRender();
-      }
-    }
-  }
 
   return (
     <div className="nav">
