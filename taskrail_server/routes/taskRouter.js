@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoUtil = require("../MongoUtil");
 const db = mongoUtil.getDb();
-const ObjectID = require("mongodb").ObjectID;
+const ObjectId = require("mongodb").ObjectId;
 const Collections = require("../consts/MongoDB").Collections; //Constant var to avoid typos
 const workspaceRouter = express.Router();
 const CommonDbOperations = require("../common_operations/taskOperations.js");
@@ -27,7 +27,7 @@ workspaceRouter.get(
     const workspaceId = req.params.workspaceId;
     console.log("GET workspace:", workspaceId);
     const workspaceCollection = db.collection(Collections.Workspaces);
-    const query = { _id: ObjectID(workspaceId) };
+    const query = { _id: ObjectId(workspaceId) };
     const workspace = await workspaceCollection.findOne(query);
     if (workspace != null) {
       res.send({ success: true, data: workspace });
@@ -66,14 +66,14 @@ workspaceRouter.post(
     console.log("Create taskparent at workspace:", workspaceId);
     const workspaceCollection = db.collection(Collections.Workspaces);
     const taskParent = {
-      _id: ObjectID(),
+      _id: ObjectId(),
       name: taskParentName,
       taskParentDeadline: null,
       note: "",
       complete: false,
     };
     //Add taskparent
-    const query = { _id: ObjectID(workspaceId) };
+    const query = { _id: ObjectId(workspaceId) };
     const update = {
       $push: { taskparents: taskParent },
     };
@@ -96,7 +96,7 @@ workspaceRouter.delete(
     console.log("Delete taskparent:\n", "\ntaskParentId:\t", taskParentId);
     // Construc a query to get the taskparent to return
     const workspaceCollection = db.collection(Collections.Workspaces);
-    const selectWorkspaceQuery = { _id: ObjectID(workspaceId) };
+    const selectWorkspaceQuery = { _id: ObjectId(workspaceId) };
     const workspace = await workspaceCollection.findOne(selectWorkspaceQuery);
     if (!workspace) {
       res.send({
@@ -187,7 +187,7 @@ workspaceRouter.delete(
     const workspaceId = req.params.workspaceId;
     const workspaceCollection = db.collection(Collections.Workspaces);
     const subtaskCollection = db.collection(Collections.Subtasks);
-    const query = { _id: ObjectID(workspaceId) };
+    const query = { _id: ObjectId(workspaceId) };
     const workspace = await workspaceCollection.findOne(query);
     const taskParents = workspace.taskparents.map((obj) => {
       return obj._id.toString();
@@ -238,7 +238,7 @@ workspaceRouter.delete(
     //   complete: subtaskComplete,
     // };
     const subtaskCollection = db.collection(Collections.Subtasks);
-    const query = { _id: ObjectID(subtaskId) };
+    const query = { _id: ObjectId(subtaskId) };
     //Delete subtask
     const status = await subtaskCollection.findOneAndDelete(query);
     console.log("status", status);
@@ -276,7 +276,7 @@ workspaceRouter.put(
       taskParentComplete
     );
     const taskParent = {
-      _id: ObjectID(taskParentId),
+      _id: ObjectId(taskParentId),
       name: taskParentName,
       taskParentDeadline: taskParentDeadline,
       note: taskParentNote,
@@ -285,8 +285,8 @@ workspaceRouter.put(
     const workspaceCollection = db.collection(Collections.Workspaces);
     //Update taskparent
     const query = {
-      _id: ObjectID(workspaceId),
-      "taskparents._id": ObjectID(taskParentId),
+      _id: ObjectId(workspaceId),
+      "taskparents._id": ObjectId(taskParentId),
     };
     const update = {
       $set: {
@@ -335,7 +335,7 @@ workspaceRouter.put(
       subtaskComplete
     );
     const subtask = {
-      _id: ObjectID(subtaskId),
+      _id: ObjectId(subtaskId),
       taskParentId: taskParentId,
       name: subtaskName,
       scheduledDate: subtaskScheduledDate,
@@ -344,7 +344,7 @@ workspaceRouter.put(
       complete: subtaskComplete,
     };
     const selectSubtaskQuery = {
-      _id: ObjectID(subtaskId),
+      _id: ObjectId(subtaskId),
     };
     const updateConttentQuery = {
       $set: {
@@ -387,7 +387,7 @@ workspaceRouter.put(
       name: workspaceName,
     };
     const query = {
-      _id: ObjectID(workspaceId),
+      _id: ObjectId(workspaceId),
     };
     const update = { $set: workspace };
     const workspaceCollection = db.collection(Collections.Workspaces);
@@ -446,7 +446,7 @@ workspaceRouter.post(
       if (taskParent != null) {
         // Insert a new subask
         const subtask = {
-          _id: ObjectID(),
+          _id: ObjectId(),
           taskParentId: taskParentId,
           name: subtaskName,
           scheduledDate: scheduledDate,

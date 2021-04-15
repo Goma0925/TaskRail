@@ -1,3 +1,4 @@
+const ObjectId = require("mongodb").ObjectId;
 const {OAuth2Client} = require('google-auth-library');
 const GOOGLE_AUTH_CLIENT_ID = process.env.GOOGLE_AUTH_GOOGLE_AUTH_CLIENT_ID;
 const mongoUtil = require("../MongoUtil");
@@ -13,7 +14,6 @@ async function verify(bearerToken, client_id) {
     });
     const googleUser = ticket.getPayload();
     // const userid = payload['sub'];
-    console.log(googleUser);
     return googleUser;
 }
 
@@ -37,20 +37,31 @@ const login = async (req, res, next) => {
             return res.status(401).json({status: false, error_msg: "Google authentication token is invalid or expired."});
         }
     };
-    await userExistsInDb(googleUser);
+    const appUser = await getUser(googleUser);
+    if (appUser){
+        req.locals.user = appUser;
+        next();
+    }else{
+        return res.status(401).json({status: false, error_msg: "User record could not be found."});
+    }
 };
 
-const userExistsInDb = async (googleUser) =>{
+const getUser = async (googleUser) =>{
     const db = mongoUtil.getDb();
-    console.log("Creating user");
     const userCollection = db.collection("Users");
-    const newUser = {
-        googleUserId: googleUser.sub,
-        email: googleUser.email,
-        first_name: googleUser.given_name,
-        last_name: googleUser.family_name,
-    };
-    await userCollection.insertOne(newUser);
+    const query = {email: googleUser.email};
+    const targetUser = await userCollection.findOne(query);
+    return targetUser;
+
+    // Create interface when rewriting in TypeScript.
+    // const user = {
+    //     _id: ObjectId(googleUser.sub),
+    //     authType: "GOOGLE",
+    //     email: googleUser.email,
+    //     first_name: googleUser.given_name,
+    //     last_name: googleUser.family_name,
+    // }
+    // await userCollection.insertOne(user);
 }
 
 module.exports = {
