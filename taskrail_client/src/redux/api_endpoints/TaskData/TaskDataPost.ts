@@ -2,16 +2,16 @@ import baseUrl from "../BaseUrl";
 
 const POST = {
   workspaces: {
-    createOne: () => baseUrl + `/users/1/workspaces`,
+    createOne: () => baseUrl + `/taskdata/workspaces`,
   },
   taskParents: {
     createOneByHierarchy: (workspaceId: string) =>
-      baseUrl + `/users/1/workspaces/${workspaceId}/taskparents`,
+      baseUrl + `/taskdata/workspaces/${workspaceId}/taskparents`,
   },
   subtasks: {
     createOneByHierarchy: (workspaceId: string, taskParentId: string) =>
       baseUrl +
-      `/users/:userId/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks`,
+      `/taskdata/workspaces/${workspaceId}/taskparents/${taskParentId}/subtasks`,
   },
 };
 

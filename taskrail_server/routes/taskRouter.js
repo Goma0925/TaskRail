@@ -7,10 +7,8 @@ const workspaceRouter = express.Router();
 const CommonDbOperations = require("../common_operations/TaskOperations.js");
 
 //READ all workspaces
-workspaceRouter.get("/users/:userId/workspaces", async (req, res) => {
+workspaceRouter.get("/workspaces", async (req, res) => {
   console.log("workspace root");
-  const userId = req.params.id;
-  console.log(userId);
   const workspaceCollection = db.collection(Collections.Workspaces);
   const cursor = workspaceCollection.find();
   const workspaces = await cursor.toArray();
@@ -21,7 +19,7 @@ workspaceRouter.get("/users/:userId/workspaces", async (req, res) => {
 
 //READ a particular workspace
 workspaceRouter.get(
-  "/users/:userId/workspaces/:workspaceId",
+  "/workspaces/:workspaceId",
   async (req, res) => {
     // Return workspace with task parents nested inside of it.
     const workspaceId = req.params.workspaceId;
@@ -38,8 +36,7 @@ workspaceRouter.get(
 );
 
 //CREATE workspace
-workspaceRouter.post("/users/:userId/workspaces", async (req, res) => {
-  const userId = req.params.id;
+workspaceRouter.post("/workspaces", async (req, res) => {
   const workspaceCollection = db.collection(Collections.Workspaces);
   //Get payload
   const workspaceName = req.body.name;
@@ -58,7 +55,7 @@ workspaceRouter.post("/users/:userId/workspaces", async (req, res) => {
 
 //CREATE TaskParent
 workspaceRouter.post(
-  "/users/:userId/workspaces/:workspaceId/taskparents",
+  "/workspaces/:workspaceId/taskparents",
   async (req, res) => {
     // Return workspace with task parents nested inside of it.
     const workspaceId = req.params.workspaceId;
@@ -89,7 +86,7 @@ workspaceRouter.post(
 
 //Delete a TaskParent
 workspaceRouter.delete(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId",
+  "/workspaces/:workspaceId/taskparents/:taskParentId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentId = req.params.taskParentId;
@@ -182,7 +179,7 @@ workspaceRouter.delete(
 
 //Delete Workspace
 workspaceRouter.delete(
-  "/users/:userId/workspaces/:workspaceId",
+  "/workspaces/:workspaceId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const workspaceCollection = db.collection(Collections.Workspaces);
@@ -218,7 +215,7 @@ workspaceRouter.delete(
 
 //Delete Subtask
 workspaceRouter.delete(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks/:subtaskId",
+  "/workspaces/:workspaceId/taskparents/:taskParentId/subtasks/:subtaskId",
   async (req, res) => {
     const subtaskId = req.params.subtaskId;
     const taskParentId = req.body.taskParentId;
@@ -254,7 +251,7 @@ workspaceRouter.delete(
 
 //Update taskparent
 workspaceRouter.put(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId",
+  "/workspaces/:workspaceId/taskparents/:taskParentId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentName = req.body.name;
@@ -308,7 +305,7 @@ workspaceRouter.put(
 
 //Update subtask
 workspaceRouter.put(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  "/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
   async (req, res) => {
     const taskParentId = req.params.taskParentId;
     const subtaskId = req.body._id;
@@ -372,7 +369,7 @@ workspaceRouter.put(
 
 //update workspace
 workspaceRouter.put(
-  "/users/:userId/workspaces/:workspaceId",
+  "/workspaces/:workspaceId",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const workspaceName = req.body.name;
@@ -403,7 +400,7 @@ workspaceRouter.put(
 
 //READ all subtasks
 workspaceRouter.get(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  "/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentId = req.params.taskParentId;
@@ -419,7 +416,7 @@ workspaceRouter.get(
 
 // CREATE Subtask
 workspaceRouter.post(
-  "/users/:userId/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
+  "/workspaces/:workspaceId/taskparents/:taskParentId/subtasks",
   async (req, res) => {
     const workspaceId = req.params.workspaceId;
     const taskParentId = req.params.taskParentId;
