@@ -4,7 +4,6 @@ const GOOGLE_AUTH_CLIENT_ID = process.env.GOOGLE_AUTH_GOOGLE_AUTH_CLIENT_ID;
 const mongoUtil = require("../MongoUtil");
 
 async function verify(bearerToken, client_id) {
-    console.log("TOKEN:", bearerToken);
     const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID);
     const ticket = await client.verifyIdToken({
         idToken: bearerToken,
@@ -39,7 +38,7 @@ const login = async (req, res, next) => {
     };
     const appUser = await getUser(googleUser);
     if (appUser){
-        req.locals.user = appUser;
+        req.app.locals.user = appUser;
         next();
     }else{
         return res.status(401).json({status: false, error_msg: "User record could not be found."});

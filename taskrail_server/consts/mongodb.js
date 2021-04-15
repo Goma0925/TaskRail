@@ -4,6 +4,11 @@ const Collections = {
     Subtasks: "Subtasks",
 }
 
+const UserAuthTypes = {
+    GOOGLE: "GOOGLE"
+}
+
 module.exports = {
-    Collections
+    Collections: Collections,
+    UserAuthTypes: UserAuthTypes,
 }

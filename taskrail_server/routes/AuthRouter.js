@@ -1,11 +1,15 @@
 const express = require("express");
 const authRouter = express.Router();
 const mongoUtil = require("../MongoUtil");
-const db = mongoUtil.getDb();
-const ObjectId = require("mongodb").ObjectId;
-const Collections = require("../consts/MongoDB").Collections; //Constant var to avoid typos
+const GoogleAuth = require("../middleware/GoogleAuth");
 
-//READ all workspaces
-authRouter.get("/google-login", async (req, res) => {
-    
+authRouter.post("/login", GoogleAuth.login, (req, res) => {
+    // If the GoogleAuth.login middleware passes, just return the success response.
+    res.send({success: true});
 });
+
+authRouter.post("./signup", GoogleAuth.login, (req, res)=>{
+    console(req.app.locals.user);
+})
+
+module.exports = authRouter;
