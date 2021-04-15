@@ -1,51 +1,50 @@
-const ObjectId = require("mongodb").ObjectId;
-const {OAuth2Client} = require('google-auth-library');
-const GOOGLE_AUTH_CLIENT_ID = process.env.GOOGLE_AUTH_GOOGLE_AUTH_CLIENT_ID;
-const mongoUtil = require("../MongoUtil");
 const UserOperations = require("../common_operations/UserOperations");
 
-
-
-async function requireAuth(req, res, next)  {
-    // Check if the access is a valid user by checking
-    // 1) If the google auth token is valid.
-    // 2) If the google user's email exists in our record. 
-
-    // Check if the auth token is sent.
+function requireToken(req, res, next){
+    // Check if the auth token is sent in the header.
     if (!req.headers.authorization) {
         return res.status(403).json({ status:false, error_msg: "Authentication token not provided in the header." });
     };
     const authParts = req.headers.authorization.split(" ");
     const tokenType = authParts[0];
-    let isValidGoogleUser = false;
-    let googleUser;
+    const token = authParts[1];
     if (tokenType == "Bearer"){
-        const token = authParts[1];
-        try {
-            googleUser = await getGoogleUser(token, GOOGLE_AUTH_CLIENT_ID);
-            if (googleUser){
-                isValidGoogleUser = true;
-            }
-        }catch(err){
-            console.log(err);
-            res.status(401).json({status: false, error_msg: "Google authentication token is invalid or expired."});
-        }
-    };
-    if (isValidGoogleUser){
-        const appUser = await UserOperations.getUserByEmail(googleUser.email);
-        if (appUser){
-            req.app.locals.user = appUser;
-            // Pass the process to the next middle ware or router.
-            next();
-        }else{
-            res.status(401).json({status: false, error_msg: "User record could not be found. A user must be signed up before logging in."});
-        }
-    }else{
-        res.status(401).json({status: false, error_msg: "Google authentication token is invalid or expired."});
+        // Propagate the token to the next middleware or router.
+        req.app.locals.token = token;
+        return next();
     }
+    return res.status(403).json({ status:false, error_msg: "Only 'Bearer' prefix for authentication header is accepted." });
+}
+
+async function requireValidAppUser(req, res, next)  {
+    // Check if the access is made by a valid user by 
+    // 1) Receiving a Google auth token from the previous middleware.
+    // 2) Checking if the google authentication is valid.
+    // 3) Checking if the user's email exists in our database.
+    // *This middleware must be called after other middleware that passes Google auth token
+    //  in req.app.locals.token
+
+    const token = req.app.locals.token;
+    let isValidGoogleUser = false;
+    // Check if the google credential is valid.
+    result = await UserOperations.getGoogleUser(token);
+    if (!result.success){
+        return res.status(401).json({status: false, error_msg: "Google authentication token is invalid or expired."});
+    }
+
+    // Check if the user exists in our database.
+    let googleUser = result.googleUser;
+    const appUserFetchResult = await UserOperations.getUserByEmail(googleUser.email);
+    if (appUserFetchResult.success){
+        // Pass the process to the next middle ware or router.
+        req.app.locals.user = appUserFetchResult.user;
+        return next();
+    }
+    return res.status(401).json({status: false, error_msg: "User record could not be found. Must be signed up before logging in."});
 };
 
 
 module.exports = {
-    requireAuth: requireAuth
+    requireAuth: [requireToken, requireValidAppUser],
+    requireToken: requireToken
 }
