@@ -6,20 +6,20 @@ const DB_PW = process.env.DB_PW;
 const DB_CLUSTER = process.env.DB_CLUSTER; 
 const DB_NAME = process.env.DB_NAME; 
 
-var _client; 
+let _db; 
 const uri = `mongodb+srv://${DB_USER}:${DB_PW}@${DB_CLUSTER}.ajpsn.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
 function connect(callback) {
     MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(client => {
         console.log("Database connection established.");
-        _client = client;
+        _db = client.db();
         callback(); 
     })
     .catch(err => { console.error(err)});
 };
-function getDb() { return _client.db(); };
-function close() { _client.close(); };
+function getDb() { return _db; };
+function close() { _db.close(); };
 
 module.exports =  {
     connect,

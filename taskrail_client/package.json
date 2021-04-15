@@ -13,6 +13,7 @@
     "@types/react-redux": "^7.1.16",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "google-auth-library": "^7.0.4",
     "immer": "^8.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
