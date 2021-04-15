@@ -1,9 +1,10 @@
 import Subtask from "../../models/ClientModels/Subtask";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
 import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import { getDateStr } from "../../helpers/DateTime";
+import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
+import { useEffect, useRef, useState } from "react";
+import { useInterval } from "../../helpers/ReactUtils";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -34,9 +35,29 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   const complete = subtask.getStatus();
   const deadline = subtask.getSubtaskDeadline();
   const note = subtask.getNote();
+
+  const [noteText, setNoteText] = useState(note);
+  const prevText = noteText;
+  const [textAreaOnFocus, setTextAreaOnFocus] = useState(false);
   const dispatch = useDispatch();
 
-  function handleNoteChange(event: any) {
+  useInterval(() => {
+    // If the user is editing the note, save the note every 2 seconds.
+      if (textAreaOnFocus){
+        if (prevText != noteText){
+          let updatedSubtask = subtask.getCopy();
+          console.log("Saving notes..");
+          updatedSubtask.setNote(noteText);
+          dispatch(updateSubtaskOp(updatedSubtask));
+        }
+      }
+  }, 2000);
+
+  function handleNoteChange(event: any){
+    setNoteText(event.target.value);
+  }
+
+  function submitNoteChange(event: any) {
     // update this type in future
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setNote(event.target.value);
@@ -44,13 +65,9 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   }
 
   function handleDateChange(event: any) {
-    var split_str = event.target.value.split("-");
-    var year = Number(split_str[0]);
-    var month = Number(split_str[1]) - 1;
-    var day = Number(split_str[2]);
-    var returning_date = new Date(year, month, day);
+    var newDate = LocalDateParse(event.target.value);
     var updatedSubtask = subtask.getCopy();
-    updatedSubtask.setSubtaskDeadline(returning_date);
+    updatedSubtask.setSubtaskDeadline(newDate);
     dispatch(updateSubtaskOp(updatedSubtask));
   }
 
@@ -84,6 +101,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         <h1
           className="infobar-title"
           contentEditable={"true"}
+          onChange={handleNoteChange}
           onBlur={handleTitleChange}
           suppressContentEditableWarning={true}
         >
@@ -101,9 +119,16 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         </div>
         <div className="note">
           <textarea
-            value={note}
+            value={noteText}
             placeholder="Note"
+            onFocus={()=>{
+              setTextAreaOnFocus(true);
+            }}
             onChange={handleNoteChange}
+            onBlur={(event)=>{
+              setTextAreaOnFocus(false);
+              submitNoteChange(event);
+            }}
             className="textarea"
           />
         </div>
