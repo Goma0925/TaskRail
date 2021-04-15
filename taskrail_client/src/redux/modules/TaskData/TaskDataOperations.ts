@@ -290,6 +290,7 @@ export function updateSubtaskOp(subtask: SubTask) {
   };
 }
 
+// create workspace operation
 export function createWorkspaceOp(workspace: Workspace) {
   const rawWorkspaceJson: WorkspaceJson = {
     _id: "",
@@ -320,6 +321,7 @@ export function createWorkspaceOp(workspace: Workspace) {
   };
 }
 
+// delete workspace operation
 export function deleteWorkspaceOp(workspaceId: string) {
   return async (dispatch: AppDispatch) => {
     axios
@@ -333,6 +335,7 @@ export function deleteWorkspaceOp(workspaceId: string) {
   };
 }
 
+// update workspace operation
 export function updateWorkspaceOp(workspace: Workspace) {
   return async (dispatch: AppDispatch) => {
     const rawWorkspaceJson: WorkspaceJson = {
@@ -357,8 +360,44 @@ export function updateWorkspaceOp(workspace: Workspace) {
       });
   };
 }
+export function loadAllWorkspaces() {
+  return async (dispatch: AppDispatch) => {
+    await axios
+      .get(TaskDataEndpoints.GET.workspaces.getAll())
+      .then((res: AxiosResponse<BaseJson<WorkspaceJson[]>>) => {
+        console.log("Loading all workspaces...");
+        if (res.data.success) {
+          const currentWorkspace = store.getState().taskData.workspaces
+            .currentWorkspace;
 
-export function loadAllContentOp(workspaceId: string) {
+          const WorkspaceJsonArray = res.data.data.filter(
+            (workspaceJson: WorkspaceJson) => {
+              console.log("Filtering...");
+              return workspaceJson._id != currentWorkspace?.getId();
+            }
+          );
+
+          const workspaceArray = WorkspaceJsonArray.map(
+            (workspaceJson: WorkspaceJson) => {
+              console.log("Mapping", workspaceJson.name);
+              const workspace = new Workspace(
+                workspaceJson.name,
+                workspaceJson._id,
+                []
+              );
+              dispatch(new Actions.AddWorkspace(workspace));
+
+              return workspace;
+            }
+          );
+
+          console.log("Workspace Array:", workspaceArray);
+          dispatch(loadCurrentWorkspaceContent(WorkspaceJsonArray[0]._id));
+        }
+      });
+  };
+}
+export function loadCurrentWorkspaceContent(workspaceId: string) {
   return async (dispatch: AppDispatch) => {
     var workspace: Workspace | undefined = undefined;
     var taskParents: TaskParent[] = [];

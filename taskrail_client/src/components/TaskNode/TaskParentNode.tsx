@@ -94,7 +94,8 @@ export default function TaskParentNode(props: ComposedProps){
                         type="checkbox" 
                         className="float-checkbox" 
                         onClick={onClickCheckbox}
-                        checked={props.taskParent.isComplete()}    
+                        checked={props.taskParent.isComplete()}
+                        onChange={()=>{}} // gets rid of useless warning message :)
                     />
                 </div>
             </TaskParentNode>

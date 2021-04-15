@@ -18,16 +18,20 @@ export default function NavBar() {
   });
   const dispatch = useDispatch();
   const dispatchAddWorkspace = () => {
-    const newWorkspace = new Workspace("Test Workspace", "202", []);
+    const newWorkspace = new Workspace("Test Workspace", "", []);
 
-    dispatch(new Actions.AddWorkspace(newWorkspace));
+    dispatch(operations.createWorkspaceOp(newWorkspace));
   };
   const dispatchDeleteWorkspace = () => {
-    dispatch(new Actions.DeleteWorkspace("202"));
+    dispatch(operations.deleteWorkspaceOp("6077a4bc6e0a501c8fff4b4a"));
   };
   const dispatchUpdateWorkspace = () => {
-    const updatedWorkspace = new Workspace("Changed Workspace", "202", ["303"]);
-    dispatch(new Actions.UpdateWorkspace(updatedWorkspace));
+    const updatedWorkspace = new Workspace(
+      "Changed Workspace",
+      "6077a4bc6e0a501c8fff4b4a",
+      []
+    );
+    dispatch(operations.updateWorkspaceOp(updatedWorkspace));
   };
   return (
     <div className="nav">
