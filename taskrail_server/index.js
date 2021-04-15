@@ -17,7 +17,7 @@ mongoUtil.connect(() => {
 
     app.listen(PORT || 3000, () => "");
     // Do not add path here, Add all the paths to the root router.
-    const rootRouter = require("./routes");
+    const rootRouter = require("./routes/RootRouter");
     app.use("/", cors(corsOptions), rootRouter);
 })
 

@@ -1,8 +1,11 @@
 const UserAuthTypes = require("../consts/mongodb").UserAuthTypes;
+const db = require("../MongoUtil").getDb();
 const userCollection = db.collection("Users");
+const ObjectId = require("mongodb").ObjectId;
+const {OAuth2Client} = require('google-auth-library');
+const GOOGLE_AUTH_CLIENT_ID = process.env.GOOGLE_AUTH_GOOGLE_AUTH_CLIENT_ID;
 
-const getUserByEmail = async (email) =>{
-    const db = mongoUtil.getDb();
+async function getUserByEmail (email){
     const query = {email: email};
     const targetUser = await userCollection.findOne(query);
     if (targetUser){
@@ -10,6 +13,18 @@ const getUserByEmail = async (email) =>{
     }else {
         return {status: false, error_msg: "User record could not be found."};
     }
+}
+
+async function getGoogleUser(bearerToken, client_id) {
+    const client = new OAuth2Client(GOOGLE_AUTH_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+        idToken: bearerToken,
+        audience: client_id,  // Specify the GOOGLE_AUTH_CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[GOOGLE_AUTH_CLIENT_ID_1, GOOGLE_AUTH_CLIENT_ID_2, GOOGLE_AUTH_CLIENT_ID_3]
+    });
+    const googleUser = ticket.getPayload();
+    return googleUser;
 }
 
 const createUserWithGoogle = async (googleUser)=>{
@@ -26,5 +41,6 @@ const createUserWithGoogle = async (googleUser)=>{
 
 module.exports = {
     getUserByEmail: getUserByEmail,
+    getGoogleUser: getGoogleUser,
     createUserWithGoogle: createUserWithGoogle,
 }
