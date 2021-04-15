@@ -31,7 +31,7 @@ async function getGoogleUser(bearerToken) {
     }
 }
 
-const createUserWithGoogle = async (googleUser)=>{
+async function createUserWithGoogle(googleUser){
     // Create interface when rewriting in TypeScript.
     const user = {
         _id: ObjectId(),
