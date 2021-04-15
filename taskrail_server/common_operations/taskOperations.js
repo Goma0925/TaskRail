@@ -11,9 +11,8 @@ async function getWorkspaceById(workspaceId){
     const workspace = await workspaceCollection.findOne(workspaceQuery);
     if (workspace != null){
         return {success: true, workspace: workspace, error_msg: ""}
-    }else{
-        return {success: false, workspace: null, error_msg: "A workspace with ID '"+workspaceId+"' could not be found."}
     }
+    return {success: false, workspace: null, error_msg: "A workspace with ID '"+workspaceId+"' could not be found."}
 }
 
 async function getTaskParentById(taskParentId){
