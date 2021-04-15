@@ -52,7 +52,13 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
             <NodeToDecorate {...newProps}>
                 {/* {newProps.children} */}
                 <div className="taskparent-skin" style={{height:25}}>
-                    <p contentEditable={true} onBlur={onChangeName}>{props.taskParent.getName()}</p>
+                    <p 
+                        contentEditable={true} 
+                        onBlur={onChangeName}
+                        suppressContentEditableWarning={true}
+                    >
+                        {props.taskParent.getName()}
+                    </p>
                 </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
                 {props.children}
