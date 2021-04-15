@@ -11,7 +11,10 @@ import {
   RailContainer,
 } from "./containers/index"; // just export components from index.ts in containers
 import { Preloader } from "./components/Preloader/Preloader";
-import { loadAllContentOp } from "./redux/modules/TaskData/TaskDataOperations";
+import {
+  loadAllWorkspaces,
+  loadCurrentWorkspaceContent,
+} from "./redux/modules/TaskData/TaskDataOperations";
 import { ThunkDispatch } from "redux-thunk";
 
 function App() {
@@ -22,7 +25,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!contentLoaded) {
-      dispatch(loadAllContentOp("606fd3592e50394f8ff44e80"));
+      dispatch(loadAllWorkspaces());
     }
   }, []);
 
