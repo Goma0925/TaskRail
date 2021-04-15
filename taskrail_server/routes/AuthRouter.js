@@ -5,7 +5,7 @@ const UserOperations = require("../common_operations/UserOperations");
 
 authRouter.post("/login", GoogleAuth.requireAuth, (req, res) => {
     // If the GoogleAuth.login middleware passes, just return the success response.
-    res.send({success: true});
+    res.send({success: true, user:req.app.locals.user});
 });
 
 authRouter.post("/signup", GoogleAuth.requireToken, async (req, res)=>{
