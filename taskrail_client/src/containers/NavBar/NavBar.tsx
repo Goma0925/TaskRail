@@ -8,6 +8,7 @@ import * as Actions from "../../redux/modules/TaskData/TaskDataActions";
 import Workspace from "../../models/ClientModels/Workspace";
 import TaskParent from "../../models/ClientModels/TaskParent";
 import * as operations from "../../redux/modules/TaskData/TaskDataOperations";
+import Login from "../../components/GoogleAuth/Login";
 
 export default function NavBar() {
   const displayRangeStartDate = useSelector((state: RootState) => {
@@ -54,6 +55,9 @@ export default function NavBar() {
         value="Update Workspace"
         onClick={dispatchUpdateWorkspace}
       />
+      <div style={{float: 'right'}}>
+        <Login/>
+      </div>
     </div>
   );
 }
