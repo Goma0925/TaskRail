@@ -18,9 +18,7 @@ workspaceRouter.get("/workspaces", async (req, res) => {
 });
 
 //READ a particular workspace
-workspaceRouter.get(
-  "/workspaces/:workspaceId",
-  async (req, res) => {
+workspaceRouter.get("/workspaces/:workspaceId", async (req, res) => {
     // Return workspace with task parents nested inside of it.
     const workspaceId = req.params.workspaceId;
     console.log("GET workspace:", workspaceId);
