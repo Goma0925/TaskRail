@@ -8,11 +8,11 @@ const CommonDbOperations = require("../common_operations/TaskOperations.js");
 
 //READ all workspaces
 workspaceRouter.get("/workspaces", async (req, res) => {
-  console.log("workspace root");
+  const userId = req.app.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
-  const cursor = workspaceCollection.find();
+  const queryByUser = {owner_id: ObjectId(userId)};
+  const cursor = workspaceCollection.find(queryByUser);
   const workspaces = await cursor.toArray();
-  console.log(cursor);
   //May require error checking.
   res.send({ success: true, data: workspaces ? workspaces : [] });
 });
@@ -35,11 +35,12 @@ workspaceRouter.get("/workspaces/:workspaceId", async (req, res) => {
 
 //CREATE workspace
 workspaceRouter.post("/workspaces", async (req, res) => {
+  const userId = req.app.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   //Get payload
   const workspaceName = req.body.name;
   //Insert a new workspace
-  const workspace = { name: workspaceName, taskparents: [] };
+  const workspace = { name: workspaceName, owner_id:userId, taskparents: [] };
   const status = await workspaceCollection.insertOne(workspace);
   //We want to have a clean success check for every operation. Needs work here.
   if (status.result.ok) {
