@@ -281,6 +281,7 @@ export default function NavBar() {
       <WeekPaginationButton
         displayRangeStartDate={displayRangeStartDate}
       ></WeekPaginationButton>
+      <Login/>
     </div>
   );
 }

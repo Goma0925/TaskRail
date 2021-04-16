@@ -2,9 +2,13 @@ import React from "react";
 import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import { useDispatch } from "react-redux";
+import { loginOp } from "../../redux/modules/User/UserOperation"
 
 export default function Login()
 {
+    const dispatch = useDispatch();
+    
     // from taskrail google cloud
     const clientId =
         '746088176189-r8u8htgpbaivsno9uos7biukb9425rqa.apps.googleusercontent.com';
@@ -17,11 +21,12 @@ export default function Login()
 
         const cookie = new Cookies(result.tokenId);
 
-        // axios.defaults.baseURL = 'http://localhost:3000/';
         axios.defaults.headers.common = {'Authorization': 'Bearer ${' + cookie + '}'};
 
-        // const findCookie = cookie.getAll();
-        // console.log(findCookie.)
+        const findCookie = cookie.getAll();
+        console.log(findCookie);
+
+        dispatch(loginOp());
     }
 
     const onFailure = (result: any) => {

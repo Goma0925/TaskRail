@@ -16,14 +16,21 @@ import {
   loadCurrentWorkspaceContent,
 } from "./redux/modules/TaskData/TaskDataOperations";
 import { ThunkDispatch } from "redux-thunk";
+import { loginOp } from "./redux/modules/User/UserOperation";
 
 function App() {
   const contentLoaded = useSelector(
     (state: RootState) => state.railUi.contentLoaded
   );
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.user.isLoggedIn
+  );
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(() => {
+    // if (isLoggedIn == null) {
+      dispatch(loginOp());
+    // }
     if (!contentLoaded) {
       dispatch(loadAllWorkspaces());
     }

@@ -4,6 +4,7 @@ import {
   PaginationReducers,
   RailUiReducers,
   TaskDataReducers,
+  LoginReducers
 } from "./modules/index";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   railUi: RailUiReducers, //stateSliceName: reducerName
   pagination: PaginationReducers,
   taskData: TaskDataReducers,
+  user: LoginReducers,
 });
 
 const logger = createLogger();
