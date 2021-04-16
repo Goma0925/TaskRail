@@ -43,11 +43,10 @@ workspaceRouter.post("/workspaces", async (req, res) => {
   const workspace = { name: workspaceName, owner_id:userId, taskparents: [] };
   const status = await workspaceCollection.insertOne(workspace);
   //We want to have a clean success check for every operation. Needs work here.
-  if (status.result.ok) {
-    res.send({ success: true, data: workspace });
-  } else {
+  if (!status.result.ok) {
     res.send({ success: false });
   }
+  res.send({ success: true, data: workspace });
 });
 
 //GET All TaskParents
@@ -75,11 +74,10 @@ workspaceRouter.post(
     };
     const status = await workspaceCollection.updateOne(query, update);
     console.log("TaskParentID:", taskParent._id);
-    if (status.result.ok) {
-      res.send({ success: true, data: taskParent });
-    } else {
-      res.send({ success: false });
+    if (!status.result.ok) {
+      res.send({ success: false, error_msg: "Error occurred while creating taskparents."});
     }
+    res.send({ success: true, data: taskParent });
   }
 );
 
