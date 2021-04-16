@@ -291,7 +291,7 @@ export function updateSubtaskOp(subtask: SubTask) {
 }
 
 // create workspace operation
-export function createWorkspaceOp(workspace: Workspace) {
+export function createWorkspaceOp(workspace: Workspace, set?: boolean) {
   const rawWorkspaceJson: WorkspaceJson = {
     _id: "",
     name: workspace.getName(),
@@ -314,6 +314,9 @@ export function createWorkspaceOp(workspace: Workspace) {
           taskparentstrings
         );
         dispatch(new Actions.AddWorkspace(newWorkspace));
+        if (set) {
+          dispatch(loadCurrentWorkspaceContent(newWorkspace.getId()));
+        }
       })
       .catch((err: Error) => {
         console.error(err);
@@ -360,6 +363,7 @@ export function updateWorkspaceOp(workspace: Workspace) {
       });
   };
 }
+
 export function loadAllWorkspaces() {
   return async (dispatch: AppDispatch) => {
     await axios
@@ -392,6 +396,7 @@ export function loadAllWorkspaces() {
           );
 
           console.log("Workspace Array:", workspaceArray);
+          console.log("Current Workspace:", WorkspaceJsonArray[0]._id);
           dispatch(loadCurrentWorkspaceContent(WorkspaceJsonArray[0]._id));
         }
       });
@@ -401,11 +406,17 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
   return async (dispatch: AppDispatch) => {
     var workspace: Workspace | undefined = undefined;
     var taskParents: TaskParent[] = [];
+    console.log("Ran Functon...");
     // GET request to the server by workspace ID.
     await axios
       .get(TaskDataEndpoints.GET.workspaces.getOneById(workspaceId))
       .then((res: AxiosResponse<BaseJson<WorkspaceJson>>) => {
+        console.log("Response:", res);
         if (res.data.success) {
+          console.log("Loading current workspace...");
+          dispatch(new Actions.ClearTaskParents());
+          dispatch(new Actions.ClearSubtasks());
+          dispatch(new Actions.ClearTaskParents());
           const nestedWorkspaceJson: WorkspaceJson = res.data.data;
 
           workspace = new Workspace(

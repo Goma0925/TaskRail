@@ -23,3 +23,8 @@
     font-size: 30px;
     font-weight: bold;
 }
+
+.dropdown-menu{
+    max-height: 60vh;
+    overflow: scroll;
+}

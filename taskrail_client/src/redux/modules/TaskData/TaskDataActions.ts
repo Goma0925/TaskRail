@@ -33,6 +33,13 @@ export class UpdateSubtask implements ReduxAction {
     this.type = UpdateSubtask.type;
   }
 }
+export class ClearSubtasks implements ReduxAction {
+  static type = "ClearSubtasks";
+  type: string;
+  constructor() {
+    this.type = ClearSubtasks.type;
+  }
+}
 export class AddTaskParent implements ReduxAction {
   static type = "AddTaskParent";
   type: string;
@@ -58,6 +65,14 @@ export class UpdateTaskParent implements ReduxAction {
   constructor(taskParent: TaskParent) {
     this.type = UpdateTaskParent.type;
     this.taskParent = taskParent;
+  }
+}
+
+export class ClearTaskParents implements ReduxAction {
+  static type = "ClearTaskParents";
+  type: string;
+  constructor() {
+    this.type = ClearTaskParents.type;
   }
 }
 
@@ -108,5 +123,13 @@ export class UpdateWorkspace implements ReduxAction {
   constructor(workspace: Workspace) {
     this.type = UpdateWorkspace.type;
     this.workspace = workspace;
+  }
+}
+
+export class ClearWorkspaces implements ReduxAction {
+  static type = "ClearWorkspaces";
+  type: string;
+  constructor() {
+    this.type = ClearWorkspaces.type;
   }
 }

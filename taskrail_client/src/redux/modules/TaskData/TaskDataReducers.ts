@@ -5,6 +5,7 @@ import * as Actions from "./TaskDataActions";
 import TaskParent from "../../../models/ClientModels/TaskParent";
 import SubTask from "../../../models/ClientModels/Subtask";
 import TestTaskData from "./TestTaskData/TestTaskDataFactory";
+import { DRAFT_STATE } from "immer/dist/internal";
 
 interface TaskDataState {
   workspaces: {
@@ -63,6 +64,21 @@ function taskDataReducer(
   action: ReduxAction
 ): TaskDataState {
   switch (action.type) {
+    case Actions.ClearTaskParents.type:
+      return produce(state, (draftState) => {
+        draftState.taskParents.byId = {};
+        draftState.taskParents.allIds = [];
+      });
+    case Actions.ClearWorkspaces.type:
+      return produce(state, (draftState) => {
+        draftState.workspaces.byId = {};
+        draftState.workspaces.allIds = [];
+      });
+    case Actions.ClearSubtasks.type:
+      return produce(state, (draftState) => {
+        draftState.subtasks.byId = {};
+        draftState.subtasks.allIds = [];
+      });
     case Actions.AddSubtask.type:
       var subtask = (<Actions.AddSubtask>action).subtask;
       var taskParentId = subtask.getParentId();
