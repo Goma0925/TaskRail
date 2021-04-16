@@ -27,7 +27,7 @@ async function getGoogleUser(bearerToken) {
         return {success: true, googleUser};
     }catch(err){
         console.log(err);
-        return {success: false, error_msg: "Google authentication token is invalid or expired. Alternatively server was unable to fetch to user info from Google."};
+        return {success: false, error_msg: "Google authentication token is invalid or expired. Alternatively server was unable to fetch the user info from Google."};
     }
 }
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const GoogleAuth = require("../middleware/GoogleAuth");
-const UserOperations = require("../common_operations/UserOperations");
+const UserOperations = require("../common_db_operations/UserOperations");
 
 authRouter.post("/login", GoogleAuth.requireAuth, (req, res) => {
     // If the GoogleAuth.login middleware passes, just return the success response.

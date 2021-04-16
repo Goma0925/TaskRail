@@ -4,7 +4,7 @@ const db = mongoUtil.getDb();
 const ObjectId = require("mongodb").ObjectId;
 const Collections = require("../consts/MongoDB").Collections; //Constant var to avoid typos
 const workspaceRouter = express.Router();
-const CommonDbOperations = require("../common_operations/TaskOperations.js");
+const CommonDbOperations = require("../common_db_operations/TaskOperations.js");
 
 //READ all workspaces
 workspaceRouter.get("/workspaces", async (req, res) => {

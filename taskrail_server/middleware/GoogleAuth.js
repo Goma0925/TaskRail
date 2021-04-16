@@ -1,4 +1,4 @@
-const UserOperations = require("../common_operations/UserOperations");
+const UserOperations = require("../common_db_operations/UserOperations");
 
 function requireToken(req, res, next){
     // Check if the auth token is sent in the header.
