@@ -15,7 +15,7 @@ interface SideInfoBarProps {
 /** SideInfoBar's props must have the same
 shape as the Props interface object **/
 export function SubtaskInfoBar(props: SideInfoBarProps) {
-  // const [text, setText] = useState(props?.text);
+  const dispatch = useDispatch();
   var months: { [name: string]: string } = {
     Jan: "01",
     Feb: "02",
@@ -37,27 +37,27 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   const note = subtask.getNote();
 
   const [noteText, setNoteText] = useState(note);
-  const prevText = noteText;
-  const [textAreaOnFocus, setTextAreaOnFocus] = useState(false);
-  const dispatch = useDispatch();
+  const [noteSaveTimer, setNoteSaveTimer] = useState(setTimeout(()=>{}, 0));
 
-  useInterval(() => {
-    // If the user is editing the note, save the note every 2 seconds.
-      if (textAreaOnFocus){
-        if (prevText != noteText){
-          let updatedSubtask = subtask.getCopy();
-          console.log("Saving notes..");
-          updatedSubtask.setNote(noteText);
-          dispatch(updateSubtaskOp(updatedSubtask));
-        }
-      }
-  }, 2000);
+  const startNoteSaveCountDown = (event: any)=>{
+    // Set an interval function to trigger a few seconds after a user finishes typing in the text area.
+    // Clear the previous timer for saving note
+    clearTimeout(noteSaveTimer);
+    // Set timer that triggers in two seconds after the user finishes typing.
+    const timerId = setTimeout(()=>{
+      console.log("saving...");
+      submitNoteChange(event);
+    }, 2000);
+    setNoteSaveTimer(timerId);
+  }
 
   function handleNoteChange(event: any){
+    //Save note text in component.
     setNoteText(event.target.value);
   }
 
   function submitNoteChange(event: any) {
+    // Submit the note text change to the server.
     // update this type in future
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setNote(event.target.value);
@@ -121,14 +121,9 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
           <textarea
             value={noteText}
             placeholder="Note"
-            onFocus={()=>{
-              setTextAreaOnFocus(true);
-            }}
+            onBlur={submitNoteChange}
+            onKeyUp={startNoteSaveCountDown} 
             onChange={handleNoteChange}
-            onBlur={(event)=>{
-              setTextAreaOnFocus(false);
-              submitNoteChange(event);
-            }}
             className="textarea"
           />
         </div>
