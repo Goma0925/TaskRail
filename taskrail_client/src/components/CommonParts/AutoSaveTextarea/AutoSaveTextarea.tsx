@@ -1,48 +1,53 @@
-import { useState } from "react";
+import { text } from "@fortawesome/fontawesome-svg-core";
+import React, { useEffect, useState } from "react";
 
 interface AutoSaveTextareaProps{
-    initialText: string;
-    onSave: (text: string) => {};
-    className: string;
+    className?: string;
+    //This is set to the default. Whenever a new value is passed, it updates the text value
+    updateValueTo?: string; 
+    placeholder?: string;
+    onSave: (text: string)=>void;
 }
 
 export default function AutoSaveTextarea(props: AutoSaveTextareaProps){
-    const [noteText, setNoteText] = useState(props.initialText);
     const [noteSaveTimer, setNoteSaveTimer] = useState(setTimeout(()=>{}, 0));
+    const [text, setText] = useState(props.updateValueTo?props.updateValueTo:"");
   
-    const startNoteSaveCountDown = (event: any)=>{
+    const startNoteSaveCountDown = ()=>{
       // Set an interval function to trigger a few seconds after a user finishes typing in the text area.
       // Clear the previous timer for saving note
       clearTimeout(noteSaveTimer);
       // Set timer that triggers in two seconds after the user finishes typing.
+      const newText = text;
       const timerId = setTimeout(()=>{
-        console.log("saving...");
-        submitNoteChange(event);
+        saveTextChange(newText);
       }, 2000);
       setNoteSaveTimer(timerId);
     }
-  
-    function handleNoteChange(event: any){
-      //Save note text in component.
-      setNoteText(event.target.value);
-    }
-  
-    function submitNoteChange(event: any) {
+
+    const saveTextChange = (text: string) => {
       // Submit the note text change to the server.
-      // update this type in future
-      let updatedSubtask = subtask.getCopy();
-      updatedSubtask.setNote(event.target.value);
-      dispatch(updateSubtaskOp(updatedSubtask));
+      console.log("saving... : ", text);
+      props.onSave(text);
+    };
+
+    const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>)=>{
+      setText(event.target.value);
     }
+
+    //Update the text value when props.value change.
+    useEffect(()=>{
+      setText(props.updateValueTo?props.updateValueTo:"");
+    }, [props.updateValueTo])
 
     return (
     <textarea
-        value={noteText}
-        placeholder="Note"
-        onBlur={submitNoteChange}
+        value={text}
+        placeholder={props.placeholder}
+        onBlur={()=>{saveTextChange(text)}}
+        onChange={onChange}
         onKeyUp={startNoteSaveCountDown} 
-        onChange={handleNoteChange}
-        className="textarea"
+        className={props.className}
     />
     )
 }

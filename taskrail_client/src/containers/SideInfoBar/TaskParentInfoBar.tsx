@@ -1,5 +1,5 @@
 import TaskParent from "../../models/ClientModels/TaskParent";
-import "./style.css";
+import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import { useState } from "react";

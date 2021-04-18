@@ -1,10 +1,12 @@
 import Subtask from "../../models/ClientModels/Subtask";
-import "./style.css";
+import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
 import { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../helpers/ReactUtils";
+import React from "react";
+import AutoSaveTextarea from "../../components/CommonParts/AutoSaveTextarea/AutoSaveTextarea";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -34,37 +36,16 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   const title = subtask.getName();
   const complete = subtask.getStatus();
   const deadline = subtask.getSubtaskDeadline();
-  const note = subtask.getNote();
 
-  const [noteText, setNoteText] = useState(note);
-  const [noteSaveTimer, setNoteSaveTimer] = useState(setTimeout(()=>{}, 0));
-
-  const startNoteSaveCountDown = (event: any)=>{
-    // Set an interval function to trigger a few seconds after a user finishes typing in the text area.
-    // Clear the previous timer for saving note
-    clearTimeout(noteSaveTimer);
-    // Set timer that triggers in two seconds after the user finishes typing.
-    const timerId = setTimeout(()=>{
-      console.log("saving...");
-      submitNoteChange(event);
-    }, 2000);
-    setNoteSaveTimer(timerId);
-  }
-
-  function handleNoteChange(event: any){
-    //Save note text in component.
-    setNoteText(event.target.value);
-  }
-
-  function submitNoteChange(event: any) {
+  function submitNoteChange(note: string) {
     // Submit the note text change to the server.
     // update this type in future
     let updatedSubtask = subtask.getCopy();
-    updatedSubtask.setNote(event.target.value);
-    dispatch(updateSubtaskOp(updatedSubtask));
+    updatedSubtask.setNote(note);
+    dispatch(updateSubtaskOp(updatedSubtask));  
   }
 
-  function handleDateChange(event: any) {
+  function handleDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     var newDate = LocalDateParse(event.target.value);
     var updatedSubtask = subtask.getCopy();
     updatedSubtask.setSubtaskDeadline(newDate);
@@ -87,8 +68,8 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
       updatedSubtask.uncompleteTask();
     }
     dispatch(updateSubtaskOp(updatedSubtask));
-  }
-
+  };
+  
   return (
     <nav className="panel sideinfo-bar">
       <div className="panel-heading sideinfo-bar-top">
@@ -101,7 +82,6 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         <h1
           className="infobar-title"
           contentEditable={"true"}
-          onChange={handleNoteChange}
           onBlur={handleTitleChange}
           suppressContentEditableWarning={true}
         >
@@ -117,16 +97,11 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
             className="input"
           />
         </div>
-        <div className="note">
-          <textarea
-            value={noteText}
-            placeholder="Note"
-            onBlur={submitNoteChange}
-            onKeyUp={startNoteSaveCountDown} 
-            onChange={handleNoteChange}
-            className="textarea"
-          />
-        </div>
+        <AutoSaveTextarea
+          updateValueTo={subtask.getNote()}
+          onSave={submitNoteChange}
+          className="textarea"
+        ></AutoSaveTextarea>
       </div>
     </nav>
   );
