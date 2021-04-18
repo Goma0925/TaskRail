@@ -94,9 +94,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                 <input 
                     type="checkbox" 
                     className="float-checkbox" 
-                    onClick={onClickCheckbox} 
                     checked={props.subtask.getStatus()}
-                    onChange={()=>{}} // gets rid of useless warning message :)
+                    onChange={onClickCheckbox} // gets rid of useless warning message :)
                 />
             </div>
             <div className="subtask-top" style={{height:25}}>

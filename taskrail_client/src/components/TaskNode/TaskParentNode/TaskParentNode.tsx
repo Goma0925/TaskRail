@@ -1,9 +1,12 @@
 import produce from "immer";
+import React from "react";
 import { useDispatch } from "react-redux";
 import SubTask from "../../../models/ClientModels/Subtask";
 import TaskParent from "../../../models/ClientModels/TaskParent";
+import { SelectItem } from "../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
-import { updateTaskParentOp } from "../../../redux/modules/TaskData/TaskDataOperations";
+import { deleteTaskParentOp, updateTaskParentOp } from "../../../redux/modules/TaskData/TaskDataOperations";
+import EditableTextbox from "../../CommonParts/EditableTextbox/EditableTextbox";
 import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "../Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import TaskNode, { TaskNodeProps } from "../TaskNode";
 import "./TaskParent.css";
@@ -19,28 +22,31 @@ type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeP
 
 export default function TaskParentNode(props: ComposedProps){
     // const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
-    const TaskParentNode = WithSelectableTaskParent(TaskNode);
+    // const TaskParentNode = WithSelectableTaskParent(TaskNode);
     // define function ^
     const dispatch = useDispatch();
-    const completeTaskParent = ()=>{
-        const prevTaskParent = props.taskParent;
-        if (prevTaskParent.isComplete()){
-            // Create a new taskparent with complete=false
-            // const newTaskParent = new TaskParent(
-            //     prevTaskParent.getName(),
-                
-            // );
-        }else{
-            // Create a new taskparent with complete=true
+    var className = "task-parent";
 
-            // const newTaskParent = new TaskParent(
-            //     prevTaskParent.getName(),
-                
-            // );
-            // dispatch(updateTaskParentOp(taskParent))
+    // Append class name to switch appearence based on user interaction.
+    const isSelected = props.railUiSelection.type=="TASKPARENT" && 
+    props.railUiSelection.itemId==props.taskParent.getId();
+    // If the node is selected, add selected class.
+    if (isSelected){        
+        className += " selected"
+    }
+    // Fade the node if the taskparent is complete.
+    if (props.taskParent.isComplete()){
+        className += " faded"
+    }
 
-        }
-    };
+    //Generate delete button class 
+    var deleteButtonClass = "delete";
+    deleteButtonClass += isSelected?"": " hide";
+    
+    const selectTaskParent = (event: React.MouseEvent<Element, MouseEvent>)=>{
+        console.log("selectTaskParent");
+        dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
+    }
 
     function onClickCheckbox(event: any) {
         let updatedTaskParent = props.taskParent.getCopy();
@@ -65,30 +71,36 @@ export default function TaskParentNode(props: ComposedProps){
         dispatch(updateTaskParentOp(updatedTaskParent));
     }
 
-    var newProps = produce(props, draftProps=>{
-        // Append className
-        // draftProps.className = props.className + " faded";
-        if (props.taskParent.isComplete()) {
-            draftProps.className = " faded";
-        }  
-        // draftProps.className += props.className? props.className: "";
-    });
+    function submitTitleChange(title:string) {
+        let updatedTaskParent = props.taskParent.getCopy();
+        updatedTaskParent.setName(title);
+        dispatch(updateTaskParentOp(updatedTaskParent));
+    }
 
-    return <TaskParentNode {...newProps}
-                {...newProps.children}
+    const deleteTaskParent=(e: React.MouseEvent)=>{
+        e.preventDefault();
+        dispatch(deleteTaskParentOp(props.taskParent.getId()));
+    }
+
+    return <TaskNode
                 width={props.width}
-                // height={30} 
-                // onClickCheckBox={functionA}
-                taskParent={props.taskParent} 
-                railUiSelection={props.railUiSelection}>
+                className={className}
+                onClick={selectTaskParent}
+                >
                 <div className="checkbox-container">
                     <input 
                         type="checkbox" 
                         className="float-checkbox" 
                         onClick={onClickCheckbox}
                         checked={props.taskParent.isComplete()}
-                        onChange={()=>{}} // gets rid of useless warning message :)
                     />
                 </div>
-            </TaskParentNode>
+                <EditableTextbox
+                    className="taskparent-title-editor"
+                    updateTextTo={props.taskParent.getName()}
+                    onSave={submitTitleChange}
+                    unfocusOnEnterKey={true}
+                />
+                <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
+            </TaskNode>
 }

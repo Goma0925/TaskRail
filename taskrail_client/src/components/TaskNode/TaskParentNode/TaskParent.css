@@ -16,6 +16,7 @@
 .task-parent {
     border-style: solid;
     background-color: #E00400;
+    display: flex;
 }
 
 .task-parent-section {
@@ -43,4 +44,9 @@ div.task-parent .checkbox-container {
 
 .faded {
     opacity: 0.5;
+}
+
+.taskparent-title-editor{
+    overflow: hidden;
+    width: 80%;
 }

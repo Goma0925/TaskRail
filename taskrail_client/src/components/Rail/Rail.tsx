@@ -17,6 +17,7 @@ interface RailProps{
     railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
     taskParentNodeWidth: number;
+    taskParentSectionWidth: number;
     subtaskNodeWidth: number;
 }
 
@@ -79,7 +80,7 @@ export default function Rail (props: RailProps) {
         <div 
             className="task-rail"
         >
-            <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
+            <div className="task-parent-section" style={{width: props.taskParentSectionWidth}}>
                 {/* Render task parent node here */}
                 <TaskParentNode 
                     // pass in function here

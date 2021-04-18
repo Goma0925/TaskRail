@@ -22,7 +22,7 @@ interface RailUiState {
 
 const initialState: RailUiState = {
   contentLoaded: false,
-  taskParentSectionWidth: 100,
+  taskParentSectionWidth: 150,
   taskParentNodeWidth: 100,
   subtaskNodeWidth: 0,
   minSubtaskNodeWidth: 100,

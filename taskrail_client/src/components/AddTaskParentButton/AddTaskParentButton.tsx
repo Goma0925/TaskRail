@@ -8,7 +8,7 @@ export default function AddTaskParentButton(){
         dispatch(createTaskParentOp("New taskset"));
     }
     return (
-        <button className="add-taskparent" onClick={addTaskParent}>
+        <button className="add-taskparent-button" onClick={addTaskParent}>
             <span>Add new task set</span>
         </button>
         )

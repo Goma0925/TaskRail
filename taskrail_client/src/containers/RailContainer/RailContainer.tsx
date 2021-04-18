@@ -23,6 +23,7 @@ const RailContainer: React.FC = () => {
   const taskParentNodeWidth = railUi.taskParentNodeWidth;
   const subtaskNodeWidth = railUi.subtaskNodeWidth;
   const calendarBorderWidth = railUi.calendarBorderWidth;
+  const taskParentSectionWidth = railUi.taskParentSectionWidth;
 
   // Retrieve other necessary info for Rail from redux.
   const railUiSelection = useSelector(
@@ -59,6 +60,7 @@ const RailContainer: React.FC = () => {
                 displayRangeStartDate={displayRangeStartDate}
                 subtaskNodeWidth={subtaskNodeWidth}
                 taskParentNodeWidth={taskParentNodeWidth}
+                taskParentSectionWidth={taskParentSectionWidth}
                 key={id}
               ></Rail>
             </Fragment>

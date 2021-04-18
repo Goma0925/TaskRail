@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react"
 import "./EditableTextbox.css";
 
 interface EditableTextboxProps{
-    className: string;
+    className?: string;
     updateTextTo: string;
     onSave: (text: string) => void;
     unfocusOnEnterKey: boolean;
@@ -13,6 +13,8 @@ interface EditableTextboxProps{
 export default function EditableTextbox(props: EditableTextboxProps){
     const [text, setText] = useState(props.updateTextTo? props.updateTextTo: "");
     const textBoxRef = useRef<HTMLParagraphElement>(null);
+    const noLineBreak = props.noLineBreak? true: false;
+
     const saveText = (event: React.ChangeEvent<HTMLParagraphElement>) => {
         const newText = event.target.textContent?event.target.textContent: "";
         props.onSave(newText);
@@ -38,7 +40,6 @@ export default function EditableTextbox(props: EditableTextboxProps){
     let className = "editable-textbox";
     className += props.className? " "+props.className : "";
     className += props.noLineBreak? " no-line-break": "";
-    console.log("className", className);
     
     return (
     <p

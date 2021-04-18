@@ -5,6 +5,8 @@ import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers
 import { useDispatch } from "react-redux";
 import { deleteTaskParentOp, updateTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import TaskParent from "../../../../models/ClientModels/TaskParent";
+import React from "react";
+import EditableTextbox from "../../../CommonParts/EditableTextbox/EditableTextbox";
 
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
@@ -39,9 +41,9 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
             draftProps.className += props.className? props.className: "";
         });
 
-        function onChangeName(event: any) {
+        function submitTitleChange(title:string) {
             let updatedTaskParent = props.taskParent.getCopy();
-            updatedTaskParent.setName(event.target.textContent);
+            updatedTaskParent.setName(title);
             dispatch(updateTaskParentOp(updatedTaskParent));
         }
 
@@ -50,16 +52,13 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
         return (
             <NodeToDecorate {...newProps}>
                 {/* {newProps.children} */}
-                <div className="taskparent-skin" style={{height:25}}>
-                    <p 
-                        contentEditable={true} 
-                        onBlur={onChangeName}
-                        suppressContentEditableWarning={true}
-                    >
-                        {props.taskParent.getName()}
-                    </p>
-                    {/* Editable */}
-                </div>
+                <EditableTextbox
+                    className="taskparent-title-editor"
+                    updateTextTo={props.taskParent.getName()}
+                    onSave={submitTitleChange}
+                    unfocusOnEnterKey={true}
+                    noLineBreak={true}
+                />
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
                 {props.children}
             </NodeToDecorate>

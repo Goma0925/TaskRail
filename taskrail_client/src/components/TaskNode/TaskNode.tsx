@@ -23,9 +23,9 @@ const TaskNode:React.FC<TaskNodeProps> = (props: TaskNodeProps) => {
         onClickHandlers.push(props.onClick);
     }
     // Event listener to run all the event handlers
-    const onClick = (e: React.MouseEvent)=>{
-        if (props.onClickHandlers){
-            props.onClickHandlers.map((handler)=>{
+    const onClick = (e: React.MouseEvent)=>{     
+        if (onClickHandlers){
+            onClickHandlers.map((handler)=>{
                 handler(e);
             });
         };

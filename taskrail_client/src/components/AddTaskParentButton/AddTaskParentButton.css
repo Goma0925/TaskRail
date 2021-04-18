@@ -1,12 +1,13 @@
-.add-taskparent {
+.add-taskparent-button {
     background-color: #6db078; 
     color: white;
     border: 2px solid #4CAF50;
     height: 40px;
     border-radius: 10px;
+    margin-left: 15px
   }
   
-.add-taskparent:hover {
+.add-taskparent-button:hover {
     background-color: #4CAF50;
     color: white;
 }
