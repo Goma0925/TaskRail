@@ -1,0 +1,9 @@
+.editable-textbox{
+    cursor: text;
+}
+
+.editable-textbox.no-line-break{
+    white-space: nowrap;
+    text-align: left;
+    overflow: hidden;
+}

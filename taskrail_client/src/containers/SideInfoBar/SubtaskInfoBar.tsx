@@ -67,7 +67,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
           className="infobar-title"
           updateTextTo={title}
           onSave={subtmiTitleChange}
-          blurOnEnter={true}
+          unfocusOnEnterKey={true}
         ></EditableTextbox>
       </div>
       <div className="input-section">

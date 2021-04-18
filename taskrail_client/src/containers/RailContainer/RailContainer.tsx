@@ -59,7 +59,6 @@ const RailContainer: React.FC = () => {
                 displayRangeStartDate={displayRangeStartDate}
                 subtaskNodeWidth={subtaskNodeWidth}
                 taskParentNodeWidth={taskParentNodeWidth}
-                calendarBorderWidth={calendarBorderWidth}
                 key={id}
               ></Rail>
             </Fragment>

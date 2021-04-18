@@ -1,5 +1,5 @@
 import { text } from "@fortawesome/fontawesome-svg-core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Custom Textarea that runs onSave function when
 // 1) the user finishes typing and 

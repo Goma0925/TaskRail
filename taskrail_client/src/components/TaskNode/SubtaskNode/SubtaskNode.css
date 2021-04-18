@@ -1,4 +1,4 @@
-.subtask-skin {
+.subtask {
     border-style: solid;
     background-color: #ff5f5c;
     border-radius: 20px;
@@ -24,7 +24,7 @@
     position: relative;
 }
 
-div.subtask-skin .checkbox-container {
+div.subtask .checkbox-container {
     position: absolute;
     float: left;
     height: 100%;
@@ -50,14 +50,34 @@ input[type=checkbox].float-checkbox {
     font-size: 85%;
 }
 
-::-webkit-calendar-picker-indicator{
+.subtask-bottom > ::-webkit-calendar-picker-indicator{
     margin-left: 0px;
 }
 
-/* .subtask-bottom input[type=date]:focus{
-    color:transparent;
-} */
-
 .subtask-bottom p {
     margin-left: 5%;
+}
+
+.subtask.selected{
+    box-shadow: 5px 5px 10px;
+    transform: scale(1.1);
+}
+
+.subtask > a.hide{
+    display: none;
+}
+
+.subtask > .faded {
+    opacity: 0.4;
+}
+
+.subtask > a.delete {
+    position: absolute;
+    top: -25px;
+    right: -10px;
+}
+
+.subtask-title-editor{
+    min-width: 100%;
+    padding-left: 7px;
 }

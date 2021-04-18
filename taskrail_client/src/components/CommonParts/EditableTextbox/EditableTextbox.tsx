@@ -1,11 +1,13 @@
 // Custom paragraph textbox that runs onSave funtion on enter.
 import React, { useEffect, useRef, useState } from "react"
+import "./EditableTextbox.css";
 
 interface EditableTextboxProps{
     className: string;
     updateTextTo: string;
     onSave: (text: string) => void;
-    blurOnEnter: boolean;
+    unfocusOnEnterKey: boolean;
+    noLineBreak?: boolean;
 }
 
 export default function EditableTextbox(props: EditableTextboxProps){
@@ -17,21 +19,31 @@ export default function EditableTextbox(props: EditableTextboxProps){
     }
 
     const saveOnEnter = (event: React.KeyboardEvent)=>{
+        if (!props.unfocusOnEnterKey){
+            return;
+        }
         if (event.key == "Enter"){
             if (textBoxRef.current){
                 textBoxRef.current.blur();
             }
         }
+        return;
     }
 
     useEffect(()=>{
         setText(props.updateTextTo);
     }, [props.updateTextTo]);
 
+
+    let className = "editable-textbox";
+    className += props.className? " "+props.className : "";
+    className += props.noLineBreak? " no-line-break": "";
+    console.log("className", className);
+    
     return (
     <p
         ref={textBoxRef}
-        className={props.className}
+        className={className}
         contentEditable="true"
         onKeyDown={saveOnEnter}
         onBlur={saveText}

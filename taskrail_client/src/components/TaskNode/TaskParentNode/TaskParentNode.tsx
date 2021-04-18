@@ -1,15 +1,18 @@
 import produce from "immer";
 import { useDispatch } from "react-redux";
-import SubTask from "../../models/ClientModels/Subtask";
-import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import WithCheckBox from "./Decorators/WithCheckBox";
-import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "./Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
-import SubtaskNode from "./SubtaskNode";
-import TaskNode, { TaskNodeProps } from "./TaskNode";
+import SubTask from "../../../models/ClientModels/Subtask";
+import TaskParent from "../../../models/ClientModels/TaskParent";
+import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
+import { updateTaskParentOp } from "../../../redux/modules/TaskData/TaskDataOperations";
+import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "../Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
+import TaskNode, { TaskNodeProps } from "../TaskNode";
+import "./TaskParent.css";
 
 interface TaskParentNodeProps {
     subtasks: SubTask[];
+    taskParent: TaskParent;
+    railUiSelection: RailUiSelection;
+    children?: React.ReactNode[]|React.ReactNode;
 }
 
 type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeProps;
@@ -38,17 +41,6 @@ export default function TaskParentNode(props: ComposedProps){
 
         }
     };
-
-    //When the taskparent is complete, fade the taskparent
-    // var fadeOverlay;
-    // if (props.taskParent.isComplete()){
-    //     // 
-    //     // fadeOverlay = <div className="complete-overlay"></div>;
-    //     props.className += " faded"
-    // }else{
-    //     // fadeOverlay = <div className="complete-overlay"></div>;
-    //     props.className += " unfaded"
-    // }
 
     function onClickCheckbox(event: any) {
         let updatedTaskParent = props.taskParent.getCopy();

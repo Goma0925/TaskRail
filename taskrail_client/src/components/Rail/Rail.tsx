@@ -1,21 +1,15 @@
 import "./Rail.css";
 import React, {ReactNode, useEffect} from "react";
-import {useDispatch} from "react-redux";
-
 import TaskNode from "../TaskNode/TaskNode";
-import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/ClientModels/TaskParent";
 import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import Subtask from "../../models/ClientModels/Subtask";
-import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
-import TaskParentNode from "../TaskNode/TaskParentNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
+import TaskParentNode from "../TaskNode/TaskParentNode/TaskParentNode";
 import { getDateStr, getNDaysLater } from "../../helpers/DateTime";
-import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import SubtaskNode from "../TaskNode/SubtaskNode";
+import SubtaskNode from "../TaskNode/SubtaskNode/SubtaskNode";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -24,7 +18,6 @@ interface RailProps{
     displayRangeStartDate: Date;
     taskParentNodeWidth: number;
     subtaskNodeWidth: number;
-    calendarBorderWidth: number;
 }
 
 export default function Rail (props: RailProps) {    

@@ -5,7 +5,6 @@ import { RailUiSelection } from "../../../../redux/modules/RailUi/RailUiReducers
 import { useDispatch } from "react-redux";
 import { deleteTaskParentOp, updateTaskParentOp } from "../../../../redux/modules/TaskData/TaskDataOperations";
 import TaskParent from "../../../../models/ClientModels/TaskParent";
-import "./WithSelectableTaskParent.css";
 
 export interface WithSelectableTaskParentProps{
     taskParent: TaskParent;
@@ -59,6 +58,7 @@ export default function WithSelectableTaskParent<GenericProps>(NodeToDecorate: R
                     >
                         {props.taskParent.getName()}
                     </p>
+                    {/* Editable */}
                 </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
                 {props.children}

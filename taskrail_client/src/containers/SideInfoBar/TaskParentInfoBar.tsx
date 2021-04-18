@@ -59,7 +59,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
           className="infobar-title"
           updateTextTo={title}
           onSave={submitTitleChange}
-          blurOnEnter={true}
+          unfocusOnEnterKey={true}
         ></EditableTextbox>
       </div>
       <div className="input-section">

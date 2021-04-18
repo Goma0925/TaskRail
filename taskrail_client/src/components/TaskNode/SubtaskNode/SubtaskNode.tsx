@@ -1,16 +1,16 @@
 import produce from "immer";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import SubTask from "../../models/ClientModels/Subtask";
-import { SelectItem } from "../../redux/modules/RailUi/RailUiActions";
-import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
-import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import { deleteSubtaskOp, updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import TaskNode, { TaskNodeProps } from "./TaskNode";
-import "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin.css";
-import "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask.css";
-import TaskParent from "../../models/ClientModels/TaskParent";
-import { getDateStr, getMonthAndDay, LocalDateParse } from "../../helpers/DateTime";
+import SubTask from "../../../models/ClientModels/Subtask";
+import { SelectItem } from "../../../redux/modules/RailUi/RailUiActions";
+import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
+import { UpdateSubtask } from "../../../redux/modules/TaskData/TaskDataActions";
+import { deleteSubtaskOp, updateSubtaskOp } from "../../../redux/modules/TaskData/TaskDataOperations";
+import TaskNode, { TaskNodeProps } from "../TaskNode";
+import TaskParent from "../../../models/ClientModels/TaskParent";
+import { getDateStr, getMonthAndDay, LocalDateParse } from "../../../helpers/DateTime";
+import EditableTextbox from "../../CommonParts/EditableTextbox/EditableTextbox";
+import "./SubtaskNode.css";
 
 export interface SubtaskNodeProps {
     subtask: SubTask;
@@ -21,9 +21,6 @@ export interface SubtaskNodeProps {
 export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
 {
     const dispatch = useDispatch();
-    const isSelected = props.railUiSelection.type=="SUBTASK" && 
-        props.railUiSelection.itemId==props.subtask.getId();
-
     const onClickSubtask=()=>{
         dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
     }
@@ -34,7 +31,9 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
     }
     
     //Check if this node is selected
-    var className = "subtask-skin";
+    const isSelected = props.railUiSelection.type=="SUBTASK" && 
+    props.railUiSelection.itemId==props.subtask.getId();
+    var className = "subtask";
     if (isSelected){
         className += " selected"
     }
@@ -50,12 +49,14 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         draftProps.className += props.className? props.className: "";
     });
 
+    // Initialize the delete button class name.
     var deleteButtonClass = "delete";
     deleteButtonClass += isSelected?"": " hide";
 
-    function handleTopChange(event: any) {
+    // Interactivity functions.
+    function submitTitleChange(title: any) {
         let updatedSubtask = props.subtask.getCopy();
-        updatedSubtask.setName(event.target.textContent);
+        updatedSubtask.setName(title);
         dispatch(updateSubtaskOp(updatedSubtask));
     }
 
@@ -99,8 +100,16 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                 />
             </div>
             <div className="subtask-top" style={{height:25}}>
-                <p contentEditable={true} onBlur={handleTopChange} suppressContentEditableWarning={true}>
+                {/* <p contentEditable={true} onBlur={submitTitleChange} suppressContentEditableWarning={true}>
                     {props.subtask.getName()}</p>
+                 */}
+                <EditableTextbox
+                    className={"subtask-title-editor"}
+                    updateTextTo={props.subtask.getName()}
+                    onSave={submitTitleChange}
+                    unfocusOnEnterKey={true}
+                    noLineBreak={true}
+                ></EditableTextbox>
             </div>
             <div className = "subtask-bottom" style={{height:25}}>
                 {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
