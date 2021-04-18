@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../helpers/ReactUtils";
 import React from "react";
 import AutoSaveTextarea from "../../components/CommonParts/AutoSaveTextarea/AutoSaveTextarea";
+import EditableTextbox from "../../components/CommonParts/EditableTextbox/EditableTextbox";
+import SmartDatePicker from "../../components/CommonParts/SmartDatePicker/SmartDatePicker";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -18,20 +20,6 @@ interface SideInfoBarProps {
 shape as the Props interface object **/
 export function SubtaskInfoBar(props: SideInfoBarProps) {
   const dispatch = useDispatch();
-  var months: { [name: string]: string } = {
-    Jan: "01",
-    Feb: "02",
-    Mar: "03",
-    Apr: "04",
-    May: "05",
-    Jun: "06",
-    Jul: "07",
-    Aug: "08",
-    Sep: "09",
-    Oct: "10",
-    Nov: "11",
-    Dec: "12",
-  };
   const subtask = props.subtask;
   const title = subtask.getName();
   const complete = subtask.getStatus();
@@ -39,28 +27,24 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
 
   function submitNoteChange(note: string) {
     // Submit the note text change to the server.
-    // update this type in future
     let updatedSubtask = subtask.getCopy();
     updatedSubtask.setNote(note);
     dispatch(updateSubtaskOp(updatedSubtask));  
   }
 
-  function handleDateChange(event: React.ChangeEvent<HTMLInputElement>) {
-    var newDate = LocalDateParse(event.target.value);
+  function submitDateChange(newDate: Date) {
     var updatedSubtask = subtask.getCopy();
     updatedSubtask.setSubtaskDeadline(newDate);
     dispatch(updateSubtaskOp(updatedSubtask));
   }
 
-  function handleTitleChange(event: React.FocusEvent<HTMLHeadingElement>) {
-    if (event.target.textContent){
-      let updatedSubtask = subtask.getCopy();
-      updatedSubtask.setName(event.target.textContent);
-      dispatch(updateSubtaskOp(updatedSubtask));
-    }
+  function subtmiTitleChange(title: string) {
+    let updatedSubtask = subtask.getCopy();
+    updatedSubtask.setName(title);
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
 
-  function handleCheckboxChange(event: any) {
+  function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
     let updatedSubtask = subtask.getCopy();
     if (event.target.checked) {
       updatedSubtask.completeTask();
@@ -77,25 +61,22 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
           type="checkbox"
           checked={complete}
           className="infobar-checkbox"
-          onClick={handleCheckboxChange}
+          onChange={handleCheckboxChange}
         />
-        <h1
+        <EditableTextbox
           className="infobar-title"
-          contentEditable={"true"}
-          onBlur={handleTitleChange}
-          suppressContentEditableWarning={true}
-        >
-          {title}
-        </h1>
+          updateTextTo={title}
+          onSave={subtmiTitleChange}
+          blurOnEnter={true}
+        ></EditableTextbox>
       </div>
       <div className="input-section">
         <div className="panel-block">
-          <input
-            type="date"
-            value={deadline?getDateStr(deadline):""}
-            onChange={handleDateChange}
+          <SmartDatePicker
             className="input"
-          />
+            updateDateTo={deadline}
+            onDateChange={submitDateChange}
+          ></SmartDatePicker>
         </div>
         <AutoSaveTextarea
           updateValueTo={subtask.getNote()}

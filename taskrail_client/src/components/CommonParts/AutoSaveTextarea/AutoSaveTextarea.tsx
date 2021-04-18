@@ -1,6 +1,10 @@
 import { text } from "@fortawesome/fontawesome-svg-core";
 import React, { useEffect, useState } from "react";
 
+// Custom Textarea that runs onSave function when
+// 1) the user finishes typing and 
+// 2) the textarea is onfocused.
+
 interface AutoSaveTextareaProps{
     className?: string;
     //This is set to the default. Whenever a new value is passed, it updates the text value
@@ -9,7 +13,7 @@ interface AutoSaveTextareaProps{
     onSave: (text: string)=>void;
 }
 
-export default function AutoSaveTextarea(props: AutoSaveTextareaProps){
+export default function AutoSaveTextarea(props: AutoSaveTextareaProps){ 
     const [noteSaveTimer, setNoteSaveTimer] = useState(setTimeout(()=>{}, 0));
     const [text, setText] = useState(props.updateValueTo?props.updateValueTo:"");
   
