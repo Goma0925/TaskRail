@@ -63,6 +63,7 @@ const RailContainer: React.FC = () => {
                 taskParentSectionWidth={taskParentSectionWidth}
                 key={id}
               ></Rail>
+              <hr className="rail-divider"/>
             </Fragment>
           );
         })}
