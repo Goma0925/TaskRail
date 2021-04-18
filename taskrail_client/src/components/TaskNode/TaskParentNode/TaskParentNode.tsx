@@ -21,9 +21,6 @@ interface TaskParentNodeProps {
 type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeProps;
 
 export default function TaskParentNode(props: ComposedProps){
-    // const TaskParentNode = WithSelectableTaskParent(WithCheckBox(TaskNode));
-    // const TaskParentNode = WithSelectableTaskParent(TaskNode);
-    // define function ^
     const dispatch = useDispatch();
     var className = "task-parent";
 
@@ -44,11 +41,10 @@ export default function TaskParentNode(props: ComposedProps){
     deleteButtonClass += isSelected?"": " hide";
     
     const selectTaskParent = (event: React.MouseEvent<Element, MouseEvent>)=>{
-        console.log("selectTaskParent");
         dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
     }
 
-    function onClickCheckbox(event: any) {
+    const onClickCheckbox = (event: any) => {
         let updatedTaskParent = props.taskParent.getCopy();
         if (updatedTaskParent.isComplete()) {
             updatedTaskParent.uncompleteTask();
@@ -71,7 +67,7 @@ export default function TaskParentNode(props: ComposedProps){
         dispatch(updateTaskParentOp(updatedTaskParent));
     }
 
-    function submitTitleChange(title:string) {
+    const submitTitleChange = (title:string) => {
         let updatedTaskParent = props.taskParent.getCopy();
         updatedTaskParent.setName(title);
         dispatch(updateTaskParentOp(updatedTaskParent));

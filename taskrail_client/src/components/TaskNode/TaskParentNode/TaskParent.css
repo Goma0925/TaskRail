@@ -1,3 +1,18 @@
+.task-parent-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 25px;
+    align-items: start;
+}
+
+.task-parent {
+    border-style: solid;
+    background-color: #E00400;
+    display: flex;
+}
+
 .task-parent.selected{
     box-shadow: 5px 5px 10px;
     transform: scale(1.1);
@@ -11,20 +26,6 @@
     position: absolute;
     top: -25px;
     right: -10px;
-}
-
-.task-parent {
-    border-style: solid;
-    background-color: #E00400;
-    display: flex;
-}
-
-.task-parent-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 25px;
 }
 
 div.task-parent .checkbox-container {
