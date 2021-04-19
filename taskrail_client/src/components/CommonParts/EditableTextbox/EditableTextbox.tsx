@@ -5,6 +5,7 @@ import "./EditableTextbox.css";
 interface EditableTextboxProps{
     className?: string;
     updateTextTo: string;
+    placeholder?: string;
     onSave: (text: string) => void;
     unfocusOnEnterKey: boolean;
     noLineBreak?: boolean;
@@ -13,7 +14,7 @@ interface EditableTextboxProps{
 export default function EditableTextbox(props: EditableTextboxProps){
     const [text, setText] = useState(props.updateTextTo? props.updateTextTo: "");
     const textBoxRef = useRef<HTMLParagraphElement>(null);
-    const noLineBreak = props.noLineBreak? true: false;
+    const placeHolder = props.placeholder?props.placeholder:"";
 
     const saveText = (event: React.ChangeEvent<HTMLParagraphElement>) => {
         const newText = event.target.textContent?event.target.textContent: "";
@@ -40,10 +41,11 @@ export default function EditableTextbox(props: EditableTextboxProps){
     let className = "editable-textbox";
     className += props.className? " "+props.className : "";
     className += props.noLineBreak? " no-line-break": "";
-    
+
     return (
     <p
         ref={textBoxRef}
+        data-placeholder={props.placeholder}
         className={className}
         contentEditable="true"
         onKeyDown={saveOnEnter}

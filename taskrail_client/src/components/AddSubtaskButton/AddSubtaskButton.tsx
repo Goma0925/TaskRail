@@ -13,7 +13,7 @@ export default function AddSubtaskButton(props: AddSubtaskButtonProps){
     const dispatch = useDispatch();
     const addSubtask = (event:React.MouseEvent<HTMLDivElement>)=>{
         // Add a new subtask on click        
-        dispatch(createSubtaskOp("Task step", props.taskParentId, props.assignedDate));
+        dispatch(createSubtaskOp("", props.taskParentId, props.assignedDate));
     }
     return (
         <div 

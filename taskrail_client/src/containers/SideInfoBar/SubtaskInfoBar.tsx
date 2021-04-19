@@ -66,6 +66,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         <EditableTextbox
           className="infobar-title"
           updateTextTo={title}
+          placeholder="Task Step Title"
           onSave={subtmiTitleChange}
           unfocusOnEnterKey={true}
         ></EditableTextbox>
@@ -80,6 +81,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
         </div>
         <AutoSaveTextarea
           updateValueTo={subtask.getNote()}
+          placeholder="Note"
           onSave={submitNoteChange}
           className="textarea"
         ></AutoSaveTextarea>

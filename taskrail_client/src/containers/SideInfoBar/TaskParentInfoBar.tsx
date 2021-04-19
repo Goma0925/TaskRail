@@ -58,6 +58,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
         <EditableTextbox
           className="infobar-title"
           updateTextTo={title}
+          placeholder="Task Set Title"
           onSave={submitTitleChange}
           unfocusOnEnterKey={true}
         ></EditableTextbox>
@@ -72,6 +73,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
         </div>
         <AutoSaveTextarea
           updateValueTo={taskParent.getNote()}
+          placeholder="Note"
           onSave={submitNoteChange}
           className="textarea"
         ></AutoSaveTextarea>

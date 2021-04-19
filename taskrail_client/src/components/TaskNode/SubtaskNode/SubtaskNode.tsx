@@ -107,6 +107,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                 <EditableTextbox
                     className={"subtask-title-editor"}
                     updateTextTo={props.subtask.getName()}
+                    placeholder="Task step"
                     onSave={submitTitleChange}
                     unfocusOnEnterKey={true}
                     noLineBreak={true}

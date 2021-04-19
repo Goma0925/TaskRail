@@ -5,7 +5,7 @@ import "./AddTaskParentButton.css";
 export default function AddTaskParentButton(){
     const dispatch = useDispatch();
     const addTaskParent = (event:React.MouseEvent<HTMLButtonElement>)=>{        
-        dispatch(createTaskParentOp("New taskset"));
+        dispatch(createTaskParentOp(""));
     }
     return (
         <button className="add-taskparent-button" onClick={addTaskParent}>

@@ -106,6 +106,7 @@ export default function TaskParentNode(props: ComposedProps){
                 <div onClick={handleTaskParentClick} className="taskparent-content">
                     <EditableTextbox
                         className="taskparent-title-editor"
+                        placeholder="Task Set"
                         updateTextTo={props.taskParent.getName()}
                         onSave={submitTitleChange}
                         unfocusOnEnterKey={true}
