@@ -9,7 +9,7 @@
 
 .subtask-top, .subtask-bottom {
    float: right;
-   font-size: 12px;
+   font-size: 14px;
    overflow: hidden;
    display: flex;
    justify-content: center;
@@ -67,7 +67,7 @@ input[type=checkbox].float-checkbox {
 .subtask.selected{
     box-shadow: 5px 5px 10px;
     transform: scale(1.1);
-    z-index: 1000;
+    z-index: 1;
     margin-top: 5px;
     margin-bottom: 10px;
 }

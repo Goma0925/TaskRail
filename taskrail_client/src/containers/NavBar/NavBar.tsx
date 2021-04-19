@@ -247,7 +247,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="nav">
+    <nav className="navbar is-primary">
       <div
         className="dropdown is-active"
         onBlur={(event) => {
@@ -281,6 +281,6 @@ export default function NavBar() {
       <WeekPaginationButton
         displayRangeStartDate={displayRangeStartDate}
       ></WeekPaginationButton>
-    </div>
+    </nav>
   );
 }

@@ -38,14 +38,17 @@ export default function TaskParentNode(props: ComposedProps){
     //Generate delete button class 
     var deleteButtonClass = "delete";
     deleteButtonClass += isSelected?"": " hide";
-    
-    const selectTaskParent = (event: React.MouseEvent<Element, MouseEvent>)=>{
-        dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
+
+    const handleTaskParentClick = (event: React.MouseEvent<Element, MouseEvent>)=>{
         event.stopPropagation();
+        selectTaskParent();
+    }
+    
+    const selectTaskParent = ()=>{
+        dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
     }
 
-    const onClickCheckbox = (event: React.ChangeEvent) => {
-        event.stopPropagation();
+    const submitCompletionStatus = (event: React.ChangeEvent) => {
         let updatedTaskParent = props.taskParent.getCopy();
         if (updatedTaskParent.isComplete()) {
             updatedTaskParent.uncompleteTask();
@@ -66,11 +69,8 @@ export default function TaskParentNode(props: ComposedProps){
             })
         }
         dispatch(updateTaskParentOp(updatedTaskParent));
-
         // Reselect the item so it does not unselect by rail container
-        if (isSelected){
-            dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
-        }
+        selectTaskParent();
     }
 
     const submitTitleChange = (title:string) => {
@@ -81,7 +81,14 @@ export default function TaskParentNode(props: ComposedProps){
 
     const deleteTaskParent=(e: React.MouseEvent)=>{
         e.preventDefault();
-        dispatch(deleteTaskParentOp(props.taskParent.getId()));
+        const warningMessage = "Are you sure you want to delete the '" + props.taskParent.getName() + "'?";
+        const deleteConfirmed = window.confirm(warningMessage);
+        if (deleteConfirmed){
+            dispatch(deleteTaskParentOp(props.taskParent.getId()));
+            return;
+        }
+        // Reselect the item so it does not unselect by rail container
+        selectTaskParent();
     }
 
     return <TaskNode
@@ -92,11 +99,11 @@ export default function TaskParentNode(props: ComposedProps){
                     <input 
                         type="checkbox" 
                         className="float-checkbox" 
-                        onChange={onClickCheckbox}
+                        onChange={submitCompletionStatus}
                         checked={props.taskParent.isComplete()}
                     />
                 </div>
-                <div onClick={selectTaskParent} className="taskparent-content">
+                <div onClick={handleTaskParentClick} className="taskparent-content">
                     <EditableTextbox
                         className="taskparent-title-editor"
                         updateTextTo={props.taskParent.getName()}

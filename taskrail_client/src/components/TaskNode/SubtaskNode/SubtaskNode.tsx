@@ -64,12 +64,19 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             updatedSubtask.completeTask();
         }
         dispatch(updateSubtaskOp(updatedSubtask));
+        // Reselect the item so it does not unselect by rail container
+        if (isSelected){
+            dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
+            event.stopPropagation();
+        }
     }
 
-    const selectSubtask=(event: React.MouseEvent)=>{
-        console.log("selectSubtask");
+    const handleSubtaskClick = (event: React.MouseEvent)=>{
+        event.stopPropagation();
+        selectSubtask();
+    }
 
-        event.stopPropagation();        
+    const selectSubtask=()=>{
         dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
     }
     
@@ -96,7 +103,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     onChange={onClickCheckbox} // gets rid of useless warning message :)
                 />
             </div>
-            <div className="subtask-top" style={{minHeight:25}} onClick={selectSubtask}>
+            <div className="subtask-top" style={{minHeight:25}} onClick={handleSubtaskClick}>
                 <EditableTextbox
                     className={"subtask-title-editor"}
                     updateTextTo={props.subtask.getName()}
@@ -105,7 +112,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     noLineBreak={true}
                 ></EditableTextbox>
             </div>
-            <div className = "subtask-bottom" onClick={selectSubtask}>
+            <div className = "subtask-bottom" onClick={handleSubtaskClick}>
                 <input 
                     type="date" 
                     id="date-picker" 
