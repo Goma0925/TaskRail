@@ -48,7 +48,7 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
     }
     return (
       <nav className="panel sideinfo-bar">
-      <div className="panel-heading sideinfo-bar-top">
+      <div className="panel-block sideinfo-bar-top">
         <input
           type="checkbox"
           checked={complete}

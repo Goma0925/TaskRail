@@ -56,7 +56,7 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
   
   return (
     <nav className="panel sideinfo-bar">
-      <div className="panel-heading sideinfo-bar-top">
+      <div className="panel-block sideinfo-bar-top">
         <input
           type="checkbox"
           checked={complete}
