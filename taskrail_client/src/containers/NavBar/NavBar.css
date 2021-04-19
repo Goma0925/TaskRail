@@ -24,6 +24,10 @@
     font-weight: bold;
 }
 
+.dropdown{
+    margin: .25rem;
+}
+
 .dropdown-menu{
     max-height: 60vh;
     overflow: scroll;

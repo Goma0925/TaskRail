@@ -30,9 +30,9 @@ export default function WeekPaginationButton(props: WeekPaginationButton){
     return (
         <>
         <div className="week-pagination">
-            <a href="/" onClick={jumpToPrevWeek}>❮</a>
-            <a href="/" onClick={jumpToCurrWeek}>Today</a>
-            <a href="/" onClick={jumpToNextWeek}>❯</a>
+            <a href="/" className="pagination-previous" onClick={jumpToPrevWeek}>❮</a>
+            <a href="/" className="pagination-link" onClick={jumpToCurrWeek}>Today</a>
+            <a href="/" className="pagination-next" onClick={jumpToNextWeek}>❯</a>
         </div>
         <div className="week-pagination-label">{monthLabel}</div>
         </>
