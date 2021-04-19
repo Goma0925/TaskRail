@@ -37,6 +37,7 @@ export default function Rail (props: RailProps) {
     });
     
     const columnBoxes: ReactNode[] = [];
+    // Loop for everyday in the week.
     [...Array(7)].map((_, dayIndex)=>{
         // Get date object from start date to seven days later.
         var date = getNDaysLater(displayRangeStartDate, dayIndex);        
@@ -48,7 +49,7 @@ export default function Rail (props: RailProps) {
         columnBoxes.push(
             <ColumnBox key={dateStr}>
                 {
-                    subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
+                    subtasksOfDay.map((subtask)=>{
                         // const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
                         
                         // Construct subtask tasknode here.
@@ -63,14 +64,14 @@ export default function Rail (props: RailProps) {
                                 </SubtaskNode>
                             </Fragment>
                         );
-                    }):
-                    // If no subtasks, render dummy node.
-                    [...Array(1)].map(()=>{                        
-                        const PlaceholderNode = TaskNode;
-                        return <PlaceholderNode width={props.subtaskNodeWidth} height={0}></PlaceholderNode>
                     })
                 }
-                <AddSubtaskButton taskParentId={props.taskParent.getId()} assignedDate={assignedDate}></AddSubtaskButton>
+                <AddSubtaskButton 
+                            taskParentId={props.taskParent.getId()}
+                            assignedDate={assignedDate}
+                            width={props.subtaskNodeWidth}
+                            height={50}
+                />            
             </ColumnBox>
         );
     });

@@ -5,6 +5,8 @@ import "./AddSubtaskButton.css";
 interface AddSubtaskButtonProps{
     taskParentId: string;
     assignedDate: Date;
+    width: number;
+    height: number;
 }
 
 export default function AddSubtaskButton(props: AddSubtaskButtonProps){
@@ -14,7 +16,10 @@ export default function AddSubtaskButton(props: AddSubtaskButtonProps){
         dispatch(createSubtaskOp("New task 1", props.taskParentId, props.assignedDate));
     }
     return (
-        <div className="add-subtask-btn" onClick={addSubtask}>
+        <div 
+            className="add-subtask-btn" 
+            onClick={addSubtask} 
+            style={{width: props.width, height:props.height}}>
             <span className="plus-icon show-on-hover">＋</span>
         </div>)
 }
