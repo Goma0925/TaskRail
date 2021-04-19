@@ -15,7 +15,8 @@
 }
 
 .taskparent-content{
-    width: 100%;
+    width: inherit;
+    overflow: hidden;
 }
 
 .task-parent.selected{
@@ -57,5 +58,5 @@ div.task-parent .checkbox-container {
 
 .taskparent-title-editor{
     padding-left: 5px;
-    overflow: hidden;
+    height: 100%;
 }
