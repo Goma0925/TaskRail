@@ -41,6 +41,7 @@ export default function TaskParentNode(props: ComposedProps){
     
     const selectTaskParent = (event: React.MouseEvent<Element, MouseEvent>)=>{
         dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
+        event.stopPropagation();
     }
 
     const onClickCheckbox = (event: any) => {

@@ -21,12 +21,12 @@ export interface SubtaskNodeProps {
 export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
 {
     const dispatch = useDispatch();
-    const onClickSubtask=()=>{
+    const onClickSubtask=(event: React.MouseEvent)=>{
+        event.stopPropagation();        
         dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
     }
     
-    const deleteSubtask=(e: React.MouseEvent)=>{
-        e.preventDefault();
+    const deleteSubtask=(e: React.MouseEvent)=>{        
         dispatch(deleteSubtaskOp(props.subtask.getId()));
     }
     
@@ -99,9 +99,6 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                 />
             </div>
             <div className="subtask-top" style={{minHeight:25}}>
-                {/* <p contentEditable={true} onBlur={submitTitleChange} suppressContentEditableWarning={true}>
-                    {props.subtask.getName()}</p>
-                 */}
                 <EditableTextbox
                     className={"subtask-title-editor"}
                     updateTextTo={props.subtask.getName()}
@@ -111,8 +108,6 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                 ></EditableTextbox>
             </div>
             <div className = "subtask-bottom">
-                {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
-                {/* <p> {subtaskDeadlineMonthAndDay} </p> */}
                 <input 
                     type="date" 
                     id="date-picker" 

@@ -1,12 +1,14 @@
 import "./RailContainer.css";
-import { useRef, useEffect, useState, Fragment } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import Rail from "../../components/Rail/Rail";
 import BackgroundWeekCalendar from "../../components/BackgroundWeekCalendar/BackgroundWeekCalendar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import AddTaskParentButton from "../../components/AddTaskParentButton/AddTaskParentButton";
+import { SelectItem } from "../../redux/modules/RailUi/RailUiActions";
 
 const RailContainer: React.FC = () => {
+  const dispatch = useDispatch();
   // Get subtasks and task parents
   const taskParentIds = useSelector(
     (state: RootState) => state.taskData.taskParents.allIds
@@ -32,8 +34,13 @@ const RailContainer: React.FC = () => {
   const displayRangeStartDate = useSelector(
     (state: RootState) => state.pagination.displayRangeStartDate
   );
+  
+  const unSelectItem = (event: React.MouseEvent) => {
+    console.log("UNSELECT");
+    
+    dispatch(new SelectItem({type: "NONE", itemId: ""}));
+  }
 
-  const dispatch = useDispatch();
   return (
     <div className="rail-view-panel">
       <BackgroundWeekCalendar
@@ -42,7 +49,7 @@ const RailContainer: React.FC = () => {
         displayRangeStartDate={displayRangeStartDate}
         calendarBorderWidth={calendarBorderWidth}
       />
-      <div className="rail-container">
+      <div className="rail-container" onClick={unSelectItem}>
         {taskParentIds.map((id) => {
           const currentFrameSubtaskIds = taskParentsById[
             id
