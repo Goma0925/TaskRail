@@ -7,12 +7,13 @@ import "./NavBar.css";
 import * as Actions from "../../redux/modules/TaskData/TaskDataActions";
 import Workspace from "../../models/ClientModels/Workspace";
 import TaskParent from "../../models/ClientModels/TaskParent";
-import * as operations from "../../redux/modules/TaskData/TaskDataOperations";
+import * as TaskDataOperations from "../../redux/modules/TaskData/TaskDataOperations";
 import Login from "../../components/GoogleAuth/Login";
 import { faAngleDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { JsxElement } from "typescript";
 import WorkspaceList from "../SideMenu/WorkspaceList";
+import EditableTextbox from "../../components/CommonParts/EditableTextbox/EditableTextbox";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -37,36 +38,35 @@ export default function NavBar() {
     return workspacesArray[key].getName();
   });
 
+  const saveWorkspaceNameChange = (workspaceName: string) => {
+    if (
+      workspaceName &&
+      workspaceName.length &&
+      workspaceName.trim() &&
+      workspaceId
+    ) {
+      dispatch(
+        TaskDataOperations.updateWorkspaceOp(
+          new Workspace(workspaceName, workspaceId, [])
+        )
+      );
+      setDefaultNameInput(workspaceId, workspaceName);
+    } else {
+      if (workspaceId) {
+        setDefaultNameInput(
+          workspaceId,
+          workspacesArray[workspaceId].getName()
+        );
+      }
+    }
+  }
+
   const [nameInput, setNameInput] = useState(
-    <div
-      contentEditable="true"
-      onBlur={(event) => {
-        if (
-          event.target.textContent &&
-          event.target.textContent.length &&
-          event.target.textContent.trim() &&
-          workspaceId
-        ) {
-          dispatch(
-            operations.updateWorkspaceOp(
-              new Workspace(event.target.textContent, workspaceId, [])
-            )
-          );
-          setDefaultNameInput(workspaceId, event.target.textContent);
-        } else {
-          if (workspaceId) {
-            setDefaultNameInput(
-              workspaceId,
-              workspacesArray[workspaceId].getName()
-            );
-          }
-        }
-      }}
-      key={workspaceId}
-      placeholder="Workspace Name"
-    >
-      {workspaceName}
-    </div>
+    <EditableTextbox
+      updateTextTo={workspaceName?workspaceName: ""}
+      onSave={saveWorkspaceNameChange}
+      unfocusOnEnterKey
+    ></EditableTextbox>
   );
   const setDefaultNameInput = (id: string, name?: string | undefined) => {
     setNameInput(
@@ -80,7 +80,7 @@ export default function NavBar() {
             workspaceId
           ) {
             dispatch(
-              operations.updateWorkspaceOp(
+              TaskDataOperations.updateWorkspaceOp(
                 new Workspace(event.target.textContent, id, [])
               )
             );
@@ -113,13 +113,13 @@ export default function NavBar() {
           ) {
             if (!operation) {
               dispatch(
-                operations.updateWorkspaceOp(
+                TaskDataOperations.updateWorkspaceOp(
                   new Workspace(event.target.value, id, [])
                 )
               );
             } else {
               dispatch(
-                operations.createWorkspaceOp(
+                TaskDataOperations.createWorkspaceOp(
                   new Workspace(event.target.value, "", []),
                   true
                 )
@@ -148,7 +148,7 @@ export default function NavBar() {
     placeHolder = placeHolder ? placeHolder : workspacesArray[id].getName();
     if (!operation) {
       console.log("Loading workspaces...");
-      dispatch(operations.loadCurrentWorkspaceContent(id));
+      dispatch(TaskDataOperations.loadCurrentWorkspaceContent(id));
     }
     setInputNameInput(id, operation, placeHolder);
   };
@@ -168,7 +168,7 @@ export default function NavBar() {
                   href="javascript:;"
                   className="dropdown-item"
                   onClick={() => {
-                    dispatch(operations.loadCurrentWorkspaceContent(id));
+                    dispatch(TaskDataOperations.loadCurrentWorkspaceContent(id));
                     setDefaultNameInput(id, workspacesArray[id].getName());
                   }}
                 >
@@ -190,11 +190,11 @@ export default function NavBar() {
                       className="card-footer-item"
                       onClick={() => {
                         if (Object.keys(workspacesArray).length > 1) {
-                          dispatch(operations.deleteWorkspaceOp(id));
+                          dispatch(TaskDataOperations.deleteWorkspaceOp(id));
                           TurnOffDropDownMenu();
                           if (id == workspaceId) {
                             dispatch(
-                              operations.loadCurrentWorkspaceContent(
+                              TaskDataOperations.loadCurrentWorkspaceContent(
                                 workspacesIdArray[0]
                               )
                             );

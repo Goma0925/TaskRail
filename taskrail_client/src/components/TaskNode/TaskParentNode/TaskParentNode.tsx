@@ -44,7 +44,8 @@ export default function TaskParentNode(props: ComposedProps){
         event.stopPropagation();
     }
 
-    const onClickCheckbox = (event: any) => {
+    const onClickCheckbox = (event: React.ChangeEvent) => {
+        event.stopPropagation();
         let updatedTaskParent = props.taskParent.getCopy();
         if (updatedTaskParent.isComplete()) {
             updatedTaskParent.uncompleteTask();
@@ -65,6 +66,11 @@ export default function TaskParentNode(props: ComposedProps){
             })
         }
         dispatch(updateTaskParentOp(updatedTaskParent));
+
+        // Reselect the item so it does not unselect by rail container
+        if (isSelected){
+            dispatch(new SelectItem({type: "TASKPARENT", itemId: props.taskParent.getId()}));
+        }
     }
 
     const submitTitleChange = (title:string) => {
@@ -86,7 +92,7 @@ export default function TaskParentNode(props: ComposedProps){
                     <input 
                         type="checkbox" 
                         className="float-checkbox" 
-                        onClick={onClickCheckbox}
+                        onChange={onClickCheckbox}
                         checked={props.taskParent.isComplete()}
                     />
                 </div>

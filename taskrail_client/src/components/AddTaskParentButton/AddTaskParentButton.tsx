@@ -9,7 +9,7 @@ export default function AddTaskParentButton(){
     }
     return (
         <button className="add-taskparent-button" onClick={addTaskParent}>
-            <span>Add new task set</span>
+            <span>New Task Set</span>
         </button>
         )
 }
