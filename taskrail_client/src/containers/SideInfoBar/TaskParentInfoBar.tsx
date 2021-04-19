@@ -28,13 +28,13 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
     function submitNoteChange(note: string) { // update this type in future 
         let updatedTaskParent = taskParent.getCopy();
         updatedTaskParent.setNote(note);
-        updateTaskParentOp(updatedTaskParent);
+        dispatch(updateTaskParentOp(updatedTaskParent));
     };
     
     function submitDateChange(newDate: Date){
         let updatedTaskParent = props.taskParent.getCopy();
         updatedTaskParent.setTaskParentDeadline(newDate);
-        updateTaskParentOp(updatedTaskParent);
+        dispatch(updateTaskParentOp(updatedTaskParent));
     }
     
     function handleCheckboxChange(event: any) {
