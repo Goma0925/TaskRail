@@ -35,21 +35,19 @@ const RailContainer: React.FC = () => {
     (state: RootState) => state.pagination.displayRangeStartDate
   );
   
-  const unSelectItem = (event: React.MouseEvent) => {
-    console.log("UNSELECT");
-    
+  const unSelectItem = (event: React.MouseEvent) => {    
     dispatch(new SelectItem({type: "NONE", itemId: ""}));
   }
 
   return (
-    <div className="rail-view-panel">
+    <div className="rail-view-panel" onClick={unSelectItem}>
       <BackgroundWeekCalendar
         subtaskNodeWidth={railUi.subtaskNodeWidth}
         taskParentSectionWidth={railUi.taskParentSectionWidth}
         displayRangeStartDate={displayRangeStartDate}
         calendarBorderWidth={calendarBorderWidth}
       />
-      <div className="rail-container" onClick={unSelectItem}>
+      <div className="rail-container">
         {taskParentIds.map((id) => {
           const currentFrameSubtaskIds = taskParentsById[
             id

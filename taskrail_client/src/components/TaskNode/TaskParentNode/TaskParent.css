@@ -36,6 +36,10 @@ div.task-parent .checkbox-container {
     border-right: solid;
 }
 
+.checkbox-container > input[type=checkbox]{
+    cursor:pointer;
+}
+
 .taskparent-skin {
     width: 70%;
     float: right;

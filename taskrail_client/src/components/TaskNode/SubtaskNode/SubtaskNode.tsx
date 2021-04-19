@@ -21,33 +21,17 @@ export interface SubtaskNodeProps {
 export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
 {
     const dispatch = useDispatch();
-    const onClickSubtask=(event: React.MouseEvent)=>{
-        event.stopPropagation();        
-        dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
-    }
-    
-    const deleteSubtask=(e: React.MouseEvent)=>{        
-        dispatch(deleteSubtaskOp(props.subtask.getId()));
-    }
     
     //Check if this node is selected
-    const isSelected = props.railUiSelection.type=="SUBTASK" && 
-    props.railUiSelection.itemId==props.subtask.getId();
+    const isSelected = props.railUiSelection.type=="SUBTASK" && props.railUiSelection.itemId==props.subtask.getId();
     var className = "subtask";
     if (isSelected){
         className += " selected"
     }
+    // Fade if the parent or this subtask itself are checked.
     if (props.subtask.getStatus() || props.parent.isComplete()){
         className += " faded"
     }
-    //Update props
-    var newProps = produce(props, draftProps=>{
-        draftProps.onClickHandlers = draftProps.onClickHandlers?draftProps.onClickHandlers:[];
-        draftProps.onClickHandlers.push(onClickSubtask);
-        // Append className
-        draftProps.className = className;
-        draftProps.className += props.className? props.className: "";
-    });
 
     // Initialize the delete button class name.
     var deleteButtonClass = "delete";
@@ -69,7 +53,10 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
         dispatch(updateSubtaskOp(updatedSubtask));
     }
 
-    function onClickCheckbox(event: any) {
+    function onClickCheckbox(event: React.ChangeEvent) {
+        console.log("onClickCheckbox");
+        
+        event.stopPropagation();
         let updatedSubtask = props.subtask.getCopy();
         if (updatedSubtask.getStatus()) { // is already complete
             updatedSubtask.uncompleteTask();
@@ -77,6 +64,17 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
             updatedSubtask.completeTask();
         }
         dispatch(updateSubtaskOp(updatedSubtask));
+    }
+
+    const selectSubtask=(event: React.MouseEvent)=>{
+        console.log("selectSubtask");
+
+        event.stopPropagation();        
+        dispatch(new SelectItem({type: "SUBTASK", itemId: props.subtask.getId()}));
+    }
+    
+    const deleteSubtask=(e: React.MouseEvent)=>{        
+        dispatch(deleteSubtaskOp(props.subtask.getId()));
     }
 
     const subtaskDeadline = props.subtask.getSubtaskDeadline()
@@ -87,8 +85,8 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                                 getDateStr(subtaskDeadline):"";
 
     return (
-        <TaskNode {...newProps}>
-            {newProps.children}
+        <TaskNode {...props} className={className}>
+            {props.children}
             <a className={deleteButtonClass} onClick={deleteSubtask}>×</a>
             <div className="checkbox-container">
                 <input 
@@ -98,7 +96,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     onChange={onClickCheckbox} // gets rid of useless warning message :)
                 />
             </div>
-            <div className="subtask-top" style={{minHeight:25}}>
+            <div className="subtask-top" style={{minHeight:25}} onClick={selectSubtask}>
                 <EditableTextbox
                     className={"subtask-title-editor"}
                     updateTextTo={props.subtask.getName()}
@@ -107,7 +105,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     noLineBreak={true}
                 ></EditableTextbox>
             </div>
-            <div className = "subtask-bottom">
+            <div className = "subtask-bottom" onClick={selectSubtask}>
                 <input 
                     type="date" 
                     id="date-picker" 

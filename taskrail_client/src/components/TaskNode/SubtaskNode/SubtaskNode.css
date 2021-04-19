@@ -36,6 +36,10 @@ div.subtask .checkbox-container {
     width: 20%;
 }
 
+div.subtask .checkbox-container > input[type=checkbox]{
+    cursor:pointer;
+}
+
 input[type=checkbox].float-checkbox {
     margin: 0px 0px 0px 0px;
 }
