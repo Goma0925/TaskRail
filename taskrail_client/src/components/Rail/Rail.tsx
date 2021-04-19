@@ -80,6 +80,15 @@ export default function Rail (props: RailProps) {
         <div 
             className="task-rail"
         >
+            <div 
+                className="rail-horizontal-line" 
+                style={{
+                    // Later, change this dynamically according to the rail color.
+                    backgroundColor: "#ff5f5c", 
+                    top: 28, //Need to have a better way to set this.
+                    marginLeft: 30
+                }}
+            />
             <div className="task-parent-section" style={{width: props.taskParentSectionWidth}}>
                 {/* Render task parent node here */}
                 <TaskParentNode 

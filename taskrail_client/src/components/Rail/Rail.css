@@ -1,5 +1,6 @@
 .task-rail {
   display: flex;
+  position: relative;
   flex-direction: row;
   margin-bottom: 40px;
   padding-right: 30px;
@@ -7,4 +8,13 @@
 .subtask-section {
   display: flex;
   flex-direction: row;
+}
+
+.rail-horizontal-line{
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  margin: 0px auto;
+  display: inline-block;
+  vertical-align: middle;
 }

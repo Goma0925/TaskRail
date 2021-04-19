@@ -7,7 +7,6 @@ import { SelectItem } from "../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
 import { deleteTaskParentOp, updateTaskParentOp } from "../../../redux/modules/TaskData/TaskDataOperations";
 import EditableTextbox from "../../CommonParts/EditableTextbox/EditableTextbox";
-import WithSelectableTaskParent, { WithSelectableTaskParentProps } from "../Decorators/WithSelectableTaskParent/WithSelectableTaskParent";
 import TaskNode, { TaskNodeProps } from "../TaskNode";
 import "./TaskParent.css";
 
@@ -18,7 +17,7 @@ interface TaskParentNodeProps {
     children?: React.ReactNode[]|React.ReactNode;
 }
 
-type ComposedProps = WithSelectableTaskParentProps&TaskNodeProps&TaskParentNodeProps;
+type ComposedProps = TaskParentNodeProps & TaskNodeProps;
 
 export default function TaskParentNode(props: ComposedProps){
     const dispatch = useDispatch();
