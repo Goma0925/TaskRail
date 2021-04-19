@@ -81,7 +81,6 @@ export default function TaskParentNode(props: ComposedProps){
     return <TaskNode
                 width={props.width}
                 className={className}
-                onClick={selectTaskParent}
                 >
                 <div className="checkbox-container">
                     <input 
@@ -91,12 +90,14 @@ export default function TaskParentNode(props: ComposedProps){
                         checked={props.taskParent.isComplete()}
                     />
                 </div>
-                <EditableTextbox
-                    className="taskparent-title-editor"
-                    updateTextTo={props.taskParent.getName()}
-                    onSave={submitTitleChange}
-                    unfocusOnEnterKey={true}
-                />
+                <div onClick={selectTaskParent} className="taskparent-content">
+                    <EditableTextbox
+                        className="taskparent-title-editor"
+                        updateTextTo={props.taskParent.getName()}
+                        onSave={submitTitleChange}
+                        unfocusOnEnterKey={true}
+                    />
+                </div>
                 <a className={deleteButtonClass} onClick={deleteTaskParent}>×</a>
             </TaskNode>
 }
