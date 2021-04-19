@@ -3,6 +3,7 @@
     background-color: #ff5f5c;
     border-radius: 20px;
     position: relative;
+    margin-bottom: 2px;
 } 
 
 .subtask-top, .subtask-bottom {

@@ -98,7 +98,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     onChange={onClickCheckbox} // gets rid of useless warning message :)
                 />
             </div>
-            <div className="subtask-top" style={{height:25}}>
+            <div className="subtask-top" style={{minHeight:25}}>
                 {/* <p contentEditable={true} onBlur={submitTitleChange} suppressContentEditableWarning={true}>
                     {props.subtask.getName()}</p>
                  */}
@@ -110,7 +110,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
                     noLineBreak={true}
                 ></EditableTextbox>
             </div>
-            <div className = "subtask-bottom" style={{height:25}}>
+            <div className = "subtask-bottom">
                 {/* <p contentEditable={true} onBlur={handleBottomChange}> */}
                 {/* <p> {subtaskDeadlineMonthAndDay} </p> */}
                 <input 
