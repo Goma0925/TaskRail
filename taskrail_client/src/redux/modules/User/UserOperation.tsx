@@ -37,10 +37,13 @@ export function SignupOp() {
         )
         .then((res: AxiosResponse<BaseJson<UserJson>>) => {
             if (res.data.success) {
-                // Same as above
+                window.alert("hi from signup op :)");
+                return dispatch(new SetIsLoggedIn(true))
             } 
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
+                window.alert("error in signup op :/");
+                return dispatch(new SetIsLoggedIn(false));
             }
         })
     }

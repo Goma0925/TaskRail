@@ -13,7 +13,7 @@ const testMiddleware = async (req, res, next) => {
 // 
 
 // Path configurations
-rootRouter.use('/taskdata/', GoogleAuth.requireAuth, require('./TaskRouter.js'));
+rootRouter.use('/taskdata/', testMiddleware, require('./TaskRouter.js'));
 rootRouter.use('/auth/', require('./AuthRouter.js'));
 
 rootRouter.route("/").get((req, res)=>{
