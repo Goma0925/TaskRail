@@ -414,9 +414,10 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
         console.log("Response:", res);
         if (res.data.success) {
           console.log("Loading current workspace...");
+
+          dispatch(new SelectItem({ type: "NONE", itemId: "" }));
           dispatch(new Actions.ClearTaskParents());
           dispatch(new Actions.ClearSubtasks());
-          dispatch(new Actions.ClearTaskParents());
           const nestedWorkspaceJson: WorkspaceJson = res.data.data;
 
           workspace = new Workspace(
