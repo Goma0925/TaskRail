@@ -10,15 +10,14 @@ interface EditableTextboxProps {
   unfocusOnEnterKey: boolean;
   noLineBreak?: boolean;
   focus?: boolean;
+  ref?: HTMLParagraphElement;
 }
 
 export default function EditableTextbox(props: EditableTextboxProps) {
   const [text, setText] = useState(
     props.updateTextTo ? props.updateTextTo : ""
   );
-  const textBoxRef = useRef<HTMLParagraphElement>(null);
-  const placeHolder = props.placeholder ? props.placeholder : "";
-
+  const textBoxRef = useRef<HTMLParagraphElement>(props.ref ? props.ref : null);
   const saveText = (event: React.ChangeEvent<HTMLParagraphElement>) => {
     const newText = event.target.textContent ? event.target.textContent : "";
     props.onSave(newText);
@@ -41,7 +40,11 @@ export default function EditableTextbox(props: EditableTextboxProps) {
   }, [props.updateTextTo]);
 
   useEffect(() => {
-    if (textBoxRef.current) {
+    if (textBoxRef.current && props.focus) {
+      const prev_text = text;
+
+      setText("");
+
       textBoxRef.current.focus();
     }
   }, [props.focus]);
