@@ -21,12 +21,20 @@ export default function Login()
 
         // const cookie = new Cookies(result.tokenId);
         const cookie = new Cookies();
-        cookie.set('Authorization', result.tokenId, { path: '/' });
+        cookie.set('Authorization', 'Bearer ' + result.tokenId, { path: '/' });
 
-        axios.defaults.headers.common = {'Authorization': 'Bearer ${' + cookie + '}'};
+        axios.defaults.headers.common = {'Authorization': 'Bearer ' + result.tokenId};
 
-        const findCookie = cookie.getAll();
-        console.log(findCookie);
+        // const res = await axios.post(, {
+        //     headers: {
+        //         authorization: 'Bearer ${' + result.tokenId + '}'
+        //     }
+        // });
+
+        // const findCookie = cookie.getAll();
+        const cookie2 = new Cookies();
+        cookie2.get('Authorization');
+        console.log(cookie2);
 
         dispatch(loginOp());
     }
@@ -45,9 +53,9 @@ export default function Login()
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
-                isSignedIn={true}
+                // isSignedIn={true}
                 // icon={false}
-                // theme='dark'
+                theme='dark'
             />
         </div>
     )

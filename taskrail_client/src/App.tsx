@@ -16,7 +16,8 @@ import {
   loadCurrentWorkspaceContent,
 } from "./redux/modules/TaskData/TaskDataOperations";
 import { ThunkDispatch } from "redux-thunk";
-import { loginOp } from "./redux/modules/User/UserOperation";
+import { loginOp, SignupOp } from "./redux/modules/User/UserOperation";
+import LoginPage from "./containers/LoginPage/LoginPage";
 
 function App() {
   const contentLoaded = useSelector(
@@ -28,27 +29,50 @@ function App() {
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(() => {
-    // if (isLoggedIn == null) {
-      // dispatch(loginOp());
-    // }
+    if (isLoggedIn == null) {
+      dispatch(loginOp());
+    }
     if (!contentLoaded) {
       dispatch(loadAllWorkspaces());
     }
   }, []);
 
-  return (
-    <>
-      {contentLoaded ? (
-        <SplitPane
-          top={<NavBar />}
-          center={<RailContainer />}
-          right={<SideInfoBarContainer />}
-        />
-      ) : (
-        <Preloader></Preloader>
-      )}
-    </>
-  );
+  // return (
+  //   <>
+  //     {contentLoaded ? (
+  //       <SplitPane
+  //         top={<NavBar />}
+  //         center={<RailContainer />}
+  //         right={<SideInfoBarContainer />}
+  //       />
+  //     ) : (
+  //       <Preloader></Preloader>
+  //     )}
+  //   </>
+  // );
+
+  if (isLoggedIn == null) {
+    return (
+      <Preloader></Preloader>
+    );
+  }
+  if (!isLoggedIn) { // load landing page
+    return (
+      <LoginPage></LoginPage>
+    )
+  }
+  else { // load main contains
+    return (
+      <>
+          <SplitPane
+            top={<NavBar />}
+            center={<RailContainer />}
+            right={<SideInfoBarContainer />}
+          />
+      </>
+    );
+  }
+
 }
 
 export default App;

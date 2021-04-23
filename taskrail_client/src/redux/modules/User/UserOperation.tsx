@@ -5,6 +5,9 @@ import AuthEndpoint from "../../api_endpoints/User/AuthEndpoints";
 import { BaseJson } from "../../../models/ApiModels/BaseJson";
 import { UserJson } from "../../../models/ApiModels/UserJson";
 import { SetIsLoggedIn } from "./LoginAction";
+import Workspace from "../../../models/ClientModels/Workspace";
+import { createWorkspaceOp } from "../TaskData/TaskDataOperations";
+import Cookies from "universal-cookie";
 
 export function loginOp() {
     return async (dispatch: AppDispatch) => {
@@ -19,12 +22,13 @@ export function loginOp() {
 
             const success = res.data.success;
             if (success) {
-                window.alert("hi from login op :)");
+                console.log("hi from successful loigin op :)");
                 return dispatch(new SetIsLoggedIn(true));
             }
         })
         .catch(() => {
-            console.log("hi from lower down in login op :/");
+            console.log("hi from unsuccessful login op :/");
+            // dispatch(SignupOp)
             return dispatch(new SetIsLoggedIn(false));
         })
     }
@@ -38,13 +42,24 @@ export function SignupOp() {
         .then((res: AxiosResponse<BaseJson<UserJson>>) => {
             if (res.data.success) {
                 window.alert("hi from signup op :)");
+                const workspace = new Workspace("Your First Workspace","");
+                dispatch(createWorkspaceOp(workspace))
                 return dispatch(new SetIsLoggedIn(true))
             } 
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
                 window.alert("error in signup op :/");
+                console.log("error in signup op :/");
                 return dispatch(new SetIsLoggedIn(false));
             }
         })
+    }
+}
+
+export function logoutOp() {
+    return async (dispatch: AppDispatch) => {
+        const cookies = new Cookies();
+        cookies.remove('Authorization');
+        return dispatch(new SetIsLoggedIn(false));
     }
 }
