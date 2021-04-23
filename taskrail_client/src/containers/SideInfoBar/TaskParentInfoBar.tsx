@@ -1,9 +1,12 @@
 import TaskParent from "../../models/ClientModels/TaskParent";
-import "./style.css";
+import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import { useState } from "react";
+import React, { useState } from "react";
 import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
+import EditableTextbox from "../../components/CommonParts/EditableTextbox/EditableTextbox";
+import SmartDatePicker from "../../components/CommonParts/SmartDatePicker/SmartDatePicker";
+import AutoSaveTextarea from "../../components/CommonParts/AutoSaveTextarea/AutoSaveTextarea";
 
 interface TaskParentInfoBarProps {
     taskParent: TaskParent;
@@ -14,77 +17,68 @@ export function TaskParentInfobar(props: TaskParentInfoBarProps) {
     const taskParent = props.taskParent;
     const title = taskParent.getName();
     const complete = taskParent.isComplete();
-    const taskParentDeadline = taskParent.getDeadline();    
-    const taskParentDeadlineStr = taskParentDeadline?getDateStr(taskParentDeadline):"";
-    const note = taskParent.getNote();    
+    const taskParentDeadline = taskParent.getDeadline();   
 
-    function handleTitleChange(event: any) {
+    function submitTitleChange(title: string) {
         let updatedTaskParent = taskParent.getCopy();
-        updatedTaskParent.setName(event.target.textContent);
+        updatedTaskParent.setName(title);
         dispatch(updateTaskParentOp(updatedTaskParent));
     }
 
-    function handleNoteChange(event: any) { // update this type in future 
+    function submitNoteChange(note: string) { // update this type in future 
         let updatedTaskParent = taskParent.getCopy();
-        updatedTaskParent.setNote(event.target.value);
-        updateTaskParentOp(updatedTaskParent);
+        updatedTaskParent.setNote(note);
+        dispatch(updateTaskParentOp(updatedTaskParent));
     };
     
-    function handleDateChange(event:any){
-        let date = LocalDateParse(event.target.value);
+    function submitDateChange(newDate: Date){
         let updatedTaskParent = props.taskParent.getCopy();
-        updatedTaskParent.setTaskParentDeadline(date);
-        updateTaskParentOp(updatedTaskParent);
+        updatedTaskParent.setTaskParentDeadline(newDate);
+        dispatch(updateTaskParentOp(updatedTaskParent));
     }
     
     function handleCheckboxChange(event: any) {
         let updatedTaskParent = taskParent.getCopy();
         if (event.target.checked) {
-        //   updatedTaskParent.completeTask();
+          updatedTaskParent.completeTask();
         } else {
-        //   updatedTaskParent.uncompleteTask();
+          updatedTaskParent.uncompleteTask();
         }
         dispatch(updateTaskParentOp(updatedTaskParent));
     }
     return (
-        <div className="sideinfo-bar">
-        <div className="TitleAndCheckbox">
-          <input
-            type="checkbox"
-            checked={complete}
-            className="Checkbox"
-            onClick={handleCheckboxChange}
-          />
-          <h1
-            className="Title"
-            contentEditable={"true"}
-            onBlur={handleTitleChange}
-            suppressContentEditableWarning={true}
-          >
-            {title}
-          </h1>
-        </div>
-        <hr />
-        <div className="InputList">
-          <div className="Deadline">
-            <h3 className="DeadlineLabel">Deadline:</h3>
-            <input
-              type="date"
-              value={taskParentDeadlineStr}
-              onChange={handleDateChange}
-              className="DeadlineInput"
-            />
-          </div>
-          <div className="Note">
-            <h3 className="NoteLabel">Note:</h3>
-            <textarea
-              value={note}
-              onChange={handleNoteChange}
-              className="NoteInput"
-            />
-          </div>
-        </div>
+      <nav className="panel sideinfo-bar">
+      <div className="panel-block sideinfo-bar-top">
+        <input
+          type="checkbox"
+          checked={complete}
+          className="infobar-checkbox"
+          onChange={handleCheckboxChange}
+        />
+        <EditableTextbox
+          className="infobar-title"
+          updateTextTo={title}
+          placeholder="Task Set Title"
+          onSave={submitTitleChange}
+          unfocusOnEnterKey={true}
+        ></EditableTextbox>
       </div>
+      <div className="input-section">
+        <div className="panel-block">
+          <SmartDatePicker
+            className="input"
+            updateDateTo={taskParentDeadline?taskParentDeadline:undefined}
+            onDateChange={submitDateChange}
+          ></SmartDatePicker>
+        </div>
+        <AutoSaveTextarea
+          updateValueTo={taskParent.getNote()}
+          placeholder="Note"
+          onSave={submitNoteChange}
+          className="textarea"
+        ></AutoSaveTextarea>
+      </div>
+    </nav>
     );
 }
 

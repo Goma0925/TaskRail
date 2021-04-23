@@ -10,6 +10,7 @@
 }
 
 .sideinfo-bar-top {
+  font-size: 20px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -30,20 +31,8 @@
   margin-right: 7px;
 }
 
-hr {
-  width: 100%;
-  border-style: solid;
-  border-radius: 2%;
-  margin-top: 0%;
-}
-
 .note{
   height: 100%;
-}
-
-.note > textarea{
-  height: 100%;
-  background: transparent;
 }
 
 .input-section {
@@ -53,4 +42,9 @@ hr {
   margin-left: 0%;
   margin-top: 0%;
   height: 100%;
+}
+
+.textarea{
+  height: 100%;
+  background-color:rgb(255, 255, 255);
 }
