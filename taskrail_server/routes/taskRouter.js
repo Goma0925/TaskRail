@@ -8,7 +8,8 @@ const CommonDbOperations = require("../common_db_operations/TaskOperations.js");
 
 //READ all workspaces
 workspaceRouter.get("/workspaces", async (req, res) => {
-  const userId = req.app.locals.user._id;
+  console.log("User:",res.locals.user);
+  const userId = res.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   const queryByUser = {owner_id: ObjectId(userId)};
   const cursor = workspaceCollection.find(queryByUser);
@@ -35,7 +36,7 @@ workspaceRouter.get("/workspaces/:workspaceId", async (req, res) => {
 
 //CREATE workspace
 workspaceRouter.post("/workspaces", async (req, res) => {
-  const userId = req.app.locals.user._id;
+  const userId = res.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   //Get payload
   const workspaceName = req.body.name;
