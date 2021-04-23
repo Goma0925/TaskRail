@@ -29,7 +29,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     // if (isLoggedIn == null) {
-      dispatch(loginOp());
+      // dispatch(loginOp());
     // }
     if (!contentLoaded) {
       dispatch(loadAllWorkspaces());

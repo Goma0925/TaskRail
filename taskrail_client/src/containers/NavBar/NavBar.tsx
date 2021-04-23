@@ -13,6 +13,7 @@ import { faAngleDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { JsxElement } from "typescript";
 import WorkspaceList from "../SideMenu/WorkspaceList";
+import Logout from "../../components/GoogleAuth/Logout";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -282,6 +283,7 @@ export default function NavBar() {
         displayRangeStartDate={displayRangeStartDate}
       ></WeekPaginationButton>
       <Login/>
+      <Logout/>
     </div>
   );
 }
