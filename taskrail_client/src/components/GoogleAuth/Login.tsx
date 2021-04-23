@@ -19,7 +19,9 @@ export default function Login()
         google ID is " + result.googleId + ", your token ID is " + result.tokenId + "\
         , and your access token is " + result.accessToken);
 
-        const cookie = new Cookies(result.tokenId);
+        // const cookie = new Cookies(result.tokenId);
+        const cookie = new Cookies();
+        cookie.set('Authorization', result.tokenId, { path: '/' });
 
         axios.defaults.headers.common = {'Authorization': 'Bearer ${' + cookie + '}'};
 
@@ -30,6 +32,7 @@ export default function Login()
     }
 
     const onFailure = (result: any) => {
+        
         console.log("Login failed. Result: " + result);
         alert("Login failure. Result: " + result);
     }
