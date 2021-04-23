@@ -35,7 +35,7 @@ function App() {
     if (!contentLoaded) {
       dispatch(loadAllWorkspaces());
     }
-  }, []);
+  }, [isLoggedIn, contentLoaded]);
 
   // return (
   //   <>

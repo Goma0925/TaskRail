@@ -28,7 +28,7 @@ export function loginOp() {
         })
         .catch(() => {
             console.log("hi from unsuccessful login op :/");
-            // dispatch(SignupOp)
+            dispatch(SignupOp())
             return dispatch(new SetIsLoggedIn(false));
         })
     }
@@ -41,14 +41,13 @@ export function SignupOp() {
         )
         .then((res: AxiosResponse<BaseJson<UserJson>>) => {
             if (res.data.success) {
-                window.alert("hi from signup op :)");
+                console.log("successful signup op :)");
                 const workspace = new Workspace("Your First Workspace","");
                 dispatch(createWorkspaceOp(workspace))
                 return dispatch(new SetIsLoggedIn(true))
             } 
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
-                window.alert("error in signup op :/");
                 console.log("error in signup op :/");
                 return dispatch(new SetIsLoggedIn(false));
             }
@@ -60,6 +59,7 @@ export function logoutOp() {
     return async (dispatch: AppDispatch) => {
         const cookies = new Cookies();
         cookies.remove('Authorization');
+        console.log(cookies.get('Authorization'));
         return dispatch(new SetIsLoggedIn(false));
     }
 }
