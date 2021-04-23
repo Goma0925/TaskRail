@@ -18,4 +18,9 @@
     /* Same as the background calendar date section height*/
     margin-top: 60px;
     padding-top:30px;
+    padding-bottom: 70vh;
+}
+
+.rail-divider{
+	border-top: 1px dashed #8c8b8b;
 }

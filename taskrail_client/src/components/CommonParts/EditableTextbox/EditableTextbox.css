@@ -1,0 +1,14 @@
+.editable-textbox{
+    cursor: text;
+}
+
+.editable-textbox.no-line-break{
+    white-space: nowrap;
+    text-align: left;
+    overflow: hidden;
+}
+
+p:empty:not(:focus)::before {
+    content: attr(data-placeholder);
+    color: grey;
+}

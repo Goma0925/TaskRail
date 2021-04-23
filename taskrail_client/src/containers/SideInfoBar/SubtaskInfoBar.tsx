@@ -1,10 +1,14 @@
 import Subtask from "../../models/ClientModels/Subtask";
-import "./style.css";
+import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
 import { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../helpers/ReactUtils";
+import React from "react";
+import AutoSaveTextarea from "../../components/CommonParts/AutoSaveTextarea/AutoSaveTextarea";
+import EditableTextbox from "../../components/CommonParts/EditableTextbox/EditableTextbox";
+import SmartDatePicker from "../../components/CommonParts/SmartDatePicker/SmartDatePicker";
 
 // Typescript uses interfaces (static, compile-time checking)
 // We also have PropTypes by React.js which does run-time type checking
@@ -15,71 +19,32 @@ interface SideInfoBarProps {
 /** SideInfoBar's props must have the same
 shape as the Props interface object **/
 export function SubtaskInfoBar(props: SideInfoBarProps) {
-  // const [text, setText] = useState(props?.text);
-  var months: { [name: string]: string } = {
-    Jan: "01",
-    Feb: "02",
-    Mar: "03",
-    Apr: "04",
-    May: "05",
-    Jun: "06",
-    Jul: "07",
-    Aug: "08",
-    Sep: "09",
-    Oct: "10",
-    Nov: "11",
-    Dec: "12",
-  };
+  const dispatch = useDispatch();
   const subtask = props.subtask;
   const title = subtask.getName();
   const complete = subtask.getStatus();
   const deadline = subtask.getSubtaskDeadline();
-  const note = subtask.getNote();
 
-  const [noteText, setNoteText] = useState(note);
-  const prevText = noteText;
-  const [textAreaOnFocus, setTextAreaOnFocus] = useState(false);
-  const dispatch = useDispatch();
-
-  useInterval(() => {
-    // If the user is editing the note, save the note every 2 seconds.
-      if (textAreaOnFocus){
-        if (prevText != noteText){
-          let updatedSubtask = subtask.getCopy();
-          console.log("Saving notes..");
-          updatedSubtask.setNote(noteText);
-          dispatch(updateSubtaskOp(updatedSubtask));
-        }
-      }
-  }, 2000);
-
-  function handleNoteChange(event: any){
-    setNoteText(event.target.value);
-  }
-
-  function submitNoteChange(event: any) {
-    // update this type in future
+  function submitNoteChange(note: string) {
+    // Submit the note text change to the server.
     let updatedSubtask = subtask.getCopy();
-    updatedSubtask.setNote(event.target.value);
-    dispatch(updateSubtaskOp(updatedSubtask));
+    updatedSubtask.setNote(note);
+    dispatch(updateSubtaskOp(updatedSubtask));  
   }
 
-  function handleDateChange(event: any) {
-    var newDate = LocalDateParse(event.target.value);
+  function submitDateChange(newDate: Date) {
     var updatedSubtask = subtask.getCopy();
     updatedSubtask.setSubtaskDeadline(newDate);
     dispatch(updateSubtaskOp(updatedSubtask));
   }
 
-  function handleTitleChange(event: React.FocusEvent<HTMLHeadingElement>) {
-    if (event.target.textContent){
-      let updatedSubtask = subtask.getCopy();
-      updatedSubtask.setName(event.target.textContent);
-      dispatch(updateSubtaskOp(updatedSubtask));
-    }
+  function subtmiTitleChange(title: string) {
+    let updatedSubtask = subtask.getCopy();
+    updatedSubtask.setName(title);
+    dispatch(updateSubtaskOp(updatedSubtask));
   }
 
-  function handleCheckboxChange(event: any) {
+  function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
     let updatedSubtask = subtask.getCopy();
     if (event.target.checked) {
       updatedSubtask.completeTask();
@@ -87,51 +52,39 @@ export function SubtaskInfoBar(props: SideInfoBarProps) {
       updatedSubtask.uncompleteTask();
     }
     dispatch(updateSubtaskOp(updatedSubtask));
-  }
-
+  };
+  
   return (
     <nav className="panel sideinfo-bar">
-      <div className="panel-heading sideinfo-bar-top">
+      <div className="panel-block sideinfo-bar-top">
         <input
           type="checkbox"
           checked={complete}
           className="infobar-checkbox"
-          onClick={handleCheckboxChange}
+          onChange={handleCheckboxChange}
         />
-        <h1
+        <EditableTextbox
           className="infobar-title"
-          contentEditable={"true"}
-          onChange={handleNoteChange}
-          onBlur={handleTitleChange}
-          suppressContentEditableWarning={true}
-        >
-          {title}
-        </h1>
+          updateTextTo={title}
+          placeholder="Task Step Title"
+          onSave={subtmiTitleChange}
+          unfocusOnEnterKey={true}
+        ></EditableTextbox>
       </div>
       <div className="input-section">
         <div className="panel-block">
-          <input
-            type="date"
-            value={deadline?getDateStr(deadline):""}
-            onChange={handleDateChange}
+          <SmartDatePicker
             className="input"
-          />
+            updateDateTo={deadline}
+            onDateChange={submitDateChange}
+          ></SmartDatePicker>
         </div>
-        <div className="note">
-          <textarea
-            value={noteText}
-            placeholder="Note"
-            onFocus={()=>{
-              setTextAreaOnFocus(true);
-            }}
-            onChange={handleNoteChange}
-            onBlur={(event)=>{
-              setTextAreaOnFocus(false);
-              submitNoteChange(event);
-            }}
-            className="textarea"
-          />
-        </div>
+        <AutoSaveTextarea
+          updateValueTo={subtask.getNote()}
+          placeholder="Note"
+          onSave={submitNoteChange}
+          className="textarea"
+        ></AutoSaveTextarea>
       </div>
     </nav>
   );

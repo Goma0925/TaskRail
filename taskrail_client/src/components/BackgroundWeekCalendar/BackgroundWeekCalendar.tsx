@@ -39,7 +39,6 @@ export default function BackgroundWeekCalendar(
             className="calendar-divider"
             style={{
               width: props.subtaskNodeWidth,
-              // borderLeft: props.calendarBorderWidth
             }}
           >
             <div className="date-label">

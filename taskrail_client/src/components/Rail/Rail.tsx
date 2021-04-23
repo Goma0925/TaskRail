@@ -1,21 +1,15 @@
 import "./Rail.css";
 import React, {ReactNode, useEffect} from "react";
-import {useDispatch} from "react-redux";
-
 import TaskNode from "../TaskNode/TaskNode";
-import WithSubtaskSkin from "../TaskNode/Decorators/WithSubtaskSkin/WithSubtaskSkin";
 import ColumnBox from "../ColumnBox/ColumnBox";
 import TaskParent from "../../models/ClientModels/TaskParent";
 import { Fragment } from "react";
 import AddSubtaskButton from "../AddSubtaskButton/AddSubtaskButton";
 import Subtask from "../../models/ClientModels/Subtask";
-import WithSelectableSubtask from "../TaskNode/Decorators/WithSelectableSubtask/WithSelectableSubtask";
 import { RailUiSelection } from "../../redux/modules/RailUi/RailUiReducers";
-import TaskParentNode from "../TaskNode/TaskParentNode";
-import WithCheckBox from "../TaskNode/Decorators/WithCheckBox";
+import TaskParentNode from "../TaskNode/TaskParentNode/TaskParentNode";
 import { getDateStr, getNDaysLater } from "../../helpers/DateTime";
-import { UpdateSubtask } from "../../redux/modules/TaskData/TaskDataActions";
-import SubtaskNode from "../TaskNode/SubtaskNode";
+import SubtaskNode from "../TaskNode/SubtaskNode/SubtaskNode";
 
 interface RailProps{
     taskParent: TaskParent;
@@ -23,8 +17,8 @@ interface RailProps{
     railUiSelection: RailUiSelection;
     displayRangeStartDate: Date;
     taskParentNodeWidth: number;
+    taskParentSectionWidth: number;
     subtaskNodeWidth: number;
-    calendarBorderWidth: number;
 }
 
 export default function Rail (props: RailProps) {    
@@ -43,6 +37,7 @@ export default function Rail (props: RailProps) {
     });
     
     const columnBoxes: ReactNode[] = [];
+    // Loop for everyday in the week.
     [...Array(7)].map((_, dayIndex)=>{
         // Get date object from start date to seven days later.
         var date = getNDaysLater(displayRangeStartDate, dayIndex);        
@@ -54,7 +49,7 @@ export default function Rail (props: RailProps) {
         columnBoxes.push(
             <ColumnBox key={dateStr}>
                 {
-                    subtasksOfDay.length>0? subtasksOfDay.map((subtask)=>{
+                    subtasksOfDay.map((subtask)=>{
                         // const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
                         
                         // Construct subtask tasknode here.
@@ -69,14 +64,14 @@ export default function Rail (props: RailProps) {
                                 </SubtaskNode>
                             </Fragment>
                         );
-                    }):
-                    // If no subtasks, render dummy node.
-                    [...Array(1)].map(()=>{                        
-                        const PlaceholderNode = TaskNode;
-                        return <PlaceholderNode width={props.subtaskNodeWidth} height={0}></PlaceholderNode>
                     })
                 }
-                <AddSubtaskButton taskParentId={props.taskParent.getId()} assignedDate={assignedDate}></AddSubtaskButton>
+                <AddSubtaskButton 
+                            taskParentId={props.taskParent.getId()}
+                            assignedDate={assignedDate}
+                            width={props.subtaskNodeWidth}
+                            height={50}
+                />            
             </ColumnBox>
         );
     });
@@ -86,7 +81,16 @@ export default function Rail (props: RailProps) {
         <div 
             className="task-rail"
         >
-            <div className="task-parent-section" style={{width: props.taskParentNodeWidth}}>
+            <div 
+                className="rail-horizontal-line" 
+                style={{
+                    // Later, change this dynamically according to the rail color.
+                    backgroundColor: "#ff5f5c", 
+                    top: 28, //Need to have a better way to set this.
+                    marginLeft: 30
+                }}
+            />
+            <div className="task-parent-section" style={{width: props.taskParentSectionWidth}}>
                 {/* Render task parent node here */}
                 <TaskParentNode 
                     // pass in function here
