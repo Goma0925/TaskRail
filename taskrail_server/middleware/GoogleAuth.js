@@ -8,6 +8,7 @@ function requireToken(req, res, next){
     const authParts = req.headers.authorization.split(" ");
     const tokenType = authParts[0];
     const token = authParts[1];
+    console.log("authParts", authParts);
     if (tokenType == "Bearer"){
         // Propagate the token to the next middleware or router.
         res.locals.token = token;

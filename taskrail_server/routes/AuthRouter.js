@@ -10,9 +10,11 @@ authRouter.post("/login", GoogleAuth.requireAuth, (req, res) => {
 
 authRouter.post("/signup", GoogleAuth.requireToken, async (req, res)=>{
     // Receive the auth token passed from GoogleAuth.requireToken middleware
-    const token = req.app.locals.token;
+    console.log("User signup token:", res.locals.token);
+    const token = res.locals.token;
     const googleUserFetchResult = await UserOperations.getGoogleUser(token);
-    
+    console.log("User signup:", googleUserFetchResult.googleUser);
+
     //Create a new user using google user info
     if (googleUserFetchResult.success){
         const googleUser = googleUserFetchResult.googleUser;
