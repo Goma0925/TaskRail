@@ -8,6 +8,7 @@ import { SetIsLoggedIn } from "./LoginAction";
 import Workspace from "../../../models/ClientModels/Workspace";
 import { createWorkspaceOp } from "../TaskData/TaskDataOperations";
 import Cookies from "universal-cookie";
+import { SetContentLoaded } from "../RailUi/RailUiActions";
 
 export function loginOp() {
     return async (dispatch: AppDispatch) => {
@@ -43,8 +44,8 @@ export function SignupOp() {
             if (res.data.success) {
                 console.log("successful signup op :)");
                 const workspace = new Workspace("Your First Workspace","");
-                dispatch(createWorkspaceOp(workspace))
-                return dispatch(new SetIsLoggedIn(true))
+                dispatch(createWorkspaceOp(workspace));
+                return dispatch(new SetIsLoggedIn(true));
             } 
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
@@ -58,8 +59,13 @@ export function SignupOp() {
 export function logoutOp() {
     return async (dispatch: AppDispatch) => {
         const cookies = new Cookies();
-        cookies.remove('Authorization');
-        console.log(cookies.get('Authorization'));
+        cookies.remove('Authorization', {path: '/', domain: '.app.localhost'});
+        // console.log("Authorization cookie after logout op: " + cookies.get('Authorization'));
+        // const cookie2 = new Cookies();
+        // const allCookies = cookie2.getAll();
+        // console.log("All cookies after logout op: " + cookie2.getAll());
+        console.log("hey it's me, in logout op");
+        dispatch(new SetContentLoaded(false));
         return dispatch(new SetIsLoggedIn(false));
     }
 }

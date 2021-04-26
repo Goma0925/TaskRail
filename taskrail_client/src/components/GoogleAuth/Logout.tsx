@@ -17,6 +17,7 @@ export default function Logout()
     const onSuccess = () => {
         console.log("on success");
         dispatch(logoutOp());
+        console.log("just dispatched logout op");
         const cookie = new Cookies();
         cookie.get('Authorization');
         console.log(cookie);
@@ -25,7 +26,7 @@ export default function Logout()
         //     (state: RootState) => state.railUi.contentLoaded
         //   );
 
-        dispatch(new SetContentLoaded(false));
+        // dispatch(new SetContentLoaded(false));
     }
 
     return (

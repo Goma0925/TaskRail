@@ -26,13 +26,15 @@ function App() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.user.isLoggedIn
   );
+  
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(() => {
     if (isLoggedIn == null) {
       dispatch(loginOp());
     }
-    if (!contentLoaded) {
+    else if (!contentLoaded) {
+      console.log("isLoggedIn: " + isLoggedIn);
       dispatch(loadAllWorkspaces());
     }
   }, [isLoggedIn, contentLoaded]);
@@ -56,7 +58,7 @@ function App() {
       <Preloader></Preloader>
     );
   }
-  if (!isLoggedIn) { // load landing page
+  else if (!isLoggedIn) { // load landing page
     return (
       <LoginPage></LoginPage>
     )

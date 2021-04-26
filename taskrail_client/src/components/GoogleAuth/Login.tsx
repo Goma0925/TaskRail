@@ -21,7 +21,7 @@ export default function Login()
 
         // const cookie = new Cookies(result.tokenId);
         const cookie = new Cookies();
-        cookie.set('Authorization', 'Bearer ' + result.tokenId, { path: '/' });
+        cookie.set('Authorization', 'Bearer ' + result.tokenId, { path: '/' , domain: '.app.localhost'});
 
         axios.defaults.headers.common = {'Authorization': 'Bearer ' + result.tokenId};
 
@@ -31,10 +31,17 @@ export default function Login()
         //     }
         // });
 
-        // const findCookie = cookie.getAll();
-        const cookie2 = new Cookies();
-        cookie2.get('Authorization');
-        console.log(cookie2);
+        const findCookie = cookie.getAll();
+        console.log("All cookies upon login:");
+        console.log(findCookie)
+        for (var i = 0; i < findCookie.length; i++) {
+            console.log("hi");
+            console.log(findCookie[i]);
+        }
+
+        // const cookie2 = new Cookies();
+        // cookie2.get('Authorization');
+        // console.log(cookie2);
 
         dispatch(loginOp());
     }
@@ -49,13 +56,13 @@ export default function Login()
         <div>
             <GoogleLogin 
                 clientId={clientId}
-                buttonText="Login"
+                buttonText="Login with Google"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={false}
                 // icon={false}
-                theme='dark'
+                // theme='dark'
             />
         </div>
     )
