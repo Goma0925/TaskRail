@@ -15,11 +15,12 @@ const rootReducer = combineReducers({
 });
 
 const logger = createLogger();
+//Always make sure classInstanceUnpacker comes at last when using class-based action.
+export const middleware = [thunk, classInstanceUnpacker, logger]
 
 const store = createStore(
   rootReducer,
-  //Always make sure classInstanceUnpacker comes at last when using class-based action.
-  applyMiddleware(thunk, classInstanceUnpacker, logger) 
+  applyMiddleware(...middleware)
 );
 
 export default store;

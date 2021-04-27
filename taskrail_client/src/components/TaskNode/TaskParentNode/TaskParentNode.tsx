@@ -1,7 +1,7 @@
 import produce from "immer";
 import React from "react";
 import { useDispatch } from "react-redux";
-import SubTask from "../../../models/ClientModels/Subtask";
+import Subtask from "../../../models/ClientModels/Subtask";
 import TaskParent from "../../../models/ClientModels/TaskParent";
 import { SelectItem } from "../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
@@ -11,7 +11,7 @@ import TaskNode, { TaskNodeProps } from "../TaskNode";
 import "./TaskParent.css";
 
 interface TaskParentNodeProps {
-    subtasks: SubTask[];
+    subtasks: Subtask[];
     taskParent: TaskParent;
     railUiSelection: RailUiSelection;
     children?: React.ReactNode[]|React.ReactNode;

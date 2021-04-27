@@ -3,7 +3,7 @@ import ReduxAction from "../ReduxAction";
 import Workspace from "../../../models/ClientModels/Workspace";
 import * as Actions from "./TaskDataActions";
 import TaskParent from "../../../models/ClientModels/TaskParent";
-import SubTask from "../../../models/ClientModels/Subtask";
+import Subtask from "../../../models/ClientModels/Subtask";
 import TestTaskData from "./TestTaskData/TestTaskDataFactory";
 import { DRAFT_STATE } from "immer/dist/internal";
 
@@ -23,7 +23,7 @@ interface TaskDataState {
   };
   subtasks: {
     byId: {
-      [subtaskId: string]: SubTask;
+      [subtaskId: string]: Subtask;
     };
     allIds: string[];
   };

@@ -1,4 +1,4 @@
-import SubTask from "../../../../models/ClientModels/Subtask";
+import Subtask from "../../../../models/ClientModels/Subtask";
 import TaskParent from "../../../../models/ClientModels/TaskParent";
 import Workspace from "../../../../models/ClientModels/Workspace";
 
@@ -33,7 +33,7 @@ const days = [
   "Friday",
   "Saturday",
 ];
-const subtasks: SubTask[] = [];
+const subtasks: Subtask[] = [];
 const allSubtaskIds: string[] = [];
 var subtaskId = 0;
 allTaskParentIds.map((taskParentId, taskParentIndex) => {
@@ -43,7 +43,7 @@ allTaskParentIds.map((taskParentId, taskParentIndex) => {
       const assignedDate = getPreviousSunday(new Date());
       assignedDate.setDate(monday.getDate() + dayIndex);
       subtasks.push(
-        new SubTask(
+        new Subtask(
           "Subtask on " + (assignedDate.getMonth()+1) + "/" +assignedDate.getDate() + "(" + days[assignedDate.getDay()]+")",
           subtaskId.toString(),
           taskParentId,
@@ -65,7 +65,7 @@ taskParents.map((taskParent) => {
   taskParentById[taskParent.getId()] = taskParent;
 });
 
-const subtaskbyId: { [subtask: string]: SubTask } = {};
+const subtaskbyId: { [subtask: string]: Subtask } = {};
 subtasks.map((subtask) => {
   subtaskbyId[subtask.getId()] = subtask;
 });
