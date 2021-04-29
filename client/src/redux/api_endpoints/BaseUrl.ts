@@ -1,3 +1,3 @@
 //To be refactored.
-const baseUrl = "http://localhost:4000";
+const baseUrl = "/api";
 export default baseUrl;

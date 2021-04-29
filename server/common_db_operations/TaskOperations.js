@@ -1,7 +1,7 @@
 const MongoUtil =  require("../MongoUtil");
 const db = MongoUtil.getDb();
 const ObjectID = require('mongodb').ObjectID;
-const Collections = require("../consts/MongoDB").Collections;
+const Collections = require("../consts/mongodb").Collections;
 
 async function getWorkspaceById(workspaceId){
     const workspaceCollection = db.collection(Collections.Workspaces);

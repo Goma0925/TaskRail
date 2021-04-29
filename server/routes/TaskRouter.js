@@ -2,12 +2,13 @@ const express = require("express");
 const mongoUtil = require("../MongoUtil");
 const db = mongoUtil.getDb();
 const ObjectId = require("mongodb").ObjectId;
-const Collections = require("../consts/MongoDB").Collections; //Constant var to avoid typos
+const Collections = require("../consts/mongodb").Collections; //Constant var to avoid typos
 const workspaceRouter = express.Router();
 const CommonDbOperations = require("../common_db_operations/TaskOperations.js");
 
 //READ all workspaces
 workspaceRouter.get("/workspaces", async (req, res) => {
+  console.log("workspace endpoint accessed")
   const userId = req.app.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   const queryByUser = {owner_id: ObjectId(userId)};
