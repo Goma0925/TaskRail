@@ -1,7 +1,7 @@
 import produce from "immer";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import SubTask from "../../../models/ClientModels/Subtask";
+import Subtask from "../../../models/ClientModels/Subtask";
 import { SelectItem } from "../../../redux/modules/RailUi/RailUiActions";
 import { RailUiSelection } from "../../../redux/modules/RailUi/RailUiReducers";
 import { UpdateSubtask } from "../../../redux/modules/TaskData/TaskDataActions";
@@ -13,7 +13,7 @@ import EditableTextbox from "../../CommonParts/EditableTextbox/EditableTextbox";
 import "./SubtaskNode.css";
 
 export interface SubtaskNodeProps {
-    subtask: SubTask;
+    subtask: Subtask;
     railUiSelection: RailUiSelection;
     parent: TaskParent;
 }

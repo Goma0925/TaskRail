@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { getPreviousSunday } from "../../../helpers/DateTime";
-import SubTask from "../../../models/ClientModels/Subtask";
+import Subtask from "../../../models/ClientModels/Subtask";
 import ReduxAction from "../ReduxAction";
 import * as Actions from "./RailUiActions";
 
