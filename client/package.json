@@ -29,6 +29,7 @@
     "typescript": "^4.1.3",
     "web-vitals": "^1.1.0"
   },
+  "homepage": "http://TaskRail.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
