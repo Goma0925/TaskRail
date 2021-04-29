@@ -7,7 +7,7 @@ import Subtask from "../../../models/ClientModels/Subtask";
 import TestTaskData from "./TestTaskData/TestTaskDataFactory";
 import { DRAFT_STATE } from "immer/dist/internal";
 
-interface TaskDataState {
+export interface TaskDataState {
   workspaces: {
     currentWorkspace: Workspace | undefined;
     byId: {
@@ -29,21 +29,7 @@ interface TaskDataState {
   };
 }
 
-// const initialState:TaskDataState = {
-//     workspace: {
-//         currentWorkspace: TestTaskData.workspace,
-//         allIds: TestTaskData.allWorkspaceIds,
-//     },
-//     taskParents: {
-//         byId: TestTaskData.taskParentById,
-//         allIds: TestTaskData.allTaskParentIds
-//     },
-//     subtasks: {
-//         byId: TestTaskData.subtaskbyId,
-//         allIds: TestTaskData.allSubtaskIds
-//     }
-// };
-const initialState: TaskDataState = {
+export const initialTaskDataState: TaskDataState = {
   workspaces: {
     currentWorkspace: undefined,
     byId: {},
@@ -60,7 +46,7 @@ const initialState: TaskDataState = {
 };
 
 function taskDataReducer(
-  state = initialState,
+  state = initialTaskDataState,
   action: ReduxAction
 ): TaskDataState {
   switch (action.type) {
