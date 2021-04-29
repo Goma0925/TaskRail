@@ -2,7 +2,7 @@ import TaskParent from "../../../models/ClientModels/TaskParent";
 import * as Actions from "./TaskDataActions";
 import store from "../../store";
 import { AddSubtask } from "./TaskDataActions";
-import SubTask from "../../../models/ClientModels/Subtask";
+import Subtask from "../../../models/ClientModels/Subtask";
 import axios, { AxiosResponse } from "axios";
 import {
   SubtaskJson,
@@ -15,7 +15,6 @@ import { AppDispatch } from "../../redux-utils/ReduxUtils";
 import { getDateStr, LocalDateParse } from "../../../helpers/DateTime";
 import { SelectItem, SetContentLoaded } from "../RailUi/RailUiActions";
 import * as TaskDataEndpoints from "../../api_endpoints/TaskData";
-import SubtaskInfoBar from "../../../containers/SideInfoBar/SubtaskInfoBar";
 
 export function createSubtaskOp(
   subtaskName: string,
@@ -50,7 +49,7 @@ export function createSubtaskOp(
           const returnedSubtaskJson = res.data.data;
           // Reconstruct the client subtask model from the server response to
           // add to the Redux store.
-          const newSubtask = new SubTask(
+          const newSubtask = new Subtask(
             returnedSubtaskJson.name,
             returnedSubtaskJson._id,
             returnedSubtaskJson.taskParentId,
@@ -246,7 +245,7 @@ export function updateTaskParentOp(taskParent: TaskParent) {
   };
 }
 
-export function updateSubtaskOp(subtask: SubTask) {
+export function updateSubtaskOp(subtask: Subtask) {
   const workspaceId = store
     .getState()
     .taskData.workspaces.currentWorkspace?.getId();
@@ -291,7 +290,7 @@ export function updateSubtaskOp(subtask: SubTask) {
 }
 
 // create workspace operation
-export function createWorkspaceOp(workspace: Workspace, set?: boolean) {
+export function createWorkspaceOp(workspace: Workspace, setAsCurrentWorkspace?: boolean) {
   const rawWorkspaceJson: WorkspaceJson = {
     _id: "",
     name: workspace.getName(),
@@ -314,7 +313,7 @@ export function createWorkspaceOp(workspace: Workspace, set?: boolean) {
           taskparentstrings
         );
         dispatch(new Actions.AddWorkspace(newWorkspace));
-        if (set) {
+        if (setAsCurrentWorkspace) {
           dispatch(loadCurrentWorkspaceContent(newWorkspace.getId()));
         }
       })
@@ -469,7 +468,7 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
               // Collect the subtask IDs to an array to set them to parent.
               subtaskIds.push(subtaskJson._id);
               //Create subtask instance
-              const subtask = new SubTask(
+              const subtask = new Subtask(
                 subtaskJson.name,
                 subtaskJson._id,
                 subtaskJson.taskParentId,

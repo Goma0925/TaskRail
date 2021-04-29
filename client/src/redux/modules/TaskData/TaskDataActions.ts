@@ -1,5 +1,4 @@
 import Subtask from "../../../models/ClientModels/Subtask";
-import SubTask from "../../../models/ClientModels/Subtask";
 import TaskParent from "../../../models/ClientModels/TaskParent";
 import Workspace from "../../../models/ClientModels/Workspace";
 import ReduxAction from "../ReduxAction";
@@ -8,7 +7,7 @@ export class AddSubtask implements ReduxAction {
   // This method needs to be overwritten once we have an API.
   static type = "AddSubtask";
   type: string;
-  subtask: SubTask;
+  subtask: Subtask;
   constructor(subtask: Subtask) {
     this.type = AddSubtask.type;
     this.subtask = subtask;

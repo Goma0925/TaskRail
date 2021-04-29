@@ -1,4 +1,4 @@
-export default class SubTask {
+export default class Subtask {
   private name: string;
   private id: string;
   private subtaskDeadline: Date|undefined;
@@ -82,7 +82,7 @@ export default class SubTask {
   }
 
   public getCopy() {
-    const newSubtask = new SubTask(
+    const newSubtask = new Subtask(
       this.name,
       this.id,
       this.taskParentId,
