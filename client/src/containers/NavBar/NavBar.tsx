@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import WeekPaginationButton from "../../components/BackgroundWeekCalendar/CalendarPagination/WeekPaginationButton";
 import { RootState } from "../../redux/store";
 import "./NavBar.css";
-import WorkspaceComponent from "../NavBar/WorkspaceComponent";
+import WorkspaceComponent from "./WorkspaceComponent";
 
 export default function NavBar() {
   const displayRangeStartDate = useSelector((state: RootState) => {
