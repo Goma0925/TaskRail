@@ -11,6 +11,12 @@ var corsOptions = {
   origin: "http://localhost:3000",
 };
 
+//Print the env variable
+if (!process.env){
+  throw "Environment variable file not set. Please create a file .env.production for production, .env.test for test environment."
+}
+console.log("ENV VARS:\n", process.env);
+
 mongoUtil.connect(() => {
   console.log("mongoDB connected...")
   // Start the app after mongo db is connected.
