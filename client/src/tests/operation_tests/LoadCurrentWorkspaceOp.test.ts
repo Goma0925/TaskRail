@@ -2,10 +2,11 @@ import configureMockStore from "redux-mock-store";
 import * as TaskDataOperations from "../../redux/modules/TaskData/TaskDataOperations";
 import * as TaskDataActions from "../../redux/modules/TaskData/TaskDataActions";
 import * as ClientModels from "../../models/ClientModels";
-import { middleware } from "../../redux/store";
+import { middleware, RootState } from "../../redux/store";
+import { AppDispatch } from "../../redux/redux-utils/ReduxUtils";
 
 // Use the same middleware as the production redux store.
-const mockStore = configureMockStore(middleware);
+const mockStore = configureMockStore<RootState, AppDispatch>(middleware);
 
 describe("Checking of load current workspace operation does load the current workspace.", () => {
   it("should dispatch LoadCurrentWorkspaceOp operation properly based on the id that is passed in.\
@@ -32,5 +33,7 @@ describe("Checking of load current workspace operation does load the current wor
         console.log("Dispatched actions:", store.getActions());
         expect(store.getActions()).toEqual(expectedActions);
       });
+      console.log("Dispatched actions:", store.getActions());
+
   });
 });
