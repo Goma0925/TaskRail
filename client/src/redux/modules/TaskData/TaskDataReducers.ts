@@ -7,7 +7,7 @@ import Subtask from "../../../models/ClientModels/Subtask";
 import TestTaskData from "./TestTaskData/TestTaskDataFactory";
 import { DRAFT_STATE } from "immer/dist/internal";
 
-interface TaskDataState {
+export interface TaskDataState {
   workspaces: {
     currentWorkspace: Workspace | undefined;
     byId: {
@@ -29,21 +29,7 @@ interface TaskDataState {
   };
 }
 
-// const initialState:TaskDataState = {
-//     workspace: {
-//         currentWorkspace: TestTaskData.workspace,
-//         allIds: TestTaskData.allWorkspaceIds,
-//     },
-//     taskParents: {
-//         byId: TestTaskData.taskParentById,
-//         allIds: TestTaskData.allTaskParentIds
-//     },
-//     subtasks: {
-//         byId: TestTaskData.subtaskbyId,
-//         allIds: TestTaskData.allSubtaskIds
-//     }
-// };
-const initialState: TaskDataState = {
+export const initialTaskDataState: TaskDataState = {
   workspaces: {
     currentWorkspace: undefined,
     byId: {},
@@ -60,7 +46,7 @@ const initialState: TaskDataState = {
 };
 
 function taskDataReducer(
-  state = initialState,
+  state = initialTaskDataState,
   action: ReduxAction
 ): TaskDataState {
   switch (action.type) {
@@ -123,23 +109,22 @@ function taskDataReducer(
       var taskParent = (<Actions.AddTaskParent>action).taskParent;
       var taskParentId = taskParent.getId();
       return produce(state, (draftState: TaskDataState) => {
-        // Add task parent to the workspace store
+        // Add task parent to the taskparent IDs to the current workspace.
+        // Make sure to copy an array.
         draftState.workspaces.currentWorkspace?.setTaskParentIds(
-          draftState.workspaces.currentWorkspace
-            ?.getTaskParentIds()
-            .concat([taskParentId])
+          [...draftState.workspaces.currentWorkspace?.getTaskParentIds()]
         );
         // Add task parent ID and instances to the task parent store
         draftState.taskParents.byId[taskParentId] = taskParent;
-        draftState.taskParents.allIds.push(taskParentId);
+        // Add tasskparent Id to the allIds 
+        draftState.taskParents.allIds = draftState.taskParents.allIds.concat([taskParentId]);
       });
     case Actions.DeleteTaskParent.type:
       taskParentId = (<Actions.DeleteTaskParent>action).taskParentId;
       return produce(state, (draftState) => {
         // Delete taskparent from the taskparent table
         draftState.taskParents.allIds.splice(
-          draftState.taskParents.allIds.indexOf(taskParentId),
-          1
+          draftState.taskParents.allIds.indexOf(taskParentId), 1
         );
         delete draftState.taskParents.byId[taskParentId];
         // Delete taskParent ID from workspace table.

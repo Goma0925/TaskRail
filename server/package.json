@@ -4,7 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start:production": "node -r dotenv/config index.js dotenv_config_path=./.env.production",
+        "start:dev": "node -r dotenv/config index.js dotenv_config_path=./.env.development",
+        "start:test": "node -r dotenv/config index.js dotenv_config_path=./.env.test"
     },
     "author": "",
     "license": "ISC",
