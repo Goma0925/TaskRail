@@ -11,7 +11,9 @@ var corsOptions = {
   origin: "http://localhost:3000",
 };
 
+console.log("Index JS ran...");
 mongoUtil.connect(() => {
+  console.log("mongoUtil connected...");
   // Start the app after mongo db is connected.
   //app.engine("html", require("ejs").renderFile);
   app.set("view engine", "html");

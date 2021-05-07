@@ -22,7 +22,7 @@ describe("Checking of load current workspace operation does load the current wor
     ];
 
     // Dispatch the operation to check a proper action is dispatched.
-    const w = store
+    store
       .dispatch(
         TaskDataOperations.loadCurrentWorkspaceContent(workspaceId)
         // {type:"TEST ACTION"}
