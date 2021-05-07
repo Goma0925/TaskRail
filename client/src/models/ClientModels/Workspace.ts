@@ -23,7 +23,7 @@ export default class Workspace{
     }
     
     public addTaskParentId(taskParentId: string){
-        this.taskParentIds.push(taskParentId);
+        this.taskParentIds = this.taskParentIds.concat(taskParentId);
     }
 
     public removeTaskParentById(taskParentId: string){
