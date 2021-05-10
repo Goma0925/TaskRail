@@ -31,10 +31,12 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (isLoggedIn == null) {
+      console.log("Dispatching loginop from App.tsx");
+      
       dispatch(loginOp());
     }
-    else if (!contentLoaded) {
-      console.log("isLoggedIn: " + isLoggedIn);
+    else if (!contentLoaded && isLoggedIn) {
+      console.log("Dispatching loadAllWorkspaces from App.tsx");
       dispatch(loadAllWorkspaces());
     }
   }, [isLoggedIn, contentLoaded]);
@@ -52,7 +54,8 @@ function App() {
   //     )}
   //   </>
   // );
-
+  console.log("LOGIN boolean:", isLoggedIn);
+  
   if (isLoggedIn == null) {
     return (
       <Preloader></Preloader>

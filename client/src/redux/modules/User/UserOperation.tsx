@@ -4,7 +4,7 @@ import { AppDispatch } from "../../redux-utils/ReduxUtils";
 import AuthEndpoint from "../../api_endpoints/User/AuthEndpoints";
 import { BaseJson } from "../../../models/ApiModels/BaseJson";
 import { UserJson } from "../../../models/ApiModels/UserJson";
-import { SetIsLoggedIn } from "./LoginAction";
+import { Login, Logout } from "./UserActions";
 import Workspace from "../../../models/ClientModels/Workspace";
 import { createWorkspaceOp } from "../TaskData/TaskDataOperations";
 import Cookies from "universal-cookie";
@@ -24,13 +24,13 @@ export function loginOp() {
             const success = res.data.success;
             if (success) {
                 console.log("hi from successful loigin op :)");
-                return dispatch(new SetIsLoggedIn(true));
+                return dispatch(new Login());
             }
         })
         .catch(() => {
             console.log("hi from unsuccessful login op :/");
             dispatch(SignupOp())
-            return dispatch(new SetIsLoggedIn(false));
+            return dispatch(new Logout());
         })
     }
 }
@@ -45,27 +45,29 @@ export function SignupOp() {
                 console.log("successful signup op :)");
                 const workspace = new Workspace("Your First Workspace","");
                 dispatch(createWorkspaceOp(workspace));
-                return dispatch(new SetIsLoggedIn(true));
+                return dispatch(new Login());
             } 
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
                 console.log("error in signup op :/");
-                return dispatch(new SetIsLoggedIn(false));
+                return dispatch(new Logout());
             }
-        })
+        }).catch((err: Error)=>{
+            throw err;
+        });
     }
 }
 
 export function logoutOp() {
     return async (dispatch: AppDispatch) => {
         const cookies = new Cookies();
-        cookies.remove('Authorization', {path: '/', domain: '.app.localhost'});
+        cookies.remove('Authorization', {path: '/', domain:".app.localhost"});
+        // cookies.remove('Authorization', {path: '/'});
         // console.log("Authorization cookie after logout op: " + cookies.get('Authorization'));
-        // const cookie2 = new Cookies();
+        const cookie2 = new Cookies();
         // const allCookies = cookie2.getAll();
-        // console.log("All cookies after logout op: " + cookie2.getAll());
-        console.log("hey it's me, in logout op");
-        dispatch(new SetContentLoaded(false));
-        return dispatch(new SetIsLoggedIn(false));
+        console.log("All cookies after logout op: " + cookies.getAll());
+        console.log("LOGOUT OP");
+        return dispatch(new Logout());
     }
 }

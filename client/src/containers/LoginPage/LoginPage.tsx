@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "../../components/GoogleAuth/Login";
+import Login from "../../components/GoogleAuth/LoginButton";
 
 export default function LoginPage() {
 

@@ -22,6 +22,7 @@ export default function Login()
         // const cookie = new Cookies(result.tokenId);
         const cookie = new Cookies();
         cookie.set('Authorization', 'Bearer ' + result.tokenId, { path: '/' , domain: '.app.localhost'});
+        // cookie.set('Authorization', 'Bearer ' + result.tokenId, { path: '/'});
 
         axios.defaults.headers.common = {'Authorization': 'Bearer ' + result.tokenId};
 
@@ -60,7 +61,7 @@ export default function Login()
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
-                isSignedIn={false}
+                isSignedIn={true}
                 // icon={false}
                 // theme='dark'
             />

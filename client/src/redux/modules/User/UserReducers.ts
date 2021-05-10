@@ -1,9 +1,6 @@
 import produce from "immer";
-import { DRAFT_STATE } from "immer/dist/internal";
-import { UserJson } from "../../../models/ApiModels/UserJson"
+import * as UserActions from "../User/UserActions";
 import ReduxAction from "../ReduxAction";
-// import * as LoginActions from "../User/LoginAction";
-import { SetIsLoggedIn } from "./LoginAction";
 
 interface UserState {
     isLoggedIn: boolean | null,
@@ -15,15 +12,18 @@ const initialUserState: UserState  = {
 
 function LoginReducer(
     state= initialUserState, 
-    action: ReduxAction) 
+    action: ReduxAction)
     {
     switch (action.type) {
-        case SetIsLoggedIn.type:
+        case UserActions.Login.type:
             return produce(state, draftState => {
-                draftState.isLoggedIn = (<SetIsLoggedIn> action).isLoggedIn;
-            })
+                draftState.isLoggedIn = true;
+            });
+        case UserActions.Logout.type:
+            return produce(state, draftState => {
+                draftState.isLoggedIn = false;
+            });
         default:
-            console.log(action.type);
             return state;
     }
 }
