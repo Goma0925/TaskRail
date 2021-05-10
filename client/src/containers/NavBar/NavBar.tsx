@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import WeekPaginationButton from "../../components/BackgroundWeekCalendar/CalendarPagination/WeekPaginationButton";
 import { RootState } from "../../redux/store";
 import "./NavBar.css";
-import WorkspaceComponent from "../NavBar/WorkspaceComponent";
+import WorkspaceComponent from "./WorkspaceComponent";
 import * as Actions from "../../redux/modules/TaskData/TaskDataActions";
 import Workspace from "../../models/ClientModels/Workspace";
 import TaskParent from "../../models/ClientModels/TaskParent";

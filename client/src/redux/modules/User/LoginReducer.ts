@@ -3,7 +3,7 @@ import { DRAFT_STATE } from "immer/dist/internal";
 import { UserJson } from "../../../models/ApiModels/UserJson"
 import ReduxAction from "../ReduxAction";
 // import * as LoginActions from "../User/LoginAction";
-import { SetIsLoggedIn } from "../User/LoginAction";
+import { SetIsLoggedIn } from "./LoginAction";
 
 interface UserState {
     isLoggedIn: boolean | null,
