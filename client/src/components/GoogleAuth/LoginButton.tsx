@@ -62,8 +62,8 @@ export default function Login()
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={true}
-                uxMode={"redirect"}
-                redirectUri={"http://localhost:3000/app"}
+                // uxMode={"redirect"}
+                // redirectUri={"http://localhost:3000/app"}
                 // icon={false}
                 // theme='dark'
             />

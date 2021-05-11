@@ -2,7 +2,7 @@ import { GoogleLogout } from 'react-google-login'
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from 'universal-cookie';
 import { logoutOp } from "../../redux/modules/User/UserOperation";
-
+import "./LogoutButton.css";
 
 export default function Logout()
 {
@@ -22,12 +22,13 @@ export default function Logout()
     }
 
     return (
-        <div>
-            <GoogleLogout
-                clientId={clientId}
-                buttonText="Logout"
-                onLogoutSuccess={onSuccess}
-            />
-        </div>
+        <GoogleLogout
+            clientId={clientId}
+            onLogoutSuccess={onSuccess}
+            // Custom the JSX.
+            render={(renderProps)=>{
+                return <button className="logout-btn button is-rounded" onClick={renderProps.onClick}>Logout</button>
+            }}
+        />
     )
 }
