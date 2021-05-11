@@ -4,4 +4,4 @@ const POST = {
     login: () => baseUrl + /auth/login
 }
 
-export default POST;
+export default POST; // now meaningless file?

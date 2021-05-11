@@ -1,5 +1,7 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import WeekPaginationButton from "../../components/BackgroundWeekCalendar/CalendarPagination/WeekPaginationButton";
+import LogoutButton from "../../components/GoogleAuth/LogoutButton";
 import { RootState } from "../../redux/store";
 import "./NavBar.css";
 import WorkspaceComponent from "./WorkspaceComponent";
@@ -15,6 +17,7 @@ export default function NavBar() {
       <WeekPaginationButton
         displayRangeStartDate={displayRangeStartDate}
       ></WeekPaginationButton>
+      <LogoutButton></LogoutButton>
     </div>
   );
 }

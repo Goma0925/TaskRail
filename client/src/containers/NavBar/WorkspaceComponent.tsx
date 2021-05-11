@@ -75,7 +75,7 @@ export default function WorkspaceComponent() {
     }
   };
   return (
-    <div className="workspaceSelector">
+    <div className="workspace-selector">
       <div className="dropdown is-active">
         <div className="dropdown-trigger">
           <button
