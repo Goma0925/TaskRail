@@ -1,9 +1,10 @@
-import { TaskParent } from "../../models/ClientModels";
+import { TaskParent, Subtask } from "../../models/ClientModels";
 import {
   AddTaskParent,
   DeleteTaskParent,
   UpdateTaskParent,
   ClearTaskParents,
+  AddSubtask,
 } from "../../redux/modules/TaskData/TaskDataActions";
 import TaskDataReducers, {
   initialTaskDataState,
@@ -101,9 +102,8 @@ describe("TaskDataReducers with TaskParent", () => {
       new UpdateTaskParent(updatedTaskParent)
     );
     // Set the updated the taskparent in the expected state
-    expectedState.taskParents.byId[
-      updatedTaskParent.getId()
-    ] = updatedTaskParent;
+    expectedState.taskParents.byId[updatedTaskParent.getId()] =
+      updatedTaskParent;
     expectedState.taskParents.allIds.push(updatedTaskParent.getId());
     expect(updatedState).toEqual(expectedState);
   });
@@ -159,6 +159,34 @@ describe("TaskDataReducers with TaskParent", () => {
       ["2:Subtask_id1", "2:Subtask_id2"],
       false
     );
+    const subtask1 = new Subtask(
+      "TEST_SUBTASK_1",
+      "SUBTASK_TEST_ID_1",
+      "TP_TEST_ID1",
+      new Date(),
+      new Date()
+    );
+    const subtask2 = new Subtask(
+      "TEST_SUBTASK_2",
+      "SUBTASK_TEST_ID_2",
+      "TP_TEST_ID1",
+      new Date(),
+      new Date()
+    );
+    const subtask3 = new Subtask(
+      "TEST_SUBTASK_3",
+      "SUBTASK_TEST_ID_3",
+      "TP_TEST_ID2",
+      new Date(),
+      new Date()
+    );
+    const subtask4 = new Subtask(
+      "TEST_SUBTASK_4",
+      "SUBTASK_TEST_ID_4",
+      "TP_TEST_ID2",
+      new Date(),
+      new Date()
+    );
     let expectedState: TaskDataState = dummyInitialState; //Deep copy initialState
 
     // Add the first taskparent
@@ -167,7 +195,10 @@ describe("TaskDataReducers with TaskParent", () => {
       new AddTaskParent(taskParent1)
     );
     newState = TaskDataReducers(newState, new AddTaskParent(taskParent2)); //Add second taskparent
-
+    newState = TaskDataReducers(newState, new AddSubtask(subtask1)); //Add first subtask
+    newState = TaskDataReducers(newState, new AddSubtask(subtask2)); //Add second subtask
+    newState = TaskDataReducers(newState, new AddSubtask(subtask3)); //Add third subtask
+    newState = TaskDataReducers(newState, new AddSubtask(subtask4)); //Add fourth subtask
     newState = TaskDataReducers(newState, new ClearTaskParents()); //Clear taskparents
 
     expect(expectedState).toEqual(newState);

@@ -2,14 +2,14 @@ const express = require("express");
 const mongoUtil = require("../MongoUtil");
 const db = mongoUtil.getDb();
 const ObjectId = require("mongodb").ObjectId;
-const Collections = require("../consts/MongoDB").Collections; //Constant var to avoid typos
+const Collections = require("../consts/mongodb").Collections; //Constant var to avoid typos
 const workspaceRouter = express.Router();
 const CommonDbOperations = require("../common_db_operations/TaskOperations.js");
 
 //READ all workspaces
 workspaceRouter.get("/workspaces", async (req, res) => {
-  console.log("User:",res.locals.user);
-  const userId = res.locals.user._id;
+  console.log("workspace endpoint accessed")
+  const userId = req.app.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   const queryByUser = {owner_id: ObjectId(userId)};
   const cursor = workspaceCollection.find(queryByUser);
@@ -20,7 +20,6 @@ workspaceRouter.get("/workspaces", async (req, res) => {
 
 //READ a particular workspace
 workspaceRouter.get("/workspaces/:workspaceId", async (req, res) => {
-    console.log("Hi, " + req.app.locals.user);
     // Return workspace with task parents nested inside of it.
     const workspaceId = req.params.workspaceId;
     console.log("GET workspace:", workspaceId);
@@ -37,7 +36,7 @@ workspaceRouter.get("/workspaces/:workspaceId", async (req, res) => {
 
 //CREATE workspace
 workspaceRouter.post("/workspaces", async (req, res) => {
-  const userId = res.locals.user._id;
+  const userId = req.app.locals.user._id;
   const workspaceCollection = db.collection(Collections.Workspaces);
   //Get payload
   const workspaceName = req.body.name;

@@ -75,7 +75,15 @@ export default function WorkspaceComponent() {
     }
   };
   return (
-    <div className="workspace-selector">
+    <div
+      className="workspace-selector"
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          // Not triggered when swapping focus between children
+          setShowingDropdown("hidden");
+        }
+      }}
+    >
       <div className="dropdown is-active">
         <div className="dropdown-trigger">
           <button
