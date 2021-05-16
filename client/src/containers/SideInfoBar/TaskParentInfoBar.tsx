@@ -3,7 +3,7 @@ import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskParentOp } from "../../redux/modules/TaskData/TaskDataOperations";
 import React, { useState } from "react";
-import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
+import { getDateStr, parseLocalDateFromDateStr } from "../../helpers/DateTime";
 import EditableTextbox from "../../components/CommonParts/EditableTextbox/EditableTextbox";
 import SmartDatePicker from "../../components/CommonParts/SmartDatePicker/SmartDatePicker";
 import AutoSaveTextarea from "../../components/CommonParts/AutoSaveTextarea/AutoSaveTextarea";

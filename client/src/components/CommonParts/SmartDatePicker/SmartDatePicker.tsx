@@ -1,7 +1,7 @@
 // Custom datepicker that has a simpler API than the normal date picker input.
 // runs onDateChange function everytime the date changes.
 import React, { useEffect, useState } from "react";
-import { getDateStr, LocalDateParse } from "../../../helpers/DateTime";
+import { getDateStr, parseLocalDateFromDateStr } from "../../../helpers/DateTime";
 
 interface SmartDatePickerProps{
     className?: string;
@@ -14,7 +14,7 @@ export default function SmartDatePicker (props: SmartDatePickerProps){
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
         if (event.target.value){
-            const newDate = LocalDateParse(event.target.value);
+            const newDate = parseLocalDateFromDateStr(event.target.value);
             props.onDateChange(newDate);
         }
     }

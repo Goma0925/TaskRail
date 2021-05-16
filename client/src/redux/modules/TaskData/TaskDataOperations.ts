@@ -12,7 +12,7 @@ import {
 import { BaseJson } from "../../../models/ApiModels/BaseJson";
 import Workspace from "../../../models/ClientModels/Workspace";
 import { AppDispatch } from "../../redux-utils/ReduxUtils";
-import { getDateStr, LocalDateParse } from "../../../helpers/DateTime";
+import { getDateStr, parseOnlyDateFromUTC } from "../../../helpers/DateTime";
 import { SelectItem, SetContentLoaded } from "../RailUi/RailUiActions";
 import * as TaskDataEndpoints from "../../api_endpoints/TaskData";
 
@@ -53,13 +53,15 @@ export function createSubtaskOp(
             returnedSubtaskJson.name,
             returnedSubtaskJson._id,
             returnedSubtaskJson.taskParentId,
-            LocalDateParse(returnedSubtaskJson.scheduledDate),
+            parseOnlyDateFromUTC(returnedSubtaskJson.scheduledDate),
             returnedSubtaskJson.deadline
-              ? LocalDateParse(returnedSubtaskJson.deadline)
+              ? parseOnlyDateFromUTC(returnedSubtaskJson.deadline)
               : undefined,
             returnedSubtaskJson.note,
             returnedSubtaskJson.complete
           );
+          console.log("returened subtask", returnedSubtaskJson);
+          
           //Dispatch a new subtask to the redux store.
           dispatch(new Actions.AddSubtask(newSubtask));
         })
@@ -155,7 +157,7 @@ export function createTaskParentOp(title: string) {
             createdTaskParentJson.name,
             createdTaskParentJson._id,
             createdTaskParentJson.taskParentDeadline
-              ? LocalDateParse(createdTaskParentJson.taskParentDeadline)
+              ? parseOnlyDateFromUTC(createdTaskParentJson.taskParentDeadline)
               : null,
             [],
             createdTaskParentJson.complete
@@ -433,7 +435,7 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
                 taskParentJson.name,
                 taskParentJson._id,
                 taskParentJson.taskParentDeadline != null
-                  ? LocalDateParse(taskParentJson.taskParentDeadline)
+                  ? parseOnlyDateFromUTC(taskParentJson.taskParentDeadline)
                   : null,
                 [],
                 taskParentJson.complete
@@ -472,9 +474,9 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
                 subtaskJson.name,
                 subtaskJson._id,
                 subtaskJson.taskParentId,
-                LocalDateParse(subtaskJson.scheduledDate),
+                parseOnlyDateFromUTC(subtaskJson.scheduledDate),
                 subtaskJson.deadline
-                  ? LocalDateParse(subtaskJson.deadline)
+                  ? parseOnlyDateFromUTC(subtaskJson.deadline)
                   : undefined,
                 subtaskJson.note,
                 subtaskJson.complete
