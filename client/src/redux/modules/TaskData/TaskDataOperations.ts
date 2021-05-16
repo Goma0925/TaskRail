@@ -265,10 +265,13 @@ export function updateSubtaskOp(subtask: Subtask) {
         complete: subtask.getStatus(),
       };
       /* Then post it to the server */
+      console.log("rawSubtaskJson", rawSubtaskJson);
+      
       axios
         .put(
           TaskDataEndpoints.PUT.subtasks.updateOneByHierarchy(
             workspaceId,
+            subtask.getParentId(),
             subtask.getId()
           ),
           rawSubtaskJson
