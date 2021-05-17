@@ -93,7 +93,6 @@ workspaceRouter.put(
           }
         )
       }catch(err){
-        console.log(err);
         return res.status(500).json(JsonUtil.errorJson("Server error ocurred while updating a workspace."));
       }
     }
