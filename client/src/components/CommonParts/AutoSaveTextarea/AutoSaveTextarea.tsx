@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 // Custom Textarea that runs onSave function when
 // 1) the user finishes typing and 
-// 2) the textarea is onfocused.
+// 2) the textarea is unfocused.
 
 interface AutoSaveTextareaProps{
     className?: string;
-    //This is set to the default. Whenever a new value is passed, it updates the text value
+    //updateValueTo is set to the default value of the textarea. Whenever a new value is passed, it updates the text value
     updateValueTo?: string; 
     placeholder?: string;
     onSave: (text: string)=>void;
@@ -31,7 +31,6 @@ export default function AutoSaveTextarea(props: AutoSaveTextareaProps){
 
     const saveTextChange = (text: string) => {
       // Submit the note text change to the server.
-      console.log("saving... : ", text);
       props.onSave(text);
     };
 
