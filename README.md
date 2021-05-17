@@ -64,4 +64,12 @@ Constructed during the Spring of 2021.
     cd ../server
     # Install dependencies
     npm install
+    
+    # Run one of the following
+    # 1. Run the development server
+    npm run start:dev
+    # 2. Run the production server
+    npm run start:production
+    # 3. Run the test server
+    npm run start:test
     ```
