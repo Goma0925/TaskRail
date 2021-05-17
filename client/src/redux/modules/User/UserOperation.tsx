@@ -8,7 +8,6 @@ import { Login, Logout } from "./UserActions";
 import Workspace from "../../../models/ClientModels/Workspace";
 import { createWorkspaceOp } from "../TaskData/TaskDataOperations";
 import Cookies from "universal-cookie";
-import { SetContentLoaded } from "../RailUi/RailUiActions";
 
 export function loginOp() {
     return async (dispatch: AppDispatch) => {
@@ -50,10 +49,9 @@ export function SignupOp() {
             if (!res.data.success) {
                 // something has gone wrong. Alert or print info to console.
                 console.log("error in signup op :/");
-                return dispatch(new Logout());
             }
         }).catch((err: Error)=>{
-            throw err;
+            return dispatch(new Logout());
         });
     }
 }

@@ -307,15 +307,9 @@ export function createWorkspaceOp(workspace: Workspace, setAsCurrentWorkspace?: 
       .post(TaskDataEndpoints.POST.workspaces.createOne(), rawWorkspaceJson)
       .then((res: AxiosResponse<BaseJson<WorkspaceJson>>) => {
         const returnedWorkspaceJson = res.data.data;
-        const taskparentstrings = returnedWorkspaceJson.taskparents.map(
-          (taskParentJsonObject) => {
-            return taskParentJsonObject.name;
-          }
-        );
         const newWorkspace = new Workspace(
           returnedWorkspaceJson.name,
           returnedWorkspaceJson._id,
-          taskparentstrings
         );
         dispatch(new Actions.AddWorkspace(newWorkspace));
         if (setAsCurrentWorkspace) {
