@@ -20,7 +20,7 @@ workspaceRouter.get("/workspaces", async (req, res) => {
         }
       );
     }catch(err){
-      return res.status().json(JsonUtil.errorJson("Sever error occured while finding workspaces."));
+      return res.status(500).json(JsonUtil.errorJson("Sever error occured while finding workspaces."));
     }
   });
 
