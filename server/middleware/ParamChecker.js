@@ -15,7 +15,6 @@ async function requireValidWorkspaceIdParam(req, res, next) {
                 if (!workspaceExists){
                     return res.status(400).json(JsonUtil.errorJson('Workspace with ID "'+workspaceId+'" does not exists.'));
                   }
-                console.log("Param check passed!");
                 return next();
             }
         );
