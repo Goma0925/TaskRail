@@ -4,10 +4,11 @@ const rootRouter = express.Router();
 
 // Path configurations
 rootRouter.use('/taskdata/', GoogleAuth.requireAuth, require('./WorkspaceRouter'));
-rootRouter.use('/auth/', require('./AuthRouter.js'));
+rootRouter.use('/auth/', require('./UserRouter'));
 
-rootRouter.route("/").get((req, res)=>{
-    console.log("Root acceessed");
+rootRouter.route("/hi").get((req, res)=>{
+    // Serve the base HTML file from the client/build folder.
+    console.log("Root access");
 });
 
 module.exports = rootRouter; 

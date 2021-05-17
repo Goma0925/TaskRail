@@ -33,7 +33,7 @@ function App() {
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isLoggedIn == null) {      
+    if (isLoggedIn == null) {    
       dispatch(loginOp());
     }
     else if (!contentLoaded && isLoggedIn) {
@@ -41,17 +41,18 @@ function App() {
     }
   }, [isLoggedIn, contentLoaded]);
 
+  //Render the components dependending on the status
   if (isLoggedIn == false) { // load landing page
     return (
       <LoginPage></LoginPage>
     )
   }
-  if (isLoggedIn == null || !contentLoaded) {
+  if (!contentLoaded) {
     return (
       <Preloader></Preloader>
     );
   }
-  else { // load main contains
+  else { // load main contents
     return (
       <>
           <SplitPane

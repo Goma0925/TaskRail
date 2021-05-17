@@ -118,7 +118,6 @@ export function deleteSubtaskOp(subtaskId: string) {
             }
           })
           .catch((err: Error) => {
-            window.alert("Deletion failed");
             throw err;
           });
       } else {
