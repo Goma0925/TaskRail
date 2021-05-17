@@ -5,7 +5,7 @@ const User = require("../../models/User.model");
 const JsonUtil = require("../../Util/JsonUtil");
 
 authRouter.post("/login", GoogleAuth.requireAuth, (req, res) => {
-    // If the GoogleAuth.login middleware passes, just return the success response.
+    // If the GoogleAuth.requireAuth middleware passes, which checks if the request is made by a valid TaskRail user using a Google account, just return the success response.
     res.send({success: true, user:req.app.locals.user});
 });
 
