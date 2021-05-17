@@ -72,4 +72,6 @@ Constructed during the Spring of 2021.
     npm run start:production
     # 3. Run the test server
     npm run start:test
+    
+    # The TaskRail is now served at the port specified in server's .env file.
     ```
