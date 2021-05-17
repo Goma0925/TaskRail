@@ -72,7 +72,7 @@ workspaceRouter.put(
         const workspaceId = req.params.workspaceId;
         // List of attributes that are allowed to be modified on this endpoint.
         const newWorkspace = Workspace.sanitizeReqBody(req.body);
-        // Construct $set query in the following shape: { "field":  newTaskParent[field] }
+        // Construct $set query in the following shape: { "field":  newWorkspace[field] }
         // in order to update all the fields provided in body.
         let setAllFieldQuery = {};
         Object.keys(newWorkspace).filter((field)=>{
