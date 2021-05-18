@@ -19,7 +19,7 @@
         "express": "^4.17.1",
         "google-auth-library": "^7.0.4",
         "mongodb": "^3.6.5",
-        "redux-mock-store": "^1.5.4"
+        "mongoose": "^5.12.8"
     },
     "devDependencies": {
         "@types/node": "^14.14.37",

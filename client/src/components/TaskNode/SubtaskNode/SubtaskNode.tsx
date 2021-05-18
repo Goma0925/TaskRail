@@ -8,7 +8,7 @@ import { UpdateSubtask } from "../../../redux/modules/TaskData/TaskDataActions";
 import { deleteSubtaskOp, updateSubtaskOp } from "../../../redux/modules/TaskData/TaskDataOperations";
 import TaskNode, { TaskNodeProps } from "../TaskNode";
 import TaskParent from "../../../models/ClientModels/TaskParent";
-import { getDateStr, getMonthAndDay, LocalDateParse } from "../../../helpers/DateTime";
+import { getDateStr, getMonthAndDay, parseLocalDateFromDateStr } from "../../../helpers/DateTime";
 import EditableTextbox from "../../CommonParts/EditableTextbox/EditableTextbox";
 import "./SubtaskNode.css";
 
@@ -46,7 +46,7 @@ export default function SubtaskNode(props: SubtaskNodeProps&TaskNodeProps)
 
     function handleBottomChange(event: any) {
         const newDeadlineStr:string = event.target.value;
-        const newDeadline = LocalDateParse(newDeadlineStr);
+        const newDeadline = parseLocalDateFromDateStr(newDeadlineStr);
         console.log("newDeadline: " + newDeadline);
         let updatedSubtask = props.subtask.getCopy();
         updatedSubtask.setSubtaskDeadline(newDeadline);

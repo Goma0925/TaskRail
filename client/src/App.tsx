@@ -26,47 +26,33 @@ function App() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.user.isLoggedIn
   );
+  const workspace = useSelector(
+    (state: RootState)=> state.taskData.workspaces.currentWorkspace
+  )
   
   // After component mount, load all the data
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isLoggedIn == null) {
-      console.log("Dispatching loginop from App.tsx");
-      
+    if (isLoggedIn == null) {    
       dispatch(loginOp());
     }
     else if (!contentLoaded && isLoggedIn) {
-      console.log("Dispatching loadAllWorkspaces from App.tsx");
       dispatch(loadAllWorkspaces());
     }
   }, [isLoggedIn, contentLoaded]);
 
-  // return (
-  //   <>
-  //     {contentLoaded ? (
-  //       <SplitPane
-  //         top={<NavBar />}
-  //         center={<RailContainer />}
-  //         right={<SideInfoBarContainer />}
-  //       />
-  //     ) : (
-  //       <Preloader></Preloader>
-  //     )}
-  //   </>
-  // );
-  console.log("LOGIN boolean:", isLoggedIn);
-  
-  if (isLoggedIn == null) {
-    return (
-      <Preloader></Preloader>
-    );
-  }
-  else if (!isLoggedIn) { // load landing page
+  //Render the components dependending on the status
+  if (isLoggedIn == false) { // load landing page
     return (
       <LoginPage></LoginPage>
     )
   }
-  else { // load main contains
+  if (!contentLoaded) {
+    return (
+      <Preloader></Preloader>
+    );
+  }
+  else { // load main contents
     return (
       <>
           <SplitPane

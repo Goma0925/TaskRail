@@ -1,4 +1,5 @@
-const UserOperations = require("../common_db_operations/UserOperations");
+const User = require("../models/User.model");
+const JsonUtil = require("../Util/JsonUtil");
 
 function requireToken(req, res, next){
     // Check if the auth token is sent in the header.
@@ -8,7 +9,6 @@ function requireToken(req, res, next){
     const authParts = req.headers.authorization.split(" ");
     const tokenType = authParts[0];
     const token = authParts[1];
-    console.log("authParts", authParts);
     if (tokenType == "Bearer"){
         // Propagate the token to the next middleware or router.
         res.locals.token = token;
@@ -26,22 +26,32 @@ async function requireValidAppUser(req, res, next)  {
     //  in res.locals.token
 
     const token = res.locals.token;
-    let isValidGoogleUser = false;
+    let googleUser = undefined;
     // Check if the google credential is valid.
-    result = await UserOperations.getGoogleUser(token);
-    if (!result.success){
-        return res.status(401).json({status: false, error_msg: "Google authentication token is invalid or expired."});
+    await User.fetchGoogleUserByToken(
+        token,
+        (err, user)=>{
+            if (err){
+                return res.status(401).json(JsonUtil.errorJson(err.message));
+            }
+            googleUser = user;
+        }
+    );
+    
+    if (googleUser){
+        // Check if the user exists in our database.
+        await User.findUserByEmail(
+            googleUser.email,
+            (err, user) => {
+                if (err || !user){
+                    return res.status(401).json({status: false, error_msg: "User record could not be found. Must be signed up before logging in."});
+                }
+                // Pass the process to the next middleware or router.
+                res.locals.user = user;
+                return next();
+            }
+        )
     }
-
-    // Check if the user exists in our database.
-    let googleUser = result.googleUser;
-    const appUserFetchResult = await UserOperations.getUserByEmail(googleUser.email);
-    if (appUserFetchResult.success){
-        // Pass the process to the next middle ware or router.
-        res.locals.user = appUserFetchResult.user;
-        return next();
-    }
-    return res.status(401).json({status: false, error_msg: "User record could not be found. Must be signed up before logging in."});
 };
 
 

@@ -2,7 +2,7 @@ import Subtask from "../../models/ClientModels/Subtask";
 import "./SideInfoBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import { getDateStr, LocalDateParse } from "../../helpers/DateTime";
+import { getDateStr, parseLocalDateFromDateStr } from "../../helpers/DateTime";
 import { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../helpers/ReactUtils";
 import React from "react";

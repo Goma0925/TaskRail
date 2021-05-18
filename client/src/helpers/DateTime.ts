@@ -16,11 +16,17 @@ export function getMonthStr(date: Date){
     return months[date.getMonth()]; 
 }
 
-export function LocalDateParse(dateString: string){
+export function parseLocalDateFromDateStr(dateString: string){
     // Correctly parse date string in the local time without a wacky day leap
     // dateString: yyyy-mm-dd
     // Reference: https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
     return new Date(dateString.replace(/-/g, '\/'));
+}
+
+export function parseOnlyDateFromUTC(utcDateString: string){
+    let date = utcDateString.split('-')
+    let dateStr = date[0] + '/' + date[1] + '/' + date[2].split("T")[0]
+    return new Date(dateStr);
 }
 
 export function getDateStr(date: Date){

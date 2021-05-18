@@ -37,7 +37,7 @@ export default function Rail (props: RailProps) {
     });
     
     const columnBoxes: ReactNode[] = [];
-    // Loop for everyday in the week.
+    // Loop for everyday in the week to construct a column box for each day, which contains multiple subtask nodes.
     [...Array(7)].map((_, dayIndex)=>{
         // Get date object from start date to seven days later.
         var date = getNDaysLater(displayRangeStartDate, dayIndex);        
@@ -50,10 +50,6 @@ export default function Rail (props: RailProps) {
             <ColumnBox key={dateStr}>
                 {
                     subtasksOfDay.map((subtask)=>{
-                        // const Node = WithSelectableSubtask(WithCheckBox(WithSubtaskSkin(TaskNode)));
-                        
-                        // Construct subtask tasknode here.
-                        // ^ Pass in event listener for CheckBox.
                         return (
                             <Fragment key={subtask.getId()}>
                                 <SubtaskNode 
@@ -91,7 +87,6 @@ export default function Rail (props: RailProps) {
                 }}
             />
             <div className="task-parent-section" style={{width: props.taskParentSectionWidth}}>
-                {/* Render task parent node here */}
                 <TaskParentNode 
                     // pass in function here
                     taskParent={props.taskParent} 
