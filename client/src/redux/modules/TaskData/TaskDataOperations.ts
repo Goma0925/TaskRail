@@ -294,7 +294,10 @@ export function updateSubtaskOp(subtask: Subtask) {
 }
 
 // create workspace operation
-export function createWorkspaceOp(workspace: Workspace, setAsCurrentWorkspace?: boolean) {
+export function createWorkspaceOp(
+  workspace: Workspace,
+  setAsCurrentWorkspace?: boolean
+) {
   const rawWorkspaceJson: WorkspaceJson = {
     _id: "",
     name: workspace.getName(),
@@ -368,8 +371,8 @@ export function loadAllWorkspaces() {
       .then((res: AxiosResponse<BaseJson<WorkspaceJson[]>>) => {
         console.log("Loading all workspaces...");
         if (res.data.success) {
-          const currentWorkspace = store.getState().taskData.workspaces
-            .currentWorkspace;
+          const currentWorkspace =
+            store.getState().taskData.workspaces.currentWorkspace;
 
           const WorkspaceJsonArray = res.data.data.filter(
             (workspaceJson: WorkspaceJson) => {
@@ -414,7 +417,6 @@ export function loadCurrentWorkspaceContent(workspaceId: string) {
 
           dispatch(new SelectItem({ type: "NONE", itemId: "" }));
           dispatch(new Actions.ClearTaskParents());
-          dispatch(new Actions.ClearSubtasks());
           const nestedWorkspaceJson: WorkspaceJson = res.data.data;
 
           workspace = new Workspace(

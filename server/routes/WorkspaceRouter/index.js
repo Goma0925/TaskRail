@@ -20,7 +20,7 @@ workspaceRouter.get("/workspaces", async (req, res) => {
         }
       );
     }catch(err){
-      return res.status().json(JsonUtil.errorJson("Sever error occured while finding workspaces."));
+      return res.status(500).json(JsonUtil.errorJson("Sever error occured while finding workspaces."));
     }
   });
 
@@ -72,7 +72,7 @@ workspaceRouter.put(
         const workspaceId = req.params.workspaceId;
         // List of attributes that are allowed to be modified on this endpoint.
         const newWorkspace = Workspace.sanitizeReqBody(req.body);
-        // Construct $set query in the following shape: { "taskparents.$.field":  newTaskParent[field] }
+        // Construct $set query in the following shape: { "field":  newWorkspace[field] }
         // in order to update all the fields provided in body.
         let setAllFieldQuery = {};
         Object.keys(newWorkspace).filter((field)=>{
@@ -93,7 +93,6 @@ workspaceRouter.put(
           }
         )
       }catch(err){
-        console.log(err);
         return res.status(500).json(JsonUtil.errorJson("Server error ocurred while updating a workspace."));
       }
     }
