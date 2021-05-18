@@ -81,9 +81,7 @@ function taskDataReducer(
         // Add subtask instance and ID to the subtask store.
         draftState.subtasks.byId[subtask.getId()] = subtask;
         // ToDo the ID has to be inserted at the right location.
-        draftState.subtasks.allIds = draftState.subtasks.allIds.concat([
-          subtask.getId(),
-        ]);
+        draftState.subtasks.allIds.push(subtask.getId());
       });
     case Actions.DeleteSubtask.type:
       var subtaskId = (<Actions.DeleteSubtask>action).subtaskId;
@@ -115,6 +113,7 @@ function taskDataReducer(
         // Make sure to copy an array.
         draftState.workspaces.currentWorkspace?.setTaskParentIds([
           ...draftState.workspaces.currentWorkspace?.getTaskParentIds(),
+          taskParentId,
         ]);
         // Add task parent ID and instances to the task parent store
         draftState.taskParents.byId[taskParentId] = taskParent;

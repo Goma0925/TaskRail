@@ -42,7 +42,6 @@ describe("TaskDataReducers with TaskParent", () => {
       false
     );
     let expectedState: TaskDataState = dummyInitialState; //Deep copy initialState
-
     // Add the first taskparent
     let newState = TaskDataReducers(
       dummyInitialState,
