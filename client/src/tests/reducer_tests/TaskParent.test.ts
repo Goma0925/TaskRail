@@ -113,18 +113,19 @@ describe("TaskDataReducers with TaskParent", () => {
       "Test TaskParent 1",
       "TP_TEST_ID1",
       new Date(),
-      ["1:Subtask_id1", "1:Subtask_id2"],
+      [],
       false
     );
     const taskParent2 = new TaskParent(
       "Test TaskParent 2",
       "TP_TEST_ID2",
       new Date(),
-      ["2:Subtask_id1", "2:Subtask_id2"],
+      [],
       false
     );
+    const subtask = new Subtask("Test Subtask", "SUBTASK_ID1", taskParent2.getId(), new Date(), new Date());
 
-    // Create two dummy taskparents in Redux as setup.
+    // Create two dummy taskparents in Redux as setup.,
     let stateWithOneTp = TaskDataReducers(
       dummyInitialState,
       new AddTaskParent(taskParent1)
@@ -133,10 +134,14 @@ describe("TaskDataReducers with TaskParent", () => {
       stateWithOneTp,
       new AddTaskParent(taskParent2)
     );
+    let stateWithTwoTpAndSubtask = TaskDataReducers(
+      stateWithTwoTp,
+      new AddSubtask(subtask)
+    );
 
     // Delete just taskparent 2
     let stateAfterDeletion = TaskDataReducers(
-      stateWithTwoTp,
+      stateWithTwoTpAndSubtask,
       new DeleteTaskParent(taskParent2.getId())
     );
 

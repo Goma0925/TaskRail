@@ -126,6 +126,15 @@ function taskDataReducer(
     case Actions.DeleteTaskParent.type:
       taskParentId = (<Actions.DeleteTaskParent>action).taskParentId;
       return produce(state, (draftState) => {
+        // Delete the child subtask IDs & instances
+        const subtaskIdsToDelete = state.taskParents.byId[taskParentId].getSubtaskIdsFromCurrentFrame();
+        draftState.subtasks.allIds = state.subtasks.allIds.filter((subtaskId)=>{
+          return !subtaskIdsToDelete.includes(subtaskId);
+        })
+        subtaskIdsToDelete.map((subtaskId)=>{
+          delete draftState.subtasks.byId[subtaskId];
+        });
+
         // Delete taskparent from the taskparent table
         draftState.taskParents.allIds.splice(
           draftState.taskParents.allIds.indexOf(taskParentId),
@@ -133,6 +142,7 @@ function taskDataReducer(
         );
         delete draftState.taskParents.byId[taskParentId];
         // Delete taskParent ID from workspace table.
+        // refactor the current workspace manipulation once current worksapce is refactored.
         var taskParentsIds =
           state.workspaces.currentWorkspace?.getTaskParentIds();
         taskParentsIds = taskParentsIds ? taskParentsIds : [];
@@ -140,6 +150,12 @@ function taskDataReducer(
         draftState.workspaces.currentWorkspace?.setTaskParentIds(
           taskParentsIds
         );
+        const currentWorkpaceId = state.workspaces.currentWorkspace?.getId();
+        if (currentWorkpaceId){
+          draftState.workspaces.byId[currentWorkpaceId].setTaskParentIds(
+            taskParentsIds
+          );
+        }        
       });
     case Actions.UpdateTaskParent.type:
       var taskParent = (<Actions.UpdateTaskParent>action).taskParent;
