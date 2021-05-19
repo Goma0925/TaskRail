@@ -192,6 +192,14 @@ function taskDataReducer(
           1
         );
         delete draftState.workspaces.byId[workspaceId];
+
+        //Cascade if it is the current workspace
+        if (workspaceId == draftState.workspaces.currentWorkspace?.getId()){
+          draftState.taskParents.allIds = [];
+          draftState.taskParents.byId = {};
+          draftState.subtasks.allIds = [];
+          draftState.subtasks.byId = {};
+        }
       });
     case Actions.UpdateWorkspace.type:
       var workspace = (<Actions.UpdateWorkspace>action).workspace;
