@@ -25,7 +25,7 @@ export default function WorkspaceComponent() {
   const workspaceName = useSelector((state: RootState) => {
     return state.taskData.workspaces.currentWorkspace?.getName();
   });
-  let workspacesArray = useSelector((state: RootState) => {
+  let workspacesById = useSelector((state: RootState) => {
     return state.taskData.workspaces.byId;
   });
   let workspacesIdArray = useSelector((state: RootState) => {
@@ -126,7 +126,7 @@ export default function WorkspaceComponent() {
         >
           <div className="dropdown-content">
             <div className="Workspace Names">
-              {Object.keys(workspacesArray).map((id: string) => {
+              {Object.keys(workspacesById).map((id: string) => {
                 if (id != workspaceId) {
                   return (
                     <div>
@@ -142,7 +142,7 @@ export default function WorkspaceComponent() {
                           }
                         }}
                       >
-                        {workspacesArray[id].getName()}
+                        {workspacesById[id].getName()}
                       </a>
                       <span className="is-small">
                         <div className="card">
