@@ -16,10 +16,8 @@ Constructed during the Spring of 2021.
 
     **Client ENV variables**
 
-    - **REACT_APP_DOMAIN**
-        - The URL of the TaskRail server. e.g: "http://localhost:4000"
     - **REACT_APP_BASE_API_URL**
-        - A base path for the API endpoints. e.g: "/api"
+        - A base URL for the API endpoints. e.g: "http://localhost:4000/api"
 
     **Server env files**
 
