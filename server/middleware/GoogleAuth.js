@@ -1,10 +1,10 @@
 const User = require("../models/User.model");
-const JsonUtil = require("../Util/JsonUtil");
+const JsonUtil = require("../util/JsonUtil");
 
 function requireToken(req, res, next){
     // Check if the auth token is sent in the header.
     if (!req.headers.authorization) {
-        return res.status(403).json({ status:false, error_msg: "Authentication token not provided in the header." });
+        return res.status(403).json(JsonUtil.errorJson("Authentication token not provided in the header." ));
     };
     const authParts = req.headers.authorization.split(" ");
     const tokenType = authParts[0];
@@ -14,7 +14,7 @@ function requireToken(req, res, next){
         res.locals.token = token;
         return next();
     }
-    return res.status(403).json({ status:false, error_msg: "Only 'Bearer' prefix for authentication header is accepted." });
+    return res.status(403).json(JsonUtil.errorJson("Only 'Bearer' prefix for authentication header is accepted." ));
 }
 
 async function requireValidAppUser(req, res, next)  {
@@ -44,7 +44,7 @@ async function requireValidAppUser(req, res, next)  {
             googleUser.email,
             (err, user) => {
                 if (err || !user){
-                    return res.status(401).json({status: false, error_msg: "User record could not be found. Must be signed up before logging in."});
+                    return res.status(401).json(JsonUtil.errorJson( "User record could not be found. Must be signed up before logging in."));
                 }
                 // Pass the process to the next middleware or router.
                 res.locals.user = user;

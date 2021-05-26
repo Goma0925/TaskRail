@@ -2,11 +2,11 @@ const express = require("express");
 const authRouter = express.Router();
 const GoogleAuth = require("../../middleware/GoogleAuth");
 const User = require("../../models/User.model");
-const JsonUtil = require("../../Util/JsonUtil");
+const JsonUtil = require("../../util/JsonUtil");
 
 authRouter.post("/login", GoogleAuth.requireAuth, (req, res) => {
     // If the GoogleAuth.requireAuth middleware passes, which checks if the request is made by a valid TaskRail user using a Google account, just return the success response.
-    res.send({success: true, user:req.app.locals.user});
+    res.status(200).json(JsonUtil.successJson(res.locals.user));
 });
 
 authRouter.post("/signup", GoogleAuth.requireToken, async (req, res)=>{

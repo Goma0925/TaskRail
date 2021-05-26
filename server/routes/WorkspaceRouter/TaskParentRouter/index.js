@@ -2,7 +2,7 @@ const express = require("express");
 const taskParentRouter = express.Router({ mergeParams: true });
 const Workspace = require("../../../models/Workspace.model");
 const TaskParent = require("../../../models/TaskParent.schema");
-const JsonUtil = require("../../../Util/JsonUtil");
+const JsonUtil = require("../../../util/JsonUtil");
 const requireValidWorkspaceIdParam = require("../../../middleware/ParamChecker").requireValidWorkspaceIdParam;
 
 // Route nested subtask endpoints. 

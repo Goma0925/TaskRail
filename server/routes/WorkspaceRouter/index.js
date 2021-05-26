@@ -1,6 +1,6 @@
 const express = require("express");
 const workspaceRouter = express.Router({mergeParams: true}); //Set mergeParam to receive params from parent router.
-const JsonUtil = require("../../Util/JsonUtil");
+const JsonUtil = require("../../util/JsonUtil");
 const Workspace = require("../../models/Workspace.model");
 
 // Route to nested taskparent endpoints

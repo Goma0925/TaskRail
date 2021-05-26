@@ -3,7 +3,7 @@ const GoogleAuth = require("../middleware/GoogleAuth");
 const rootRouter = express.Router();
 
 // Path configurations
-rootRouter.use('/api', require("./ApiRouter"));
-rootRouter.use("/", require("./StaticRouter"));
+rootRouter.use('/taskdata/', GoogleAuth.requireAuth, require('./WorkspaceRouter'));
+rootRouter.use('/auth/', require('./UserRouter'));
 
 module.exports = rootRouter; 

@@ -1,7 +1,7 @@
 const express = require("express");
 const subtaskRouter = express.Router({ mergeParams: true });
 const Subtask = require("../../../../models/Subtask.model");
-const JsonUtil = require("../../../../Util/JsonUtil");
+const JsonUtil = require("../../../../util/JsonUtil");
   
 //READ all subtasks
 subtaskRouter.get(

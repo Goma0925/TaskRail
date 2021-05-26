@@ -10,13 +10,8 @@ function errorJson(message){
 function successJson(data){
     return {success: true, data: data}
 }
-
-function operationResult(status, success, data){
-  return {status: status, success: success, data: data};
-}
   
 module.exports = {
     errorJson,
     successJson,
-    operationResult,
 }
