@@ -6,6 +6,5 @@
  **/ 
 export { default as SideInfoBarContainer } from "./SideInfoBar/SideInfoBarContainer";
 export { default as NavBar } from "./NavBar/NavBar";
-export { default as SideMenu } from "./SideMenu/SideMenu";
 export { default as RailContainer} from "./RailContainer/RailContainer";
 export { default as SplitPane } from "./SplitPane/SplitPane";

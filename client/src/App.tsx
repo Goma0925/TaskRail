@@ -7,7 +7,6 @@ import {
   SplitPane,
   NavBar,
   SideInfoBarContainer,
-  SideMenu,
   RailContainer,
 } from "./containers/index"; // just export components from index.ts in containers
 import { Preloader } from "./components/Preloader/Preloader";

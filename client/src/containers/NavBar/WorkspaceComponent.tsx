@@ -13,7 +13,6 @@ import * as operations from "../../redux/modules/TaskData/TaskDataOperations";
 import { faAngleDown, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { JsxElement } from "typescript";
-import WorkspaceList from "../SideMenu/WorkspaceList";
 import { SelectItem } from "../../redux/modules/RailUi/RailUiActions";
 import { rename } from "fs";
 
@@ -36,7 +35,11 @@ export default function WorkspaceComponent() {
   const [showingDropdown, setShowingDropdown] = useState("hidden"); //Show or hide drop down
   const [focusBool, setFocusBool] = useState(false); //Focus on the name of workspace
 
-  const Save = (name: string) => {
+  const saveWorkspaceName = (name: string) => {
+    if (!name){
+      window.alert("Please enter a workspace name");
+      return;
+    }
     if (workspaceId && workspaceName) {
       if (name.trim()) {
         dispatch(
@@ -101,8 +104,8 @@ export default function WorkspaceComponent() {
             <EditableTextbox
               className="DropdownButton"
               updateTextTo={workspaceName ? workspaceName : ""}
-              placeholder="Task Step Title"
-              onSave={Save}
+              placeholder="Enter workspace name"
+              onSave={saveWorkspaceName}
               unfocusOnEnterKey={true}
               focus={focusBool}
             />

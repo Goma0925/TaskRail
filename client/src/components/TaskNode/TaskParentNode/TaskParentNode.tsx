@@ -81,7 +81,8 @@ export default function TaskParentNode(props: ComposedProps){
 
     const deleteTaskParent=(e: React.MouseEvent)=>{
         e.preventDefault();
-        const warningMessage = "Are you sure you want to delete the '" + props.taskParent.getName() + "'?";
+        let taskParentName = props.taskParent.getName()?props.taskParent.getName(): "Untitled Task Set";
+        const warningMessage = "Are you sure you want to delete '" + taskParentName + "'?";
         const deleteConfirmed = window.confirm(warningMessage);
         if (deleteConfirmed){
             dispatch(deleteTaskParentOp(props.taskParent.getId()));

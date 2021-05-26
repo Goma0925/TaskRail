@@ -1,5 +1,8 @@
 import { useState } from "react";
-import "./BackgroundWeekCalendar.css";
+import { classNameConcatenator } from "../../helpers/CssStyle";
+import styles from "./BackgroundWeekCalendar.module.css";
+
+const classList = classNameConcatenator(styles);
 
 interface BackgroundWeekCalendarProps {
   subtaskNodeWidth: number;
@@ -13,7 +16,7 @@ export default function BackgroundWeekCalendar(
 ) {
   return (
     <div
-      className="background-week-calendar"
+      className={classList(["background-week-calendar"])}
       style={{
         marginLeft: props.taskParentSectionWidth,
       }}
@@ -36,15 +39,15 @@ export default function BackgroundWeekCalendar(
         return (
           <div
             key={i}
-            className="calendar-divider"
+            className={styles["calendar-divider"]}
             style={{
               width: props.subtaskNodeWidth,
             }}
           >
-            <div className="date-label">
-              <div className={`indicator ${currDateIndicatorActive?" active":""}`}>
-                <div className="day-of-week">{dayOfWeek}</div>
-                <div className="date">{dayOfMonth}</div>
+            <div className={styles["date-label"]}>
+              <div className={classList(["indicator", currDateIndicatorActive?"active":""])}>
+                <div className={styles["day-of-week"]}>{dayOfWeek}</div>
+                <div className={styles["date"]}>{dayOfMonth}</div>
               </div>
             </div>
           </div>

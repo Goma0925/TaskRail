@@ -1,6 +1,9 @@
 import { useDispatch } from "react-redux";
+import { classNameConcatenator } from "../../helpers/CssStyle";
 import { createSubtaskOp } from "../../redux/modules/TaskData/TaskDataOperations";
-import "./AddSubtaskButton.css";
+import styles from "./AddSubtaskButton.module.css";
+
+const classList = classNameConcatenator(styles);
 
 interface AddSubtaskButtonProps{
     taskParentId: string;
@@ -17,9 +20,9 @@ export default function AddSubtaskButton(props: AddSubtaskButtonProps){
     }
     return (
         <div 
-            className="add-subtask-btn" 
+            className={styles["add-subtask-btn"]}
             onClick={addSubtask} 
             style={{width: props.width, height:props.height}}>
-            <span className="plus-icon show-on-hover">＋</span>
+            <span className={classList(["plus-icon", "show-on-hover"])}>＋</span>
         </div>)
 }

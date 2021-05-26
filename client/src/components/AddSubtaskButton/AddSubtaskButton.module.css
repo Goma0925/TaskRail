@@ -1,6 +1,5 @@
 .add-subtask-btn{
     justify-content: center;
-    align-items: center;
     display: flex;
     flex: 1;
 }
@@ -10,7 +9,7 @@
     height: 100%;
     text-align: center;
     font-size: 22px;
-    top: 50%;
+    top: 40%;
 }
 
 .add-subtask-btn > .show-on-hover{
